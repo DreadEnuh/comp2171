@@ -1,15 +1,17 @@
 import java.util.Scanner;
+
 public class MainView {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void driver() {
-        new PatientManagement();
+        PatientManagement pms = new PatientManagement();
         new AppointmentManagement();
-        mainMenu();
-        PatientManagement.savePatients();
+        mainMenu(pms);
+        System.out.println(pms.getPatients().size());
+        pms.savePatients();
     }
 
-    public static void mainMenu() {
+    public static void mainMenu(PatientManagement pms) {
         while (true) {
             System.out.println("\n=== PATIENT MANAGEMENT SYSTEM ===");
             System.out.println("R - Register Patient");
@@ -22,8 +24,8 @@ public class MainView {
 
             switch (choice) {
                 case "R":
-                    Patient newPatient = PatientManagement.registerPatient();
-                    System.out.println("Patient Registered: " + newPatient.getPatientID());
+                    pms.registerPatient();
+                    System.out.println("Patient Registered: " + pms.getPatients().getLast().getPatientID());
                     break;
 
                 case "S":

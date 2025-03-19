@@ -8,9 +8,9 @@ Visit number: 0 on 2024-02-10 for Shortness of breath
 Severity: MODERATE
 Diagnosis: Asthma attack
 Treatment: Inhaler prescribed
-----------------------------
+--------------------------------------------------
 Total Visits: 1
-=========================================
+======================================================================
 Patient ID: BES0001
 Name: Bob Edward Smith
 Date of Birth: 1985-03-12
@@ -23,9 +23,9 @@ Visit number: 0 on 2023-03-15 for High blood sugar
 Severity: SEVERE
 Diagnosis: Type 2 Diabetes
 Treatment: Insulin therapy
-----------------------------
+--------------------------------------------------
 Total Visits: 1
-=========================================
+======================================================================
 Patient ID: CJB0002
 Name: Charlie James Brown
 Date of Birth: 1992-11-25
@@ -36,9 +36,9 @@ Visit number: 0 on 2024-04-05 for Routine check-up
 Severity: MILD
 Diagnosis: Stable
 Treatment: Continue medication
-----------------------------
+--------------------------------------------------
 Total Visits: 1
-=========================================
+======================================================================
 Patient ID: DLC0003
 Name: Diana Louise Clark
 Date of Birth: 1988-06-08
@@ -49,9 +49,9 @@ Visit number: 0 on 2024-01-20 for Severe headache
 Severity: MODERATE
 Diagnosis: Chronic Migraine
 Treatment: Prescription for pain relief
-----------------------------
+--------------------------------------------------
 Total Visits: 1
-=========================================
+======================================================================
 Patient ID: EMD0004
 Name: Ethan Michael Davis
 Date of Birth: 1995-09-19
@@ -62,6 +62,6 @@ Visit number: 0 on 2023-06-08 for Routine cholesterol test
 Severity: MILD
 Diagnosis: Elevated cholesterol
 Treatment: Diet and exercise recommended
-----------------------------
+--------------------------------------------------
 Total Visits: 1
-=========================================
+======================================================================

@@ -3,11 +3,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class PatientManagement {
-    public static ArrayList<Patient> patients;
+    private ArrayList<Patient> patients = new ArrayList<>();
     private static final Scanner scanner = new Scanner(System.in);
 
     public PatientManagement() {
-        patients = new ArrayList<>();
         loadPatients();
     }
 
@@ -15,14 +14,14 @@ public class PatientManagement {
         return patients;
     }
 
-    public static void addPatient(Patient p) {patients.add(p);
+    public void addPatient(Patient p) {this.patients.add(p);
     }
 
-    public static void deletePatient(Patient p) {
-        patients.remove(p);
+    public void deletePatient(Patient p) {
+        this.patients.remove(p);
     }
 
-    public static Patient findPatientById(String pid) {
+    public Patient findPatientById(String pid) {
         Patient retp = null;
         for (Patient p:patients) {
             if (p.getPatientID().equals(pid)) {
@@ -32,7 +31,7 @@ public class PatientManagement {
         return retp;
     }
 
-    public static Patient findPatientByName(String name) {
+    public Patient findPatientByName(String name) {
         Patient retp = null;
         for (Patient p:patients) {
             if (p.getFullName().equals(name)) {
@@ -42,11 +41,11 @@ public class PatientManagement {
         return retp;
     }
 
-    public static Boolean isNewPatient(String name) {
+    public Boolean isNewPatient(String name) {
         return findPatientByName(name) == null;
     }
 
-    public static Patient registerPatient() {
+    public void registerPatient() {
         System.out.println("Enter Patient's First Name: ");
         String fName = scanner.nextLine().trim();
 
@@ -78,18 +77,19 @@ public class PatientManagement {
             if (condition.equalsIgnoreCase("done")) break;
             newPatient.addCondition(condition);
         }
-        return newPatient;
+        addPatient(newPatient);
     }
 
-    public static void loadPatients() {
-        patients = (ArrayList<Patient>) DBConnection.loadPatientsFromFile();
+    public void loadPatients() {
+        this.patients = (ArrayList<Patient>) DBConnection.loadPatientsFromFile();
     }
 
-    public static void savePatients() {
-        DBConnection.savePatientsToFile(patients);
+    public void savePatients() {
+        System.out.println(this.patients.size());
+        DBConnection.savePatientsToFile(this.patients);
     }
 
-    private static boolean isValidDate(String dd, String mm, String yyyy) {
+    private boolean isValidDate(String dd, String mm, String yyyy) {
         try {
             int day = Integer.parseInt(dd);
             int month = Integer.parseInt(mm);

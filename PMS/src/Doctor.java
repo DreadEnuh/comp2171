@@ -5,6 +5,7 @@ public class Doctor {
     private String middleInitial;
     private String lastName;
     private String specialization;
+    private Schedule schedule;
 
     // Constructor with all fields
     public Doctor(String id, String firstName, String middleInitial, String lastName, String specialization) {
@@ -13,6 +14,7 @@ public class Doctor {
         this.middleInitial = middleInitial;
         this.lastName = lastName;
         this.specialization = specialization;
+        this.schedule = new Schedule();
     }
 
     // Constructor without middleInitial (optional)

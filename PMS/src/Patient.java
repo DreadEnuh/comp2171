@@ -10,9 +10,9 @@ public class Patient implements Comparable<Patient>{
 
     public Patient(){}
     public Patient(String fName, String mName, String lName, String dd, String mm, String yyyy) {
-        this.fName = fName;
-        this.mName = mName;
-        this.lName = lName;
+        this.fName = fName.toUpperCase();
+        this.mName = mName.toUpperCase();
+        this.lName = lName.toUpperCase();
         dd = (dd.length() == 1)? ("0" + dd):(dd);
         mm = (mm.length() == 1)? ("0" + mm):(mm);
         String dateString = yyyy + "-" + mm + "-" + dd;
@@ -107,14 +107,18 @@ public class Patient implements Comparable<Patient>{
         this.medHistory = mh;
     }
 
+    public static void setPatientNumber(int pNum) {
+        patientNumber = pNum;
+    }
+
     public String toString() {
-        return "\n============================================================================\n"
+        return "\n======================================================================\n"
                 + "ID: " + this.getPatientID()
                 + "\nName: " + this.getFName() + " " + this.getMName() + " " + this.getLName()
                 + "\nDOB: " + this.getDob()
                 + "\nAge: " + this.getAge()
                 + this.getMedicalHistory()
-                + "\n============================================================================\n";
+                + "\n======================================================================\n";
     }
 
     @Override

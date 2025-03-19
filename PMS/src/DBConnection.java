@@ -36,7 +36,7 @@ public class DBConnection {
 
                 writer.write("Total Visits: " + p.getNumVisits());
                 writer.newLine();
-                writer.write("============================================================================");
+                writer.write("======================================================================");
                 writer.newLine();
             }
             System.out.println("Patient data saved successfully!");
@@ -58,6 +58,8 @@ public class DBConnection {
                     currentPatient = new Patient(); // Create new patient instance
                     currentMedicalHistory = new MedicalHistory();
                     currentPatient.setPatientID(id);
+                    int pNum = Integer.parseInt(id.substring(3)) + 1;
+                    Patient.setPatientNumber(pNum);
                 } else if (line.startsWith("Name: ")) {
                     String[] nameParts = line.substring(6).split(" ");
                     currentPatient.setFName(nameParts[0]);
@@ -72,7 +74,7 @@ public class DBConnection {
                     currentMedicalHistory.getVisitsInfo().add(line);
                 } else if (line.startsWith("Total Visits: ")) {
                     currentMedicalHistory.setNumVisits(Integer.parseInt(line.substring(14)));
-                } else if (line.startsWith("=========================================")) {
+                } else if (line.startsWith("======================================================================")) {
                     if (currentPatient != null) {
                         currentPatient.setMedHistory(currentMedicalHistory);
                         patients.add(currentPatient);
