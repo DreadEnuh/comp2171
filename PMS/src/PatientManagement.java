@@ -85,8 +85,8 @@ public class PatientManagement {
     }
 
     public void savePatients() {
-        System.out.println(this.patients.size());
         DBConnection.savePatientsToFile(this.patients);
+        System.out.println(this.patients.size());
     }
 
     private boolean isValidDate(String dd, String mm, String yyyy) {

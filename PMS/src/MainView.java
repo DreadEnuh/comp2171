@@ -7,8 +7,6 @@ public class MainView {
         PatientManagement pms = new PatientManagement();
         new AppointmentManagement();
         mainMenu(pms);
-        System.out.println(pms.getPatients().size());
-        pms.savePatients();
     }
 
     public static void mainMenu(PatientManagement pms) {
@@ -30,18 +28,19 @@ public class MainView {
 
                 case "S":
                     System.out.println("Not yet implemented");
-//                    AppointmentManagement.scheduleAppointment();
+                    AppointmentManagement.scheduleAppointment();
                     break;
 
                 case "V":
                     System.out.println("Not yet implemented");
-//                    AppointmentManagement.viewDoctorSchedule();
+                    AppointmentManagement.viewDoctorSchedule();
                     break;
 
                 case "E":
                     System.out.println("Exiting the system. Goodbye!");
-                    scanner.close();
+                    pms.savePatients();
                     System.exit(0);
+                    break;
 
                 default:
                     System.out.println("Invalid choice. Please try again.");

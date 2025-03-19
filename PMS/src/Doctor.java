@@ -1,13 +1,17 @@
+import java.time.LocalTime;
+import java.util.List;
+
 public class Doctor {
     // Attributes
     private String id;
     private String firstName;
     private String middleInitial;
     private String lastName;
+    private String fullName;
     private String specialization;
     private Schedule schedule;
 
-    // Constructor with all fields
+    public Doctor() {}
     public Doctor(String id, String firstName, String middleInitial, String lastName, String specialization) {
         this.id = id;
         this.firstName = firstName;
@@ -15,14 +19,12 @@ public class Doctor {
         this.lastName = lastName;
         this.specialization = specialization;
         this.schedule = new Schedule();
+        this.fullName = firstName + " " + middleInitial + " " + lastName;
     }
 
-    // Constructor without middleInitial (optional)
     public Doctor(String id, String firstName, String lastName, String specialization) {
-        this(id, firstName, "", lastName, specialization); // Call the main constructor with empty middleInitial
+        this(id, firstName, "", lastName, specialization);
     }
-
-    // Getters and Setters
 
     public String getId() {
         return id;
@@ -63,15 +65,30 @@ public class Doctor {
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
     }
-    
-    // Other methods
-    // Method to get the full name of the doctor
+
     public String getFullName() {
-        if (middleInitial.isEmpty()) {
-            return firstName + " " + lastName;
-        } else {
-            return firstName + " " + middleInitial + ". " + lastName;
-        }
+        return fullName;
+    }
+
+    public boolean bookAppointment(LocalTime time) {
+        return schedule.addAppointment(time);
+    }
+
+    public void viewSchedule() {
+        System.out.println("Doctor: " + firstName + " " + lastName);
+        schedule.displaySchedule();
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(String date, int appointmentDuration, LocalTime startTime, LocalTime endTime) {
+        this.schedule = new Schedule(date, appointmentDuration, startTime, endTime);
+    }
+
+    public List<LocalTime> getAvailableSlots() {
+        return schedule.getAvailableSlots();
     }
 
     // Override toString() for a readable representation of the Doctor object

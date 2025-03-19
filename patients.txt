@@ -5,9 +5,6 @@ Medical Conditions:
 - Asthma
 Visit History:
 Visit number: 0 on 2024-02-10 for Shortness of breath
-Severity: MODERATE
-Diagnosis: Asthma attack
-Treatment: Inhaler prescribed
 --------------------------------------------------
 Total Visits: 1
 ======================================================================
@@ -20,9 +17,6 @@ Medical Conditions:
 - Pancreatic Cancer
 Visit History:
 Visit number: 0 on 2023-03-15 for High blood sugar
-Severity: SEVERE
-Diagnosis: Type 2 Diabetes
-Treatment: Insulin therapy
 --------------------------------------------------
 Total Visits: 1
 ======================================================================
@@ -33,9 +27,6 @@ Medical Conditions:
 - Hypertension
 Visit History:
 Visit number: 0 on 2024-04-05 for Routine check-up
-Severity: MILD
-Diagnosis: Stable
-Treatment: Continue medication
 --------------------------------------------------
 Total Visits: 1
 ======================================================================
@@ -46,9 +37,6 @@ Medical Conditions:
 - Migraine
 Visit History:
 Visit number: 0 on 2024-01-20 for Severe headache
-Severity: MODERATE
-Diagnosis: Chronic Migraine
-Treatment: Prescription for pain relief
 --------------------------------------------------
 Total Visits: 1
 ======================================================================
@@ -59,9 +47,25 @@ Medical Conditions:
 - High Cholesterol
 Visit History:
 Visit number: 0 on 2023-06-08 for Routine cholesterol test
-Severity: MILD
-Diagnosis: Elevated cholesterol
-Treatment: Diet and exercise recommended
 --------------------------------------------------
 Total Visits: 1
+======================================================================
+Patient ID: HBB0005
+Name: HILL BILL BILLY
+Date of Birth: 2000-02-02
+Medical Conditions:
+- Diabtes
+- Diabtes
+- Pancreatic Cancer
+Visit History:
+Total Visits: 0
+======================================================================
+Patient ID: BHN0006
+Name: BILL HOPE NEUTRON
+Date of Birth: 1987-09-19
+Medical Conditions:
+- Hypertension
+- Colon Cancer
+Visit History:
+Total Visits: 0
 ======================================================================

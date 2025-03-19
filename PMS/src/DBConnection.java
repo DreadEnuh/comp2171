@@ -1,5 +1,6 @@
 import java.io.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,6 +87,35 @@ public class DBConnection {
             System.err.println("Error loading patient data: " + e.getMessage());
         }
         return patients;
+    }
+
+    public static void saveDoctors(List<Doctor> doctors, String filename) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            for (Doctor doctor : doctors) {
+                writer.write(doctor.getFullName() + "," + doctor.getSchedule().getDate() + "\n");
+            }
+            System.out.println("Doctors saved successfully!");
+        } catch (IOException e) {
+            System.err.println("Error saving doctors: " + e.getMessage());
+        }
+    }
+
+    public static List<Doctor> loadDoctors(String filename) {
+        List<Doctor> doctors = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 5) {
+                    Doctor thisDoctor = new Doctor(parts[0], parts[1], parts[2], parts[3], parts[4]);
+                    thisDoctor.setSchedule(parts[0], 30, LocalTime.of(9, 0), LocalTime.of(17, 0));
+                }
+            }
+            System.out.println("Doctors loaded successfully!");
+        } catch (IOException e) {
+            System.err.println("Error loading doctors: " + e.getMessage());
+        }
+        return doctors;
     }
 
     public static void main(String[] args) {
