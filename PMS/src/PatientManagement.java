@@ -8,6 +8,7 @@ public class PatientManagement {
 
     public PatientManagement() {
         patients = new ArrayList<>();
+        loadPatients();
     }
 
     public ArrayList<Patient> getPatients() {
@@ -81,7 +82,7 @@ public class PatientManagement {
     }
 
     public static void loadPatients() {
-        patients = DBConnection.loadPatientsFromFile();
+        patients = (ArrayList<Patient>) DBConnection.loadPatientsFromFile();
     }
 
     public static void savePatients() {

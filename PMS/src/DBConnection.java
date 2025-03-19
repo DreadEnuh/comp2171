@@ -6,7 +6,6 @@ import java.util.List;
 public class DBConnection {
     private static final String FILE_NAME = "patients.txt";
 
-    // Method to save patients to file
     public static void savePatientsToFile(List<Patient> patients) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
             for (Patient p : patients) {
@@ -46,9 +45,8 @@ public class DBConnection {
         }
     }
 
-    // Method to load and display patient data from file
-    public static ArrayList<Patient> loadPatientsFromFile() {
-        ArrayList<Patient> patients = new ArrayList<>();
+    public static List<Patient> loadPatientsFromFile() {
+        List<Patient> patients = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
             String line;
             Patient currentPatient = null;
@@ -57,29 +55,24 @@ public class DBConnection {
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("Patient ID: ")) {
                     String id = line.substring(12);
-                    currentPatient = new Patient();
+                    currentPatient = new Patient(); // Create new patient instance
                     currentMedicalHistory = new MedicalHistory();
                     currentPatient.setPatientID(id);
                 } else if (line.startsWith("Name: ")) {
                     String[] nameParts = line.substring(6).split(" ");
-                    assert currentPatient != null;
                     currentPatient.setFName(nameParts[0]);
                     currentPatient.setMName(nameParts[1]);
                     currentPatient.setLName(nameParts[2]);
                 } else if (line.startsWith("Date of Birth: ")) {
                     String dateStr = line.substring(15);
-                    assert currentPatient != null;
                     currentPatient.setDob(LocalDate.parse(dateStr));
                 } else if (line.startsWith("- ")) {
-                    assert currentMedicalHistory != null;
                     currentMedicalHistory.addCondition(line.substring(2));
                 } else if (line.startsWith("Visit number: ")) {
-                    assert currentMedicalHistory != null;
                     currentMedicalHistory.getVisitsInfo().add(line);
                 } else if (line.startsWith("Total Visits: ")) {
-                    assert currentMedicalHistory != null;
                     currentMedicalHistory.setNumVisits(Integer.parseInt(line.substring(14)));
-                } else if (line.startsWith("============================================================================")) {
+                } else if (line.startsWith("=========================================")) {
                     if (currentPatient != null) {
                         currentPatient.setMedHistory(currentMedicalHistory);
                         patients.add(currentPatient);
@@ -91,5 +84,13 @@ public class DBConnection {
             System.err.println("Error loading patient data: " + e.getMessage());
         }
         return patients;
+    }
+
+    public static void main(String[] args) {
+        ArrayList<Patient> patients = (ArrayList<Patient>) loadPatientsFromFile();
+        System.out.println(patients.size());
+        for (Patient p:patients) {
+            System.out.println(p.getPatientID());
+        }
     }
 }

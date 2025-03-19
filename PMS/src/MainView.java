@@ -6,6 +6,7 @@ public class MainView {
         new PatientManagement();
         new AppointmentManagement();
         mainMenu();
+        PatientManagement.savePatients();
     }
 
     public static void mainMenu() {
@@ -26,11 +27,13 @@ public class MainView {
                     break;
 
                 case "S":
-                    AppointmentManagement.scheduleAppointment();
+                    System.out.println("Not yet implemented");
+//                    AppointmentManagement.scheduleAppointment();
                     break;
 
                 case "V":
-                    AppointmentManagement.viewDoctorSchedule();
+                    System.out.println("Not yet implemented");
+//                    AppointmentManagement.viewDoctorSchedule();
                     break;
 
                 case "E":
