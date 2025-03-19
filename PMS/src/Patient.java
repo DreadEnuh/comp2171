@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 
 public class Patient implements Comparable<Patient>{
     private String patientID, fName, mName, lName;
@@ -46,12 +47,28 @@ public class Patient implements Comparable<Patient>{
         return medHistory;
     }
 
+    public ArrayList<String> getConditions() {
+        return medHistory.getConditions();
+    }
+
+    public ArrayList<String> getVisitsInfo() {
+        return medHistory.getVisitsInfo();
+    }
+
+    public int getNumVisits() {
+        return medHistory.getNumVisits();
+    }
+
     public void addCondition(String condition) {
         this.medHistory.addCondition(condition);
     }
 
     public int getAge() {
         return Period.between(getDob(), LocalDate.now()).getYears();
+    }
+
+    public String getFullName() {
+        return fName + " " + mName + " " + lName;
     }
 
     public void setFName(String newFName) {
@@ -66,14 +83,38 @@ public class Patient implements Comparable<Patient>{
         this.lName = newLName;
     }
 
+    public void setPatientID(String pid) {
+        this.patientID = pid;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
+
+    public void addVisitInfo(String dd, String mm, String yyyy, String severity, String problemDescription, String diagnosis, String treatment) {
+        dd = (dd.length() == 1)? ("0" + dd):(dd);
+        mm = (mm.length() == 1)? ("0" + mm):(mm);
+        String visitDate = yyyy + "-" + mm + "-" + dd;
+
+        String visitEntry = "Visit number: " + medHistory.getNumVisits() + " on " + visitDate + " for " + problemDescription
+                + "\nSeverity: " + severity.toUpperCase()
+                + "\nDiagnosis: " + diagnosis
+                + "\nTreatment: " + treatment;
+        medHistory.addVisitInfo(visitEntry);
+    }
+
+    public void setMedHistory(MedicalHistory mh) {
+        this.medHistory = mh;
+    }
+
     public String toString() {
-        return "\n==============================================\n"
+        return "\n============================================================================\n"
                 + "ID: " + this.getPatientID()
                 + "\nName: " + this.getFName() + " " + this.getMName() + " " + this.getLName()
                 + "\nDOB: " + this.getDob()
                 + "\nAge: " + this.getAge()
                 + this.getMedicalHistory()
-                + "\n==============================================\n";
+                + "\n============================================================================\n";
     }
 
     @Override
@@ -82,36 +123,6 @@ public class Patient implements Comparable<Patient>{
     }
 
     public static void main(String[] args) {
-
-        Patient p1 = new Patient("Alice", "Marie", "Johnson", "5", "7", "1990");
-        Patient p2 = new Patient("Bob", "Edward", "Smith", "12", "3", "1985");
-        Patient p3 = new Patient("Charlie", "James", "Brown", "25", "11", "1992");
-        Patient p4 = new Patient("Diana", "Louise", "Clark", "8", "6", "1988");
-        Patient p5 = new Patient("Ethan", "Michael", "Davis", "19", "9", "1995");
-
-        // Adding medical conditions
-        p1.medHistory.addCondition("Asthma");
-        p2.medHistory.addCondition("Diabetes");
-        p2.addCondition("Hypertension");
-        p2.addCondition("Pancreatic Cancer");
-        p3.medHistory.addCondition("Hypertension");
-        p4.medHistory.addCondition("Migraine");
-        p5.medHistory.addCondition("High Cholesterol");
-
-        // Adding visit history
-        p1.medHistory.addVisitInfo("10", "02", "2024", "Moderate", "Shortness of breath", "Asthma attack", "Inhaler prescribed");
-        p2.medHistory.addVisitInfo("15", "03", "2023", "Severe", "High blood sugar", "Type 2 Diabetes", "Insulin therapy");
-        p3.medHistory.addVisitInfo("05", "04", "2024", "Mild", "Routine check-up", "Stable", "Continue medication");
-        p4.medHistory.addVisitInfo("20", "01", "2024", "Moderate", "Severe headache", "Chronic Migraine", "Prescription for pain relief");
-        p5.medHistory.addVisitInfo("08", "06", "2023", "Mild", "Routine cholesterol test", "Elevated cholesterol", "Diet and exercise recommended");
-
-        Patient[] patients = {p1, p2, p3, p4, p5};
-
-        // Printing details of each patient
-        for (Patient p : patients) {
-            System.out.println(p);
-        }
-
     }
 
 }
