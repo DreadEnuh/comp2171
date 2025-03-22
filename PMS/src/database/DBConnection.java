@@ -1,5 +1,6 @@
 package database;
 
+import appointment_management.Appointment;
 import patient_management.MedicalHistory;
 import patient_management.Patient;
 import user_management.Doctor;
@@ -10,10 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBConnection {
-    private static final String FILE_NAME = "patients.txt";
+    private static final String PATIENTS_FILE = "patients.txt";
+    private static final String DOCTORS_FILE = "docs.txt";
+    private static final String APPOINTMENTS_FILE = "apps.txt";
+
 
     public static void savePatientsToFile(List<Patient> patients) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATIENTS_FILE))) {
             for (Patient p : patients) {
                 writer.write("patient_management.Patient ID: " + p.getPatientID());
                 writer.newLine();
@@ -53,7 +57,7 @@ public class DBConnection {
 
     public static List<Patient> loadPatientsFromFile() {
         List<Patient> patients = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(PATIENTS_FILE))) {
             String line;
             Patient currentPatient = null;
             MedicalHistory currentMedicalHistory = null;
@@ -121,5 +125,14 @@ public class DBConnection {
             System.err.println("Error loading doctors: " + e.getMessage());
         }
         return doctors;
+    }
+
+    public static void saveAppointments() {
+
+    }
+
+    public static List<Appointment> loadAppointments() {
+
+        return new ArrayList<>();
     }
 }

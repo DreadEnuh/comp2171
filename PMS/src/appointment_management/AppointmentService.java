@@ -25,6 +25,15 @@ public class AppointmentService {
         return doctor.addAppointment(appointment.getDuration(), appointment.getStartTime());
     }
 
+    // Data handlers
+    public static void loadAppointments() {
+
+    }
+
+    public static void saveAppointments() {
+
+    }
+
     public static void main(String[] arg) {
         System.out.println("AppointmentService Class");
     }

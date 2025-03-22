@@ -99,7 +99,7 @@ public class PatientService {
         return retp;
     }
 
-    // Data Methods
+    // Data handlers
     public void loadPatients() {
         this.patients = (ArrayList<patient_management.Patient>) database.DBConnection.loadPatientsFromFile();
     }
