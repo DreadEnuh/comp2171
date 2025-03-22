@@ -1,3 +1,5 @@
+package patient_management;
+
 import java.util.ArrayList;
 
 public class MedicalHistory {

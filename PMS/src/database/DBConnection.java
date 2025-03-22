@@ -1,6 +1,11 @@
+package database;
+
+import patient_management.MedicalHistory;
+import patient_management.Patient;
+import user_management.Doctor;
+
 import java.io.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +15,7 @@ public class DBConnection {
     public static void savePatientsToFile(List<Patient> patients) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
             for (Patient p : patients) {
-                writer.write("Patient ID: " + p.getPatientID());
+                writer.write("patient_management.Patient ID: " + p.getPatientID());
                 writer.newLine();
                 writer.write("Name: " + p.getFName() + " " + p.getMName() + " " + p.getLName());
                 writer.newLine();
@@ -40,7 +45,7 @@ public class DBConnection {
                 writer.write("======================================================================");
                 writer.newLine();
             }
-            System.out.println("Patient data saved successfully!");
+            System.out.println("patient_management.Patient data saved successfully!");
         } catch (IOException e) {
             System.err.println("Error saving patient data: " + e.getMessage());
         }
@@ -54,7 +59,7 @@ public class DBConnection {
             MedicalHistory currentMedicalHistory = null;
 
             while ((line = reader.readLine()) != null) {
-                if (line.startsWith("Patient ID: ")) {
+                if (line.startsWith("patient_management.Patient ID: ")) {
                     String id = line.substring(12);
                     currentPatient = new Patient(); // Create new patient instance
                     currentMedicalHistory = new MedicalHistory();
@@ -82,7 +87,7 @@ public class DBConnection {
                     }
                 }
             }
-            System.out.println("Patient data loaded successfully!");
+            System.out.println("patient_management.Patient data loaded successfully!");
         } catch (IOException e) {
             System.err.println("Error loading patient data: " + e.getMessage());
         }
@@ -107,8 +112,8 @@ public class DBConnection {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 if (parts.length == 5) {
-                    Doctor thisDoctor = new Doctor(parts[0], parts[1], parts[2], parts[3], parts[4]);
-                    thisDoctor.setSchedule(parts[0], 30, LocalTime.of(9, 0), LocalTime.of(17, 0));
+//                    user_management.Doctor thisDoctor = new user_management.Doctor(parts[0], parts[1], parts[2], parts[3], parts[4]);
+//                    thisDoctor.setSchedule(parts[0], 30, LocalTime.of(9, 0), LocalTime.of(17, 0));
                 }
             }
             System.out.println("Doctors loaded successfully!");
@@ -116,13 +121,5 @@ public class DBConnection {
             System.err.println("Error loading doctors: " + e.getMessage());
         }
         return doctors;
-    }
-
-    public static void main(String[] args) {
-        ArrayList<Patient> patients = (ArrayList<Patient>) loadPatientsFromFile();
-        System.out.println(patients.size());
-        for (Patient p:patients) {
-            System.out.println(p.getPatientID());
-        }
     }
 }
