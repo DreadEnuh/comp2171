@@ -1,4 +1,6 @@
 package ui;
 
-public class AppointmentView {
+import javax.swing.*;
+
+public class AppointmentView extends JFrame {
 }
