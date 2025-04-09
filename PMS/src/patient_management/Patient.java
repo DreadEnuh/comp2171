@@ -5,20 +5,27 @@ import java.time.Period;
 import java.util.ArrayList;
 
 public class Patient implements Comparable<Patient>{
-    private String patientID, fName, mName, lName;
+    private String patientID, fName, mName, lName, gender, emailAddress, contactNo, address;
     private MedicalHistory medHistory;
     private static int patientNumber;
     private LocalDate dob;
 
     public Patient(){}
-    public Patient(String fName, String mName, String lName, String dd, String mm, String yyyy) {
+    public Patient(String fName, String mName, String lName, String gender, String dob, String emailAddress, String contactNo, String address) {
         this.fName = fName.toUpperCase();
         this.mName = mName.toUpperCase();
         this.lName = lName.toUpperCase();
+        this.gender = gender;
+        String[] dobParts = dob.split("/");
+        String dd = dobParts[0];
+        String mm = dobParts[1];
+        String yyyy = dobParts[2];
         dd = (dd.length() == 1)? ("0" + dd):(dd);
         mm = (mm.length() == 1)? ("0" + mm):(mm);
-        String dateString = yyyy + "-" + mm + "-" + dd;
-        dob = LocalDate.parse(dateString);
+        this.dob = LocalDate.parse(yyyy + "-" + mm + "-" + dd);
+        this.emailAddress = emailAddress;
+        this.contactNo = contactNo;
+        this.address = address;
         this.medHistory = new MedicalHistory();
 
         patientID = "" + fName.charAt(0) + mName.charAt(0) + lName.charAt(0) + "000" + patientNumber;
@@ -45,6 +52,18 @@ public class Patient implements Comparable<Patient>{
         return dob;
     }
 
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public String getContactNo() {
+        return contactNo;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
     public MedicalHistory getMedicalHistory() {
         return medHistory;
     }
@@ -61,16 +80,16 @@ public class Patient implements Comparable<Patient>{
         return medHistory.getNumVisits();
     }
 
-    public void addCondition(String condition) {
-        this.medHistory.addCondition(condition);
-    }
-
     public int getAge() {
         return Period.between(getDob(), LocalDate.now()).getYears();
     }
 
     public String getFullName() {
         return fName + " " + mName + " " + lName;
+    }
+
+    public void addCondition(String condition) {
+        this.medHistory.addCondition(condition);
     }
 
     public void setFName(String newFName) {
@@ -85,12 +104,28 @@ public class Patient implements Comparable<Patient>{
         this.lName = newLName;
     }
 
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public void setPatientID(String pid) {
         this.patientID = pid;
     }
 
     public void setDob(LocalDate dob) {
         this.dob = dob;
+    }
+
+    public void setEmail(String email) {
+        this.emailAddress = email;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNo = contactNumber;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void addVisitInfo(String dd, String mm, String yyyy, String severity, String problemDescription, String diagnosis, String treatment) {

@@ -2,13 +2,16 @@ package appointment_management;
 
 import user_management.Doctor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class AppointmentService {
-    private static ArrayList<Appointment> appointments;
+    private final ArrayList<Appointment> appointments;
+    private final LocalDateTime systemTime;
 
     // Constructor
     public AppointmentService() {
+        systemTime = LocalDateTime.now();
         appointments = new ArrayList<>();
         for (Doctor d: DoctorService.getDoctors()) {
             appointments.addAll(d.getSchedule().getAppointments());
@@ -16,17 +19,21 @@ public class AppointmentService {
     }
 
     // Getters
-    public static ArrayList<Appointment> getAppointments() {
+    public ArrayList<Appointment> getAppointments() {
         return appointments;
     }
 
+    public LocalDateTime getSystemTime() {
+        return systemTime;
+    }
+
     // Modifiers
-    public static boolean addAppointment(Appointment appointment, Doctor doctor) {
+    public boolean addAppointment(Appointment appointment, Doctor doctor) {
         return doctor.addAppointment(appointment.getDuration(), appointment.getStartTime());
     }
 
     // Data handlers
-    public static void loadAppointments() {
+    public void loadAppointments() {
 
     }
 

@@ -61,7 +61,7 @@ public class Schedule {
     }
 
     // Modifiers
-    public boolean makeAppointment(int duration, LocalTime start) {
+    public boolean addAppointment(int duration, LocalTime start) {
         if (start.isBefore(startTime) || start.plusMinutes(duration).isAfter(endTime)) {
             System.out.println("Invalid appointment time: " + start);
             return false;

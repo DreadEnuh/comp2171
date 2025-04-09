@@ -88,7 +88,7 @@ public class Doctor {
     }
 
     public boolean addAppointment(int duration, LocalTime start) {
-        return this.schedule.makeAppointment(duration, start);
+        return this.schedule.addAppointment(duration, start);
     }
 
 

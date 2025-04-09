@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DoctorService {
-    private static final ArrayList<Doctor> doctors = new ArrayList<>();
+    private final ArrayList<Doctor> doctors = new ArrayList<>();
 
     // Constructor
     public DoctorService() {}
 
     // Getters
-    public static List<Doctor> getDoctors() {
+    public List<Doctor> getDoctors() {
         return (ArrayList<Doctor>) doctors;
     }
 
@@ -20,7 +20,7 @@ public class DoctorService {
 
 
     // Other Methods
-    public static Doctor findDoctorByID(String id) {
+    public Doctor findDoctorByID(String id) {
         Doctor retdoc = null;
         for (Doctor d:doctors) {
             if (d.getId().equals(id)) {
@@ -30,7 +30,7 @@ public class DoctorService {
         return retdoc;
     }
 
-    public static Doctor findDoctorByName(String name) {
+    public Doctor findDoctorByName(String name) {
         Doctor retdoc = null;
 
         for (Doctor d: doctors) {

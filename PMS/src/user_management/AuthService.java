@@ -7,8 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class AuthService {
-    private Dictionary<String, String> users;
-    private KeyGenerator keyGen;
+    private final Dictionary<String, String> users;
     private SecretKey authKey;
     private Cipher desCipher;
 
@@ -17,7 +16,7 @@ public class AuthService {
     public AuthService() {
         users = new Hashtable<>();
         try {
-            keyGen = KeyGenerator.getInstance("DES");
+            KeyGenerator keyGen = KeyGenerator.getInstance("DES");
             authKey = keyGen.generateKey();
             desCipher = Cipher.getInstance("DES");
 
