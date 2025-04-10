@@ -10,10 +10,10 @@ public class AppointmentService {
     private final LocalDateTime systemTime;
 
     // Constructor
-    public AppointmentService() {
+    public AppointmentService(DoctorService ds) {
         systemTime = LocalDateTime.now();
         appointments = new ArrayList<>();
-        for (Doctor d: DoctorService.getDoctors()) {
+        for (Doctor d: ds.getDoctors()) {
             appointments.addAll(d.getSchedule().getAppointments());
         }
     }

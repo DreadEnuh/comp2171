@@ -6,23 +6,19 @@ import java.util.ArrayList;
 
 public class Patient implements Comparable<Patient>{
     private String patientID, fName, mName, lName, gender, emailAddress, contactNo, address;
+    private int age;
     private MedicalHistory medHistory;
     private static int patientNumber;
     private LocalDate dob;
 
     public Patient(){}
-    public Patient(String fName, String mName, String lName, String gender, String dob, String emailAddress, String contactNo, String address) {
+    public Patient(String fName, String mName, String lName, String gender, LocalDate dob, String emailAddress, String contactNo, String address) {
         this.fName = fName.toUpperCase();
         this.mName = mName.toUpperCase();
         this.lName = lName.toUpperCase();
         this.gender = gender;
-        String[] dobParts = dob.split("/");
-        String dd = dobParts[0];
-        String mm = dobParts[1];
-        String yyyy = dobParts[2];
-        dd = (dd.length() == 1)? ("0" + dd):(dd);
-        mm = (mm.length() == 1)? ("0" + mm):(mm);
-        this.dob = LocalDate.parse(yyyy + "-" + mm + "-" + dd);
+        this.dob = dob;
+        this.age = Period.between(getDob(), LocalDate.now()).getYears();
         this.emailAddress = emailAddress;
         this.contactNo = contactNo;
         this.address = address;
@@ -46,6 +42,10 @@ public class Patient implements Comparable<Patient>{
 
     public String getLName() {
         return lName;
+    }
+
+    public String getGender() {
+        return gender;
     }
 
     public LocalDate getDob() {
@@ -81,7 +81,7 @@ public class Patient implements Comparable<Patient>{
     }
 
     public int getAge() {
-        return Period.between(getDob(), LocalDate.now()).getYears();
+        return age;
     }
 
     public String getFullName() {
@@ -153,8 +153,12 @@ public class Patient implements Comparable<Patient>{
                 + "ID: " + this.getPatientID()
                 + "\nName: " + this.getFName() + " " + this.getMName() + " " + this.getLName()
                 + "\nDOB: " + this.getDob()
+                + "\nGender: " + this.getGender()
                 + "\nAge: " + this.getAge()
-                + this.getMedicalHistory()
+                + "\nEmail Address: " + this.getEmailAddress()
+                + "\nPhone Number: " + this.getContactNo()
+                + "\nAddress: " + this.getAddress()
+                + "\nLast Visit: " + this.getMedicalHistory().getLastVisitDate()
                 + "\n======================================================================\n";
     }
 

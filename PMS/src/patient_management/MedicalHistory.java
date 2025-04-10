@@ -3,6 +3,7 @@ package patient_management;
 import java.util.ArrayList;
 
 public class MedicalHistory {
+    private String patientID;
     private final ArrayList<String> CONDITIONS;
     private final ArrayList<String> VISITS_INFO;
     private String lastVisitDate;
@@ -14,6 +15,8 @@ public class MedicalHistory {
         this.numVisits = 0;
         this.lastVisitDate = " ";
     }
+
+    // Getters
 
     public ArrayList<String> getConditions() {
         return CONDITIONS;
@@ -27,9 +30,28 @@ public class MedicalHistory {
         return numVisits;
     }
 
-    public String getLastVisit() {
+    public String getLastVisitInfo() {
         return VISITS_INFO.getLast();
     }
+
+    public String getLastVisitDate() {
+        if (VISITS_INFO.isEmpty()) {
+            return lastVisitDate;
+        }
+
+        String lastVisitEntry = VISITS_INFO.getLast();
+
+        String[] parts = lastVisitEntry.split(" ");
+        for (String s : parts) {
+            if (s.contains("-")) {
+                lastVisitDate = s;
+            }
+        }
+        return lastVisitDate;
+    }
+
+
+    // Modifiers
 
     public void setNumVisits(int numVisits) {
         this.numVisits = numVisits;
@@ -40,7 +62,7 @@ public class MedicalHistory {
     }
 
     public void addVisitInfo(String visitEntry){
-        ;
+        VISITS_INFO.add(visitEntry);
         numVisits++;
     }
 
@@ -58,17 +80,12 @@ public class MedicalHistory {
             retString.append("--------------------------------------------------\n");
         }
 
-        for (String s:getLastVisit().split(" ")) {
-            if (s.contains("-")) {
-                lastVisitDate = s;
-            }
-        }
-
-        retString.append("\nLast Visit: ").append(lastVisitDate);
+        retString.append("\nLast Visit: ").append(getLastVisitDate());
 
         return retString.toString();
     }
 
     public static void main(String[] args) {
+        System.out.println("Medical History Class");
     }
 }

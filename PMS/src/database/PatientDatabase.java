@@ -66,6 +66,4 @@ public class PatientDatabase {
     public int countTotalPatients() {
         return patients.size();
     }
-
-
 }
