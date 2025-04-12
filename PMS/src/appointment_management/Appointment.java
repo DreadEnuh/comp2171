@@ -3,6 +3,7 @@ package appointment_management;
 import java.time.LocalTime;
 
 public class Appointment {
+    private String appointmentID, patientID, doctorID;
     private LocalTime startTime;
     private int duration;
 
