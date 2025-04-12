@@ -1,0 +1,83 @@
+@startuml Reschedule Appointment
+!theme plain
+
+' === Objects ===
+object "Receptionist\n(R202)" as receptionist {
+  id = "R202"
+  name = "Emily Johnson"
+}
+
+object "original appointment:Appointment\n(A789)" as oldAppt {
+  appointmentID = "A789"
+  date = "2023-11-20"
+  time = "14:00-14:30"
+  patient = "P123"
+  doctor = "D456"
+}
+
+object "new appointment:Appointment\n(A789v2)" as newAppt {
+  date = "2023-11-22"
+  time = "10:30-11:00"
+  patient = "P123"
+  doctor = "D456"
+}
+
+object "Patient\n(P123)" as patient {
+  patientID = "P123"
+  fullName = "JOHN X DOE"
+}
+
+object "Doctor\n(D456)" as doctor {
+  id = "D456"
+  fullName = "DR. SARAH SMITH"
+}
+
+object "Schedule\n(2023-11-20)" as oldSchedule {
+  bookedSlots = ["10:00", "14:00"]
+}
+
+object "Schedule\n(2023-11-22)" as newSchedule {
+  bookedSlots = ["09:00", "10:30"]
+}
+
+object "AppointmentService" as apptService {
+  lastChecked = "2023-11-15T11:22:00Z"
+}
+
+object "NotificationService" as notify {
+  pendingUpdates = 1
+}
+
+' === Relationships ===
+receptionist --> oldAppt : "1. Selects\nfor rescheduling"
+oldAppt --> apptService : "2. Checks conflicts"
+apptService --> newSchedule : "3. Validates\nnew slot"
+oldAppt --> oldSchedule : "4. Removes from\noriginal date"
+newAppt --> newSchedule : "5. Adds to\nnew date"
+newAppt --> patient : "6. Updates record"
+newAppt --> notify : "7. Triggers alert"
+notify --> patient : "Sends confirmation"
+
+' === Flow Notes ===
+note top of apptService
+  **Rescheduling Logic:**
+  1. Verify new slot availability
+  2. Atomic swap between schedules
+  3. Preserve original appointment ID
+  4. Update all dependencies
+end note
+
+note right of newAppt
+  **Versioned Appointment:**
+  - Same ID (A789v2)
+  - New time: 2023-11-22 10:30
+  - Inherits all original metadata
+end note
+
+note left of newSchedule
+  **Schedule Integrity:**
+  - Original slot (14:00) freed
+  - New slot (10:30) reserved
+  - Conflict checks via getAvailableSlots()
+end note
+@enduml

@@ -1,0 +1,69 @@
+@startuml View Doctor Schedule
+!theme plain
+
+' === Objects ===
+object "Doctor\n(DOC101)" as doctor {
+  id = "DOC101"
+  name = "Dr. John Smith"
+  specialization = "Cardiology"
+}
+
+object "Schedule\n(2023-11-15)" as schedule {
+  date = "2023-11-15"
+  availableSlots = ["09:00", "10:30", "13:00"]
+  bookedSlots = ["09:30", "11:00", "14:00"]
+}
+
+object "Appointment\n(A789)" as appt1 {
+  time = "09:30-10:00"
+  patient = "MICHAEL K WONG"
+  notes = "Annual checkup"
+}
+
+object "Appointment\n(A790)" as appt2 {
+  time = "11:00-12:00"
+  patient = "LISA M CRUZ"
+  notes = "ECG follow-up"
+}
+
+object "ScheduleView" as scheduleUI {
+  currentDoctor = "DOC101"
+  refreshTime = "10:15 AM"
+}
+
+object "DoctorService" as doctorService {
+  lastUpdated = "2023-11-15T10:14:22Z"
+}
+
+' === Relationships ===
+doctor --> schedule : "manages"
+schedule --> appt1 : "contains"
+schedule --> appt2 : "contains"
+scheduleUI --> doctor : "requests\nschedule"
+scheduleUI --> schedule : "displays"
+doctorService --> schedule : "fetches\nlatest data"
+
+' === Flow Notes ===
+note top of scheduleUI
+  **View Schedule Flow:**
+  1. User selects doctor (or auto-load)
+  2. System retrieves real-time slots
+  3. Highlights conflicts/availability
+  4. Shows patient notes
+end note
+
+note right of schedule
+  **Daily Slots:**
+  - Green: Available
+  - Red: Booked
+  - Yellow: Walk-ins
+  Gray: Unavailable
+end note
+
+note left of doctorService
+  **Data Freshness:**
+  - Updates every 2 minutes
+  - Syncs with appointment DB
+  - Caches frequent queries
+end note
+@enduml

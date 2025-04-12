@@ -1,0 +1,294 @@
+@startuml
+
+package appointment_management {
+  class Appointment {
+    - startTime: LocalTime
+    - duration: int
+    + Appointment()
+    + Appointment(duration: int, startTime: LocalTime)
+    + getStartTime(): LocalTime
+    + getDuration(): int
+    + setStartTime(newStartTime: LocalTime): void
+    + setDuration(newDuration: int): void
+  }
+
+  class AppointmentService {
+    - appointments: ArrayList<Appointment>
+    - systemTime: LocalDateTime
+    + AppointmentService(ds: DoctorService)
+    + getAppointments(): ArrayList<Appointment>
+    + getSystemTime(): LocalDateTime
+    + addAppointment(appointment: Appointment, doctor: Doctor): boolean
+    + loadAppointments(): void
+    + saveAppointments(): void {static}
+  }
+
+  class DoctorService {
+    - doctors: ArrayList<Doctor>
+    + DoctorService()
+    + getDoctors(): List<Doctor>
+    + findDoctorByID(id: String): Doctor
+    + findDoctorByName(name: String): Doctor
+    + loadDoctors(): void {static}
+    + saveDoctors(): void {static}
+  }
+
+  class Schedule {
+    - date: String
+    - slotSize: int
+    - startTime: LocalTime
+    - endTime: LocalTime
+    - filledSlots: ArrayList<LocalTime>
+    - appointments: ArrayList<Appointment>
+    - tFormatter: DateTimeFormatter
+    + Schedule()
+    + Schedule(date: String, slotSize: int, startTime: LocalTime, endTime: LocalTime)
+    + getDate(): String
+    + getSlotSize(): int
+    + getAvailableSlots(): ArrayList<LocalTime>
+    + getFilledSlots(): ArrayList<LocalTime>
+    + getAppointments(): ArrayList<Appointment>
+    + getNumAppointments(): int
+    + addAppointment(duration: int, start: LocalTime): boolean
+    + toString(): String
+  }
+
+  class Reminder {
+  }
+}
+
+package database {
+  class AppointmentDatabase {
+  }
+
+  class DBConnection {
+    - URL: String {static}
+    - USERNAME: String {static}
+    - PASSWORD: String {static}
+    + DBConnection()
+    + savePatient(patient: Patient): boolean
+  }
+
+  class PatientDatabase {
+    - patients: ArrayList<Patient>
+    + PatientDatabase()
+    + getAllPatients(): ArrayList<Patient>
+    + getPatientByID(pid: String): Patient
+    + getPatientByName(name: String): Patient
+    + addPatient(p: Patient): boolean
+    + deletePatient(p: Patient): void
+    + updatePatient(p: Patient): boolean
+    + patientExistsI(pid: String): boolean
+    + patientExistsN(name: String): Boolean
+    + countTotalPatients(): int
+  }
+}
+
+package notification_service {
+  class Notification {
+  }
+
+  class ReminderService {
+  }
+}
+
+package patient_management {
+  class MedicalHistory {
+    - patientID: String
+    - CONDITIONS: ArrayList<String> {readOnly}
+    - VISITS_INFO: ArrayList<String> {readOnly}
+    - lastVisitDate: String
+    - numVisits: int
+    
+    + MedicalHistory()
+    + getConditions(): ArrayList<String>
+    + getVisitsInfo(): ArrayList<String>
+    + getNumVisits(): int
+    + getLastVisitInfo(): String
+    + getLastVisitDate(): String
+    + setNumVisits(numVisits: int): void
+    + addCondition(condition: String): void
+    + addVisitInfo(visitEntry: String): void
+    + toString(): String
+  }
+  
+  class Patient {
+    - patientID: String
+    - fName: String
+    - mName: String
+    - lName: String
+    - gender: String
+    - emailAddress: String
+    - contactNo: String
+    - address: String
+    - age: int
+    - medHistory: MedicalHistory
+    - dob: LocalDate
+    - patientNumber: int {static}
+    
+    + Patient()
+    + Patient(fName: String, mName: String, lName: String, gender: String, dob: LocalDate, emailAddress: String, contactNo: String, address: String)
+    + getPatientID(): String
+    + getFName(): String
+    + getMName(): String
+    + getLName(): String
+    + getGender(): String
+    + getDob(): LocalDate
+    + getEmailAddress(): String
+    + getContactNo(): String
+    + getAddress(): String
+    + getMedicalHistory(): MedicalHistory
+    + getConditions(): ArrayList<String>
+    + getVisitsInfo(): ArrayList<String>
+    + getNumVisits(): int
+    + getAge(): int
+    + getFullName(): String
+    + addCondition(condition: String): void
+    + setFName(newFName: String): void
+    + setMName(newMName: String): void
+    + setLName(newLName: String): void
+    + setGender(gender: String): void
+    + setPatientID(pid: String): void
+    + setDob(dob: LocalDate): void
+    + setEmail(email: String): void
+    + setContactNumber(contactNumber: String): void
+    + setAddress(address: String): void
+    + addVisitInfo(dd: String, mm: String, yyyy: String, severity: String, problemDescription: String, diagnosis: String, treatment: String): void
+    + setMedHistory(mh: MedicalHistory): void
+    + setPatientNumber(pNum: int): void {static}
+    + toString(): String
+    + compareTo(o: Patient): int
+  }
+
+   class PatientDTO {
+    - fName: String
+    - mName: String
+    - lName: String
+    - dateOfBirth: String
+    - gender: String
+    - contactNumber: String
+    - email: String
+    - address: String
+    
+    + PatientDTO()
+    + PatientDTO(fName: String, mName: String, lName: String, dateOfBirth: String, 
+                gender: String, contactNumber: String, email: String, address: String)
+    + getFName(): String
+    + getMName(): String
+    + getLName(): String
+    + getContactNumber(): String
+    + getDateOfBirth(): String
+    + getEmail(): String
+    + getAddress(): String
+    + getGender(): String
+  }
+
+  class PatientService {
+    - patientDatabase: PatientDatabase
+    
+    + PatientService()
+    + createPatientFromDTO(dto: PatientDTO): Patient
+    + registerPatient(dto: PatientDTO): boolean
+    + getPatientDetails(patientID: String): Patient
+    + updatePatientInfo(patientID: String, dto: PatientDTO): boolean
+    + getAllPatients(): List<Patient>
+  }
+
+}
+
+package user_management {
+  class AuthService {
+    - users: Dictionary<String, String>
+    - authKey: SecretKey
+    - desCipher: Cipher
+    
+    + AuthService()
+    + getUsers(): Dictionary<String, String>
+    + getUsernames(): Enumeration<String>
+    + addUser(username: String, passphrase: String): void
+    + deleteUser(username: String): void
+    + verifyUsername(username: String): boolean
+    + verifyPassphrase(username: String, passphrase: String): boolean
+    + encryptString(plaintext: String): String
+  }
+
+  class Doctor {
+    - id: String
+    - firstName: String
+    - middleInitial: String
+    - lastName: String
+    - fullName: String
+    - specialization: String
+    - schedule: Schedule
+    
+    + Doctor()
+    + Doctor(firstName: String, middleInitial: String, lastName: String, specialization: String)
+    + Doctor(firstName: String, lastName: String, specialization: String)
+    + getId(): String
+    + getFirstName(): String
+    + getMiddleInitial(): String
+    + getLastName(): String
+    + getFullName(): String
+    + getSpecialization(): String
+    + getSchedule(): Schedule
+    + setId(id: String): void
+    + setFirstName(firstName: String): void
+    + setMiddleInitial(middleInitial: String): void
+    + setLastName(lastName: String): void
+    + setSpecialization(specialization: String): void
+    + viewSchedule(): void
+    + setSchedule(date: String, slotSize: int, startTime: LocalTime, endTime: LocalTime): void
+    + addAppointment(duration: int, start: LocalTime): boolean
+    + toString(): String
+  }
+
+  class Receptionist {
+    
+  }
+}
+
+
+' Relationships '
+AppointmentService "1" --> "0..*" Appointment : contains >
+AppointmentService --> DoctorService : depends >
+AppointmentService --> Doctor : uses >
+DoctorService "1" --> "0..*" Doctor : manages >
+Schedule "1" --> "0..*" Appointment : contains >
+Doctor --> Schedule : has >
+
+AppointmentService ..> AppointmentDatabase : uses
+DoctorService ..> DBConnection : uses
+DBConnection --> Patient : depends
+PatientDatabase "1" --> "0..*" Patient : manages >
+DBConnection ..> PatientDatabase : uses
+
+ReminderService ..> Reminder : creates
+ReminderService ..> Appointment : monitors
+Notification <.. ReminderService : generates
+
+MedicalHistory "1" --> "1" Patient : belongs to
+Patient "1" *-- "1" MedicalHistory : contains
+PatientDatabase "1" --> "0..*" Patient : manages
+DBConnection --> Patient : saves
+Appointment --> Patient : associates with
+MedicalHistory --> Patient : references >
+PatientDTO <-- Patient : converts to/from
+PatientDTO <-- DBConnection : transfers data
+PatientDTO <-- PatientDatabase : transfers data
+PatientService "1" *-- "1" PatientDatabase : manages
+PatientService ..> Patient : creates/updates
+PatientService ..> PatientDTO : converts
+
+DoctorService ..> AuthService : authenticates through
+PatientService ..> AuthService : authenticates through
+AppointmentService ..> AuthService : authenticates through
+
+Doctor "1" *-- "1" Schedule : contains
+DoctorService "1" --> "0..*" Doctor : manages
+AuthService ..> Doctor : authenticates
+Receptionist "1" --> "0..*" Appointment : books
+Appointment --> Doctor : assigned to
+Doctor "1" --> "0..*" Appointment : has scheduled
+
+
+@enduml

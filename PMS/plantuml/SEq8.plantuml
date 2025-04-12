@@ -1,0 +1,46 @@
+@startuml CheckPatientHistorySequence
+
+actor Doctor
+actor Patient as "Patient (Secondary)"
+participant "PMS" as System
+participant "PatientService"
+participant "PatientDatabase"
+participant "MedicalHistory"
+
+autonumber
+
+Doctor -> System: Requests patient history (ID/name)
+activate System
+
+System -> PatientService: searchPatient(identifier)
+activate PatientService
+
+PatientService -> PatientDatabase: getPatientByID/Name(identifier)
+activate PatientDatabase
+
+PatientDatabase --> PatientService: Patient object
+deactivate PatientDatabase
+
+PatientService -> MedicalHistory: getMedicalHistory(patientID)
+activate MedicalHistory
+
+MedicalHistory --> PatientService: MedicalHistory data
+deactivate MedicalHistory
+
+PatientService --> System: Patient + History
+deactivate PatientService
+
+System -> System: Format history display
+System --> Doctor: Display patient history
+
+deactivate System
+
+note right of MedicalHistory
+    Includes:
+    - Past appointments
+    - Diagnoses
+    - Treatments
+    - Doctor notes
+end note
+
+@enduml

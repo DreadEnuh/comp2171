@@ -1,0 +1,39 @@
+@startuml
+actor User
+participant "MainView" as MainView
+participant "PatientManagement" as PatientManagement
+participant "Patient" as Patient
+participant "DBConnection" as DBConnection
+
+User -> MainView : Selects "Register Patient"
+activate MainView
+
+MainView -> PatientManagement : registerPatient()
+activate PatientManagement
+
+PatientManagement -> Patient : new Patient(fName, mName, lName, dob)
+activate Patient
+Patient --> PatientManagement : Patient object
+deactivate Patient
+
+PatientManagement -> Patient : addCondition(condition)
+activate Patient
+Patient --> PatientManagement : Condition added
+deactivate Patient
+
+PatientManagement -> PatientManagement : isValidDate(dd, mm, yyyy)
+activate PatientManagement
+PatientManagement --> PatientManagement : Date validated
+deactivate PatientManagement
+
+PatientManagement -> DBConnection : savePatientsToFile(patients)
+activate DBConnection
+DBConnection --> PatientManagement : Patients saved
+deactivate DBConnection
+
+PatientManagement --> MainView : Patient object
+deactivate PatientManagement
+
+MainView --> User : Displays "Patient Registered: <PatientID>"
+deactivate MainView
+@enduml

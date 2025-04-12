@@ -1,0 +1,117 @@
+@startuml
+class Patient {
+    - patientID: String
+    - fName: String
+    - mName: String
+    - lName: String
+    - dob: LocalDate
+    - medHistory: MedicalHistory
+    + getPatientID(): String
+    + setPatientID(String): void
+    + getFName(): String
+    + setFName(String): void
+    + getMName(): String
+    + setMName(String): void
+    + getLName(): String
+    + setLName(String): void
+    + getDob(): LocalDate
+    + setDob(LocalDate): void
+    + getMedicalHistory(): MedicalHistory
+    + setMedHistory(MedicalHistory): void
+    + addCondition(String): void
+    + addVisitInfo(String, String, String, String, String, String, String): void
+    + getAge(): int
+    + getFullName(): String
+    + toString(): String
+    + compareTo(Patient): int
+}
+
+class MedicalHistory {
+    - CONDITIONS: ArrayList<String>
+    - VISITS_INFO: ArrayList<String>
+    - lastVisitDate: String
+    - numVisits: int
+    + getConditions(): ArrayList<String>
+    + getVisitsInfo(): ArrayList<String>
+    + getNumVisits(): int
+    + setNumVisits(int): void
+    + addCondition(String): void
+    + addVisitInfo(String): void
+    + toString(): String
+}
+
+class Doctor {
+    - id: String
+    - firstName: String
+    - middleInitial: String
+    - lastName: String
+    - specialization: String
+    + getId(): String
+    + setId(String): void
+    + getFirstName(): String
+    + setFirstName(String): void
+    + getMiddleInitial(): String
+    + setMiddleInitial(String): void
+    + getLastName(): String
+    + setLastName(String): void
+    + getSpecialization(): String
+    + setSpecialization(String): void
+    + getFullName(): String
+    + toString(): String
+}
+
+class Schedule {
+    - date: String
+    - appointmentDuration: int
+    - appointments: List<LocalTime>
+    - startTime: LocalTime
+    - endTime: LocalTime
+    + addAppointment(LocalTime): boolean
+    + getAvailableSlots(): List<LocalTime>
+    + displaySchedule(): void
+    + getDate(): String
+}
+
+class AppointmentManagement {
+    - schedules: ArrayList<Schedule>
+    + scheduleAppointment(): void
+    + viewDoctorSchedule(): void
+    + getSchedules(): ArrayList<Schedule>
+}
+
+class DBConnection {
+    - FILE_NAME: String
+    + savePatientsToFile(List<Patient>): void
+    + loadPatientsFromFile(): List<Patient>
+}
+
+class PatientManagement {
+    - patients: ArrayList<Patient>
+    - scanner: Scanner
+    + getPatients(): ArrayList<Patient>
+    + addPatient(Patient): void
+    + deletePatient(Patient): void
+    + findPatientById(String): Patient
+    + findPatientByName(String): Patient
+    + isNewPatient(String): Boolean
+    + registerPatient(): Patient
+    + loadPatients(): void
+    + savePatients(): void
+    + isValidDate(String, String, String): Boolean
+}
+
+class MainView {
+    - scanner: Scanner
+    + driver(): void
+    + mainMenu(): void
+    + main(String[]): void
+}
+
+' Relationships
+Patient "1" *-- "1" MedicalHistory : contains
+PatientManagement "1" *-- "0..*" Patient : manages
+DBConnection "1" -- "0..*" Patient : saves/loads
+AppointmentManagement "1" *-- "0..*" Schedule : manages
+Doctor "1" -- "1" Schedule : uses
+
+@enduml

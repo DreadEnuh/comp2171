@@ -1,0 +1,59 @@
+@startuml Schedule Appointment
+!theme plain
+
+' === Objects ===
+object "Patient\n(P123)" as patient {
+  patientID = "P123"
+  fullName = "JOHN X DOE"
+  dob = "1990-05-15"
+}
+
+object "MedicalHistory\n(H789)" as medHistory {
+  conditions = ["Hypertension"]
+  lastVisit = "2023-11-10"
+}
+
+object "Doctor\n(D456)" as doctor {
+  id = "D456"
+  fullName = "DR. SARAH SMITH"
+  specialization = "Cardiology"
+}
+
+object "Schedule\n(2023-11-20)" as schedule {
+  date = "2023-11-20"
+  slotSize = 30
+  startTime = 09:00
+  endTime = 17:00
+  filledSlots = ["10:00", "11:30"]
+}
+
+object "AppointmentService" as apptService {
+  systemTime = "2023-11-15T14:30:00"
+}
+
+object "AuthService" as auth {
+  users = {"sarahsmith": "encryptedPass123"}
+}
+
+' === Relationships ===
+patient --> medHistory : "has"
+doctor --> schedule : "manages"
+apptService --> schedule : "checks availability"
+apptService --> doctor : "books for"
+auth --> doctor : "authenticates"
+
+' === Flow Notes ===
+note top of apptService
+  **Schedule Appointment Flow:**
+  1. Patient selects Dr. Smith
+  2. System checks Schedule for 09:00 slot
+  3. Confirms booking via addAppointment()
+  4. Updates filledSlots
+end note
+
+note right of schedule
+  **Available Slots:**
+  09:00, 09:30, 13:00...
+  (Calculated by getAvailableSlots())
+end note
+@enduml

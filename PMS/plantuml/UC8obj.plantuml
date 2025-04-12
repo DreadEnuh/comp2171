@@ -1,0 +1,66 @@
+@startuml Check Patient History
+!theme plain
+
+' === Objects ===
+object "Doctor\n(D205)" as doctor {
+  id = "D205"
+  name = "Dr. Sarah Chen"
+  specialization = "Cardiology"
+}
+
+object "Patient\n(P892)" as patient {
+  patientID = "P892"
+  fullName = "MICHAEL K WONG"
+  dob = "1985-08-22"
+}
+
+object "MedicalHistory\n(H892)" as medHistory {
+  conditions = ["Hypertension", "Type 2 Diabetes"]
+  visits = [
+    "2023-11-15: BP Check",
+    "2023-09-01: ECG",
+    "2023-05-10: Annual Physical"
+  ]
+}
+
+object "PatientService" as patientService {
+  accessTime = "2023-11-20T14:30:00Z"
+}
+
+object "MedicalHistoryDB" as medDB {
+  records = 47
+  lastBackup = "2023-11-20T01:00:00Z"
+}
+
+' === Relationships ===
+doctor --> patient : "1. Searches\n(by ID P892)"
+patientService --> patient : "2. Retrieves\ncore details"
+patientService --> medHistory : "3. Fetches\nfull history"
+medHistory --> medDB : "4. Pulls from\ndatabase"
+doctor --> medHistory : "5. Views"
+
+' === Flow Notes ===
+note top of patientService
+  **History Retrieval Flow:**
+  1. Authenticate doctor (D205)
+  2. Validate patient existence
+  3. Load demographic + medical data
+  4. Merge from live/DB sources
+end note
+
+note right of medHistory
+  **Medical Timeline:**
+  2023-05-10: Annual Physical
+  2023-09-01: Abnormal ECG
+  2023-11-15: BP 140/90
+  Conditions:
+  - Hypertension (since 2021)
+  - Diabetes (new 2023)
+end note
+
+note left of medDB
+  **Data Sources:**
+  - Visits: Immutable records
+  - Conditions: Versioned
+  - Audit trail for all accesses
+end note

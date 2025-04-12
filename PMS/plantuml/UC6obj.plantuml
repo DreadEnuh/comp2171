@@ -1,0 +1,71 @@
+@startuml Cancel Appointment
+!theme plain
+
+' === Objects ===
+object "Receptionist\n(R202)" as receptionist {
+  id = "R202"
+  name = "Emily Johnson"
+  accessLevel = "Admin"
+}
+
+object "Appointment\n(A789)" as appointment {
+  appointmentID = "A789"
+  date = "2023-11-20"
+  time = "14:00-14:30"
+  patient = "P123"
+  doctor = "D456"
+  status = "Confirmed"
+}
+
+object "Patient\n(P123)" as patient {
+  patientID = "P123"
+  fullName = "JOHN X DOE"
+  contact = "555-0102"
+}
+
+object "Doctor\n(D456)" as doctor {
+  id = "D456"
+  fullName = "DR. SARAH SMITH"
+}
+
+object "Schedule\n(2023-11-20)" as schedule {
+  date = "2023-11-20"
+  bookedSlots = ["10:00", "11:30", "14:00"]
+}
+
+object "NotificationService" as notify {
+  pendingAlerts = 1
+}
+
+' === Relationships ===
+receptionist --> appointment : "1. Selects\nfor cancellation"
+appointment --> schedule : "2. Removes from"
+appointment --> patient : "3. Updates records"
+appointment --> doctor : "4. Updates schedule"
+appointment --> notify : "5. Triggers\ncancellation alert"
+notify --> patient : "Sends SMS/email"
+
+' === Flow Notes ===
+note top of receptionist
+  **Cancellation Flow:**
+  1. Verify appointment exists
+  2. Confirm cancellation
+  3. Update all linked systems
+  4. Notify patient
+end note
+
+note right of appointment
+  **Before Cancellation:**
+  - Status: Confirmed
+  - Doctor: D456
+  - Patient: P123
+  After: Removed from Schedule
+end note
+
+note left of schedule
+  **Real-time Updates:**
+  - Removes 14:00 slot
+  - Marks as available
+  - Syncs with DoctorService
+end note
+@enduml
