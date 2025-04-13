@@ -1,0 +1,67 @@
+@startuml Register Patient
+!theme plain
+
+' === Objects ===
+object "Receptionist\n(R007)" as receptionist {
+  id = "R007"
+  name = "Alice Johnson"
+}
+
+object "PatientDTO" as dto {
+  fName = "John"
+  lName = "Doe"
+  dob = "15-05-1990"
+  gender = "Male"
+  email = "john.doe@example.com"
+  phone = "555-1234"
+}
+
+object "PatientService" as patientService {
+  validator = "Date/Email/Phone"
+}
+
+object "PatientDatabase" as db {
+  patientCount = 142
+}
+
+object "Patient\n(P143)" as patient {
+  patientID = "JXD000143"
+  fullName = "JOHN X DOE"
+  age = 33
+}
+
+object "MedicalHistory\n(H143)" as medHistory {
+  conditions = []
+  visits = []
+}
+
+' === Relationships ===
+receptionist --> dto : "enters data"
+receptionist --> patientService : "calls registerPatient()"
+patientService --> dto : "validates"
+patientService --> db : "saves to"
+db --> patient : "creates"
+patient --> medHistory : "has"
+
+' === Flow Notes ===
+note top of patientService
+  **Registration Flow:**
+  1. Converts DTO to Patient
+  2. Generates ID (JXD000143)
+  3. Validates email/phone/dob
+end note
+
+note right of db
+  **Database State:**
+  - Previous last ID: P142
+  - New patient added as P143
+end note
+
+note left of dto
+  **Collected Data:**
+  - Name: John Doe
+  - DOB: 15-05-1990
+  - Phone: 555-1234
+  (All fields validated)
+end note
+@enduml

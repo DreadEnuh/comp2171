@@ -1,0 +1,69 @@
+@startuml Send Reminder
+!theme plain
+
+' === Objects ===
+object "System" as system {
+  triggerTime = "2023-11-20T08:00:00Z"
+  reminderInterval = "10 days"
+}
+
+object "Appointment\n(A789)" as appointment {
+  id = "A789"
+  date = "2023-11-30"
+  time = "14:00-14:30"
+  status = "Confirmed"
+}
+
+object "Patient\n(P123)" as patient {
+  patientID = "P123"
+  fullName = "JOHN X DOE"
+  email = "john.doe@example.com"
+  phone = "555-0102"
+}
+
+object "ReminderMessage" as reminder {
+  type = "Email+SMS"
+  content = "Reminder: Appointment with Dr. Smith\n2023-11-30 14:00"
+  sentTime = "2023-11-20T08:01:22Z"
+}
+
+object "NotificationService" as notify {
+  smsGateway = "Twilio"
+  emailService = "SendGrid"
+}
+
+object "AppointmentService" as apptService {
+  lastModified = "2023-11-15T09:30:00Z"
+}
+
+' === Relationships ===
+system --> appointment : "1. Monitors\nfor reminders"
+appointment --> patient : "2. Gets\ncontact details"
+system --> reminder : "3. Generates\nmessage"
+reminder --> notify : "4. Routes to\nchannels"
+notify --> patient : "5. Delivers\n(SMS/Email)"
+apptService --> appointment : "6. Tracks\nmodifications"
+
+' === Flow Notes ===
+note top of system
+  **Reminder Trigger Logic:**
+  1. Scans appointments daily
+  2. Filters for upcoming (10-day window)
+  3. Excludes cancelled appointments
+  4. Batches notifications
+end note
+
+note right of reminder
+  **Message Template:**
+  - Type: %{Email/SMS/Both}
+  - Content: Auto-generated
+  - Time: 08:00 AM daily
+  - Localized for patient
+end note
+
+note left of notify
+  **Delivery Guarantees:**
+  - SMS fallback if email fails
+  - Retry every 30 mins × 3
+  - Alerts receptionist if undelivered
+end note

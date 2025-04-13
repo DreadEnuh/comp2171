@@ -1,0 +1,66 @@
+@startuml Update Patient Demographic Details
+!theme plain
+
+' === Objects ===
+object "Receptionist\n(R007)" as receptionist {
+  id = "R007"
+  name = "Alice Johnson"
+}
+
+object "Patient\n(P143)" as patient {
+  patientID = "JXD000143"
+  fName = "JOHN"
+  lName = "DOE"
+  email = "old_email@example.com"
+  phone = "555-1234"
+}
+
+object "PatientDTO" as dto {
+  fName = "John"
+  lName = "Doe"
+  email = "new_email@example.com"
+  phone = "555-5678"
+}
+
+object "PatientService" as patientService {
+  validator = "Active"
+}
+
+object "PatientDatabase" as db {
+  patientRecords = 142
+}
+
+object "MedicalHistory\n(H143)" as medHistory {
+  conditions = ["Hypertension"]
+  visits = ["2023-11-10: Checkup"]
+}
+
+' === Relationships ===
+receptionist --> patient : "looks up\n(by ID)"
+receptionist --> dto : "enters\nupdated data"
+patientService --> patient : "locks for\nupdate"
+patientService --> dto : "validates"
+patientService --> db : "updates"
+patient --> medHistory : "retains\nhistory"
+
+' === Flow Notes ===
+note top of patientService
+  **Update Flow:**
+  1. Verify patient exists (P143)
+  2. Validate new email/phone format
+  3. Preserve medical history
+  4. Atomic update
+end note
+
+note right of dto
+  **Changed Fields:**
+  - Email: old_email@example.com → new_email@example.com
+  - Phone: 555-1234 → 555-5678
+  (All other fields unchanged)
+end note
+
+note left of db
+  **Database Constraints:**
+  - Email uniqueness check
+  - Transaction rollback on failure
+end note

@@ -1,0 +1,67 @@
+@startuml Update Patient Medical Record
+!theme plain
+
+' === Objects ===
+object "Doctor\n(D205)" as doctor {
+  id = "D205"
+  name = "Dr. Sarah Chen"
+  specialization = "Cardiology"
+}
+
+object "Patient\n(P892)" as patient {
+  patientID = "P892"
+  fullName = "MICHAEL K WONG"
+  dob = "1985-08-22"
+}
+
+object "MedicalHistory\n(H892)" as medHistory {
+  conditions = ["Hypertension"]
+  visits = ["2023-11-15: BP Check"]
+}
+
+object "NewVisitData" as visitData {
+  date = "2023-11-20"
+  diagnosis = "Elevated cholesterol"
+  treatment = "Prescribed statins"
+  severity = "Moderate"
+}
+
+object "PatientService" as patientService {
+  validator = "Active"
+}
+
+object "MedicalHistoryDB" as medDB {
+  records = 47
+}
+
+' === Relationships ===
+doctor --> patient : "looks up\n(by ID)"
+doctor --> visitData : "enters\nnew visit details"
+patientService --> medHistory : "updates"
+patientService --> visitData : "validates"
+medHistory --> medDB : "persists changes"
+patient --> medHistory : "has"
+
+' === Flow Notes ===
+note top of patientService
+  **Medical Update Flow:**
+  1. Verify doctor privileges
+  2. Validate diagnosis/treatment format
+  3. Add immutable visit record
+  4. Update conditions list
+end note
+
+note right of visitData
+  **New Medical Data:**
+  - Date: 2023-11-20
+  - Diagnosis: Elevated cholesterol
+  - Treatment: Statins prescribed
+  - Severity: Moderate
+end note
+
+note left of medDB
+  **Audit Trail:**
+  - Visit records are append-only
+  - Previous conditions preserved
+  - Timestamped changes
+end note
