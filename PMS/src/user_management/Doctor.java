@@ -13,6 +13,7 @@ public class Doctor extends User {
     private String fullName;
     private String specialization;
     private Schedule schedule;
+    private Role role;
     private static int numDoctors = 1;
 
     // Constructors
@@ -26,6 +27,7 @@ public class Doctor extends User {
         this.specialization = specialization;
         this.schedule = new Schedule(this.id);
         this.fullName = firstName + " " + middleInitial + " " + lastName;
+        this.role = new Role("Operator");
         numDoctors ++;
     }
     public Doctor(String firstName, String lastName, String specialization) {
@@ -63,6 +65,10 @@ public class Doctor extends User {
 
     public static int getNumDoctors() {
         return numDoctors;
+    }
+
+    public Role getRole() {
+        return role;
     }
 
     // Setters

@@ -3,6 +3,7 @@ package user_management;
 public class Receptionist extends User {
     private String fName, mName, lName;
     private String rID;
+    private Role role;
     private static int numReceptionists = 1;
 
     public Receptionist() {
@@ -11,6 +12,7 @@ public class Receptionist extends User {
         super(fName, mName, lName);
         String format = String.format("%03d", numReceptionists);
         this.rID = "R-" + fName.charAt(0) + mName.charAt(0) + lName.charAt(0) + String.format(format, numReceptionists);
+        this.role = new Role("Spectator");
         numReceptionists ++;
     }
 
@@ -28,6 +30,10 @@ public class Receptionist extends User {
 
     public String getID() {
         return rID;
+    }
+
+    public Role getRole() {
+        return role;
     }
 
     public static int getNumReceptionists() {

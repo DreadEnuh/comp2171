@@ -1,7 +1,8 @@
 package user_management;
 
 public abstract class User {
-    private String fName, mName, lName, id, userName;
+    private String fName, mName, lName, userName;
+    private Role role;
 
     public User() {
 
@@ -11,7 +12,7 @@ public abstract class User {
         this.mName = mName;
         this.lName = lName;
         this.userName = "";
-        this.id = "";
+        this.role = new Role("");
     }
 
     // Getters
@@ -29,6 +30,8 @@ public abstract class User {
     }
 
     public abstract String getID();
+
+    public abstract Role getRole();
 
     public String getUserName() {
         return userName;

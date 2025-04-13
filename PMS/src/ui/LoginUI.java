@@ -1,8 +1,12 @@
 package ui;
 
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.util.Objects;
 
 public class LoginUI extends JFrame implements ActionListener {
@@ -26,8 +30,37 @@ public class LoginUI extends JFrame implements ActionListener {
     private javax.swing.JLabel usernameLb2;
     private javax.swing.JTextField usernameTf1;
     private javax.swing.JTextField usernameTf2;
+    private javax.swing.Box.Filler verticalDiv;
+
 
     public LoginUI() {
+        initComponents();
+        setVisible(true);
+    }
+
+    public void initComponents() {
+        backgroundPanel = new javax.swing.JPanel();
+        loginPn = new javax.swing.JPanel();
+        usernameTf2 = new javax.swing.JTextField();
+        passwordField2 = new javax.swing.JPasswordField();
+        confirmPasswordField = new javax.swing.JPasswordField();
+        usernameTf1 = new javax.swing.JTextField();
+        passwordField1 = new javax.swing.JPasswordField();
+        loginLb = new javax.swing.JLabel();
+        newAccountLb = new javax.swing.JLabel();
+        usernameLb1 = new javax.swing.JLabel();
+        passwordLb1 = new javax.swing.JLabel();
+        topSeparator = new javax.swing.JSeparator();
+        usernameLb2 = new javax.swing.JLabel();
+        passwordLb2 = new javax.swing.JLabel();
+        confirmPasswordLb = new javax.swing.JLabel();
+        baseSeparator = new javax.swing.JSeparator();
+        loginBt = new javax.swing.JButton();
+        createAccountBt = new javax.swing.JButton();
+        verticalDiv = new javax.swing.Box.Filler(new java.awt.Dimension(0, 50), new java.awt.Dimension(0, 50), new java.awt.Dimension(32767, 50));
+        iconLb = new javax.swing.JLabel();
+        copyrightLb = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Patient Management System (PAMS) - Login");
         setAlwaysOnTop(true);
@@ -35,104 +68,71 @@ public class LoginUI extends JFrame implements ActionListener {
         setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         setForeground(new java.awt.Color(255, 255, 255));
 
-        backgroundPanel = new javax.swing.JPanel();
         backgroundPanel.setBackground(new java.awt.Color(164, 194, 244));
         backgroundPanel.setPreferredSize(new java.awt.Dimension(600, 600));
-        
-        loginPn = new javax.swing.JPanel();
+
         loginPn.setBackground(new java.awt.Color(255, 255, 255));
-        loginPn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.lightGray, java.awt.Color.lightGray));
+        loginPn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
 
-        iconLb = new javax.swing.JLabel();
-        iconLb.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        iconLb.setForeground(new java.awt.Color(255, 255, 255));
-        iconLb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        iconLb.setIcon(new javax.swing.ImageIcon(Objects.requireNonNull(getClass().getResource("/ui/PMS_Login_Icon.png")))); // NOI18N
-        iconLb.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
-        iconLb.setFocusable(false);
-        iconLb.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        usernameTf2.setText("Enter username");
 
-        loginLb = new javax.swing.JLabel();
+        passwordField2.setMinimumSize(new java.awt.Dimension(110, 22));
+        passwordField2.setPreferredSize(new java.awt.Dimension(110, 22));
+
+        confirmPasswordField.setMinimumSize(new java.awt.Dimension(110, 22));
+        confirmPasswordField.setPreferredSize(new java.awt.Dimension(110, 22));
+
+        usernameTf1.setText("Enter username");
+
+        passwordField1.setMinimumSize(new java.awt.Dimension(110, 22));
+        passwordField1.setPreferredSize(new java.awt.Dimension(110, 22));
+
         loginLb.setBackground(new java.awt.Color(0, 0, 0));
         loginLb.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         loginLb.setForeground(new java.awt.Color(164, 194, 244));
+        loginLb.setLabelFor(usernameTf1);
         loginLb.setText("Login");
 
-        newAccountLb = new javax.swing.JLabel();
         newAccountLb.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         newAccountLb.setForeground(new java.awt.Color(164, 194, 244));
         newAccountLb.setText("New Account");
 
-        JSeparator topSeparator = new javax.swing.JSeparator();
-        topSeparator.setBackground(new java.awt.Color(204, 255, 255));
-
-        usernameLb1 = new javax.swing.JLabel();
         usernameLb1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         usernameLb1.setText("Username:");
 
-        JTextField usernameTf1 = new javax.swing.JTextField("Enter username");
-        usernameLb1.setLabelFor(usernameTf1);
-
-        usernameLb2 = new javax.swing.JLabel();
-        usernameLb2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-        usernameLb2.setText("Username:");
-
-        JTextField usernameTf2 = new javax.swing.JTextField("Enter username");
-        usernameLb2.setLabelFor(usernameTf2);
-
-        passwordLb1 = new javax.swing.JLabel();
         passwordLb1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         passwordLb1.setText("Password:");
 
-        passwordField1 = new javax.swing.JPasswordField();
-        passwordField1.setMinimumSize(new java.awt.Dimension(110, 22));
-        passwordField1.setPreferredSize(new java.awt.Dimension(110, 22));
-        passwordLb1.setLabelFor(passwordField1);
-        passwordField1.addActionListener(this);
+        topSeparator.setBackground(new java.awt.Color(204, 255, 255));
 
-        passwordLb2 = new javax.swing.JLabel();
+        usernameLb2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+        usernameLb2.setText("Username:");
+
         passwordLb2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         passwordLb2.setText("Password:");
 
-        passwordField2 = new javax.swing.JPasswordField();
-        passwordField2.setMinimumSize(new java.awt.Dimension(110, 22));
-        passwordField2.setPreferredSize(new java.awt.Dimension(110, 22));
-        passwordLb2.setLabelFor(passwordField2);
-        passwordField2.addActionListener(this);
-
-        confirmPasswordLb = new javax.swing.JLabel();
         confirmPasswordLb.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         confirmPasswordLb.setText("Confirm Password:");
         confirmPasswordLb.setIconTextGap(0);
 
-        confirmPasswordField = new javax.swing.JPasswordField();
-        confirmPasswordField.setMinimumSize(new java.awt.Dimension(110, 22));
-        confirmPasswordField.setPreferredSize(new java.awt.Dimension(110, 22));
-        confirmPasswordLb.setLabelFor(confirmPasswordField);
-        confirmPasswordField.addActionListener(this);
-
-        baseSeparator = new javax.swing.JSeparator();
         baseSeparator.setBackground(new java.awt.Color(204, 255, 255));
 
-        loginBt = new javax.swing.JButton();
         loginBt.setBackground(new java.awt.Color(164, 194, 244));
         loginBt.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         loginBt.setForeground(new java.awt.Color(255, 255, 255));
         loginBt.setText("Login");
+        loginBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         loginBt.setFocusable(false);
-        loginBt.addActionListener(this);
 
-        createAccountBt = new javax.swing.JButton();
         createAccountBt.setBackground(new java.awt.Color(164, 194, 244));
         createAccountBt.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         createAccountBt.setForeground(new java.awt.Color(255, 255, 255));
         createAccountBt.setText("Create Account");
+        createAccountBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         createAccountBt.setFocusable(false);
-        createAccountBt.addActionListener(this);
 
-        copyrightLb = new javax.swing.JLabel();
-        copyrightLb.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
-        copyrightLb.setText("Copyright 2025");
+        verticalDiv.setBackground(new java.awt.Color(204, 204, 204));
+        verticalDiv.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
 
         javax.swing.GroupLayout loginPnLayout = new javax.swing.GroupLayout(loginPn);
         loginPn.setLayout(loginPnLayout);
@@ -160,7 +160,9 @@ public class LoginUI extends JFrame implements ActionListener {
                                                                         .addGroup(loginPnLayout.createSequentialGroup()
                                                                                 .addGap(10, 10, 10)
                                                                                 .addComponent(passwordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                .addComponent(verticalDiv, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                                                                 .addGroup(loginPnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                         .addGroup(loginPnLayout.createSequentialGroup()
                                                                                 .addComponent(usernameLb2)
@@ -195,23 +197,29 @@ public class LoginUI extends JFrame implements ActionListener {
                                         .addComponent(loginLb, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(topSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(21, 21, 21)
-                                .addGroup(loginPnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(usernameTf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(usernameTf2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(usernameLb1)
-                                        .addComponent(usernameLb2))
-                                .addGap(35, 35, 35)
-                                .addGroup(loginPnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(passwordLb2)
-                                        .addComponent(passwordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(passwordLb1)
-                                        .addComponent(passwordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(30, 30, 30)
-                                .addGroup(loginPnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(confirmPasswordLb)
-                                        .addComponent(confirmPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(85, 85, 85)
+                                .addGroup(loginPnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(loginPnLayout.createSequentialGroup()
+                                                .addGap(21, 21, 21)
+                                                .addGroup(loginPnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(usernameTf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(usernameTf2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(usernameLb1)
+                                                        .addComponent(usernameLb2))
+                                                .addGap(35, 35, 35)
+                                                .addGroup(loginPnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(passwordLb2)
+                                                        .addComponent(passwordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(passwordLb1)
+                                                        .addComponent(passwordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(30, 30, 30)
+                                                .addGroup(loginPnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(confirmPasswordLb)
+                                                        .addComponent(confirmPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(85, 85, 85))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPnLayout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(verticalDiv, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                                 .addComponent(baseSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(loginPnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -219,6 +227,17 @@ public class LoginUI extends JFrame implements ActionListener {
                                         .addComponent(createAccountBt))
                                 .addGap(7, 7, 7))
         );
+
+        iconLb.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        iconLb.setForeground(new java.awt.Color(255, 255, 255));
+        iconLb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iconLb.setIcon(new javax.swing.ImageIcon(Objects.requireNonNull(getClass().getResource("PMS_Login_Icon.png")))); // NOI18N
+        iconLb.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        iconLb.setFocusable(false);
+        iconLb.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        copyrightLb.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        copyrightLb.setText("Copyright 2025");
 
         javax.swing.GroupLayout backgroundPanelLayout = new javax.swing.GroupLayout(backgroundPanel);
         backgroundPanel.setLayout(backgroundPanelLayout);
@@ -233,17 +252,17 @@ public class LoginUI extends JFrame implements ActionListener {
                                                 .addGap(40, 40, 40)
                                                 .addComponent(loginPn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(backgroundPanelLayout.createSequentialGroup()
-                                                .addGap(236, 236, 236)
-                                                .addComponent(iconLb, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addGap(199, 199, 199)
+                                                .addComponent(iconLb, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addContainerGap(41, Short.MAX_VALUE))
         );
         backgroundPanelLayout.setVerticalGroup(
                 backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(backgroundPanelLayout.createSequentialGroup()
-                                .addGap(41, 41, 41)
-                                .addComponent(iconLb, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(55, 55, 55)
-                                .addComponent(loginPn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(10, 10, 10)
+                                .addComponent(iconLb, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(loginPn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(copyrightLb)
                                 .addGap(86, 86, 86))
@@ -253,22 +272,36 @@ public class LoginUI extends JFrame implements ActionListener {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(backgroundPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 636, Short.MAX_VALUE)
+                        .addComponent(backgroundPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 636, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(backgroundPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
+        backgroundPanel.getAccessibleContext().setAccessibleName("");
+
         pack();
         setLocationRelativeTo(null);
         setResizable(false);
-        setVisible(true);
     }
 
-    public static void main(String[] args) {
-        System.out.println("LoginUI");
-        new LoginUI();
+    public void addListeners() {
+        usernameTf1.addFocusListener(new MyFocusListener());
+        usernameTf2.addFocusListener(new MyFocusListener());
+        passwordField1.addActionListener(this);
+        passwordField2.addActionListener(this);
+        confirmPasswordField.addActionListener(this);
+        createAccountBt.addActionListener(this);
+        loginBt.addActionListener(this);
+    }
+
+    private class MyFocusListener extends FocusAdapter {
+        @Override
+        public void focusGained(FocusEvent e) {
+            JTextComponent component = (JTextComponent) e.getSource();
+            component.selectAll();
+        }
     }
 
     @Override
@@ -290,9 +323,19 @@ public class LoginUI extends JFrame implements ActionListener {
         }
         else if (e.getSource()==loginBt) {
             System.out.println("Login pressed");
+            String usernameIn = usernameTf1.getText();
+            if (usernameIn.isEmpty()) {
+                usernameTf1.setBorder(BorderFactory.createLineBorder(Color.RED));
+                usernameTf1.setText("Please enter username!");
+            }
         }
         else if (e.getSource()==createAccountBt) {
             System.out.println("Create account pressed");
         }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("LoginUI");
+        new LoginUI();
     }
 }

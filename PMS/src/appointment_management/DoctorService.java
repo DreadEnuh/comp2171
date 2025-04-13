@@ -41,6 +41,17 @@ public class DoctorService {
         return retdoc;
     }
 
+    public Doctor findDoctorByUsername(String username) {
+        Doctor retdoc = null;
+
+        for (Doctor d: doctors) {
+            if (username.equals(d.getUserName())){
+                retdoc = d;
+            }
+        }
+        return retdoc;
+    }
+
     // Data handlers
     public static void loadDoctors() {
 
