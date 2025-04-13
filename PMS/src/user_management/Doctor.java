@@ -108,5 +108,6 @@ public class Doctor extends User {
 
     public static void main(String[] args) {
         System.out.println("user_management.Doctor Class");
+        Doctor d1 = new Doctor("Calvin", "R", "Klein", "Ophthalmology");
     }
 }

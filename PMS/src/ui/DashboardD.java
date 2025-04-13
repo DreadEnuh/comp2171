@@ -1,6 +1,5 @@
 package ui;
 
-import user_management.Receptionist;
 import user_management.User;
 
 import javax.swing.*;
@@ -10,39 +9,63 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class Dashboard extends JFrame {
+public class DashboardD extends JFrame {
+    private javax.swing.JLabel appointmentSectionLabel;
+    private javax.swing.JLabel aptLb;
+    private javax.swing.JLabel dateLabel;
+    private javax.swing.JLabel dateLb;
+    private javax.swing.JPanel displayPanel;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.JPanel footerPanel;
+    private javax.swing.JLabel idLabel;
+    private javax.swing.JLabel idText;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JMenu logoutMenuBt;
+    private javax.swing.JMenuBar mainMenuBar;
+    private javax.swing.JPanel menuPanel;
+    private javax.swing.JLabel nextAptLb;
+    private javax.swing.JSeparator northDivider;
+    private javax.swing.Box.Filler pageSectionC;
+    private javax.swing.Box.Filler pageSectionW;
+    private javax.swing.JLabel patientSectionLabel;
+    private javax.swing.JMenu saveMenuBt;
+    private javax.swing.JLabel sessionLabel;
+    private javax.swing.JLabel timeLabel;
+    private javax.swing.JLabel timeLb;
+    private javax.swing.JButton updatePatientBt;
+    private javax.swing.JButton viewDocScheduleBt;
+    private javax.swing.JButton viewPatientHstryBt;
+    private javax.swing.JPanel westMenuPanel;
 
-    public Dashboard(User user) {
-        JPanel footerPanel = new JPanel();
-        JPanel menuPanel = new JPanel();
-        JLabel idLabel = new JLabel();
-        JLabel idText = new JLabel();
-        JSeparator jSeparator1 = new JSeparator();
-        JLabel sessionLabel = new JLabel();
-        JLabel dateLabel = new JLabel();
-        JLabel timeLabel = new JLabel();
-        JLabel dateLb = new JLabel();
-        JLabel timeLb = new JLabel();
-        JPanel displayPanel = new JPanel();
-        Box.Filler filler1 = new Box.Filler(new java.awt.Dimension(0, 100), new java.awt.Dimension(0, 100), new java.awt.Dimension(32767, 100));
-        Box.Filler pageSectionW = new Box.Filler(new java.awt.Dimension(0, 100), new java.awt.Dimension(0, 100), new java.awt.Dimension(32767, 100));
-        Box.Filler pageSectionC = new Box.Filler(new java.awt.Dimension(0, 100), new java.awt.Dimension(0, 100), new java.awt.Dimension(32767, 100));
-        Box.Filler filler2 = new Box.Filler(new java.awt.Dimension(0, 100), new java.awt.Dimension(0, 100), new java.awt.Dimension(32767, 100));
-        JPanel westMenuPanel = new JPanel();
-        JLabel patientSectionLabel = new JLabel();
-        JButton regPatientBt = new JButton();
-        JButton scheduleApptBt = new JButton();
-        JLabel appointmentSectionLabel = new JLabel();
-        JButton updatePatientBt = new JButton();
-        JButton cancelApptBt = new JButton();
-        JButton rescheduleBt = new JButton();
-        JLabel doctorSectionLabel = new JLabel();
-        JButton viewDocScheduleBt = new JButton();
-        JSeparator northDivider = new JSeparator();
-        JSeparator southDivider = new JSeparator();
-        JMenuBar mainMenuBar = new JMenuBar();
-        JMenu logoutMenuBt = new JMenu();
-        JMenu saveMenuBt = new JMenu();
+    public DashboardD(User user) {
+        footerPanel = new javax.swing.JPanel();
+        menuPanel = new javax.swing.JPanel();
+        idLabel = new javax.swing.JLabel();
+        idText = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        sessionLabel = new javax.swing.JLabel();
+        dateLabel = new javax.swing.JLabel();
+        timeLabel = new javax.swing.JLabel();
+        dateLb = new javax.swing.JLabel();
+        timeLb = new javax.swing.JLabel();
+        nextAptLb = new javax.swing.JLabel();
+        aptLb = new javax.swing.JLabel();
+        displayPanel = new javax.swing.JPanel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 100), new java.awt.Dimension(0, 100), new java.awt.Dimension(32767, 100));
+        pageSectionW = new javax.swing.Box.Filler(new java.awt.Dimension(0, 100), new java.awt.Dimension(0, 100), new java.awt.Dimension(32767, 100));
+        pageSectionC = new javax.swing.Box.Filler(new java.awt.Dimension(0, 100), new java.awt.Dimension(0, 100), new java.awt.Dimension(32767, 100));
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 100), new java.awt.Dimension(0, 100), new java.awt.Dimension(32767, 100));
+        westMenuPanel = new javax.swing.JPanel();
+        patientSectionLabel = new javax.swing.JLabel();
+        viewPatientHstryBt = new javax.swing.JButton();
+        appointmentSectionLabel = new javax.swing.JLabel();
+        updatePatientBt = new javax.swing.JButton();
+        viewDocScheduleBt = new javax.swing.JButton();
+        northDivider = new javax.swing.JSeparator();
+        mainMenuBar = new javax.swing.JMenuBar();
+        logoutMenuBt = new javax.swing.JMenu();
+        saveMenuBt = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PAMS - Dashboard");
@@ -51,7 +74,6 @@ public class Dashboard extends JFrame {
         setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         setForeground(new java.awt.Color(0, 0, 0));
         setName("dashboardFrame"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(800, 793));
 
         footerPanel.setBackground(new java.awt.Color(164, 194, 244));
 
@@ -106,6 +128,13 @@ public class Dashboard extends JFrame {
         Timer t = new Timer(1000, updateClockAction);
         t.start();
 
+        nextAptLb.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        nextAptLb.setForeground(new java.awt.Color(255, 255, 255));
+        nextAptLb.setText("Next Appointment:");
+
+        aptLb.setFont(new java.awt.Font("Century Gothic", 2, 14)); // NOI18N
+        aptLb.setText("Here");
+
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
         menuPanel.setLayout(menuPanelLayout);
         menuPanelLayout.setHorizontalGroup(
@@ -119,18 +148,20 @@ public class Dashboard extends JFrame {
                                                 .addGap(12, 12, 12)
                                                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(menuPanelLayout.createSequentialGroup()
-                                                                .addComponent(idLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                .addComponent(idText)
-                                                                .addGap(0, 0, Short.MAX_VALUE))
-                                                        .addGroup(menuPanelLayout.createSequentialGroup()
                                                                 .addComponent(timeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addGap(18, 18, 18)
                                                                 .addComponent(timeLb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                                         .addGroup(menuPanelLayout.createSequentialGroup()
                                                                 .addComponent(dateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addGap(18, 18, 18)
-                                                                .addComponent(dateLb, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))))
+                                                                .addComponent(dateLb, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
+                                                        .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                .addGroup(menuPanelLayout.createSequentialGroup()
+                                                                        .addComponent(idLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                        .addComponent(idText))
+                                                                .addComponent(nextAptLb)
+                                                                .addComponent(aptLb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                                         .addGroup(menuPanelLayout.createSequentialGroup()
                                                 .addGap(17, 17, 17)
                                                 .addComponent(sessionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -156,6 +187,10 @@ public class Dashboard extends JFrame {
                                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(timeLabel)
                                         .addComponent(timeLb))
+                                .addGap(18, 18, 18)
+                                .addComponent(nextAptLb)
+                                .addGap(18, 18, 18)
+                                .addComponent(aptLb)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -174,7 +209,7 @@ public class Dashboard extends JFrame {
                 displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(displayPanelLayout.createSequentialGroup()
                                 .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 695, Short.MAX_VALUE)
+                                .addGap(0, 705, Short.MAX_VALUE)
                                 .addComponent(pageSectionW, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, 0)
                                 .addComponent(pageSectionC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -196,65 +231,35 @@ public class Dashboard extends JFrame {
 
         patientSectionLabel.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
         patientSectionLabel.setForeground(new java.awt.Color(255, 255, 255));
-        patientSectionLabel.setText("Patient Section");
+        patientSectionLabel.setText("Personal Section");
 
-        regPatientBt.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
-        regPatientBt.setForeground(new java.awt.Color(153, 204, 255));
-        regPatientBt.setText("Register Patient");
-        regPatientBt.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, new java.awt.Color(204, 204, 204), new java.awt.Color(204, 204, 204)));
-        regPatientBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        regPatientBt.setFocusable(false);
-        regPatientBt.setName("Register Patient"); // NOI18N
-
-        scheduleApptBt.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
-        scheduleApptBt.setForeground(new java.awt.Color(153, 204, 255));
-        scheduleApptBt.setText("Schedule Appointment");
-        scheduleApptBt.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, new java.awt.Color(204, 204, 204), new java.awt.Color(204, 204, 204)));
-        scheduleApptBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        scheduleApptBt.setFocusable(false);
+        viewPatientHstryBt.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        viewPatientHstryBt.setForeground(new java.awt.Color(153, 204, 255));
+        viewPatientHstryBt.setText("View Patient History");
+        viewPatientHstryBt.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, new java.awt.Color(204, 204, 204), new java.awt.Color(204, 204, 204)));
+        viewPatientHstryBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        viewPatientHstryBt.setName("Register Patient"); // NOI18N
 
         appointmentSectionLabel.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
         appointmentSectionLabel.setForeground(new java.awt.Color(255, 255, 255));
-        appointmentSectionLabel.setText("Appointment Section");
+        appointmentSectionLabel.setText("Patient Section");
 
         updatePatientBt.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         updatePatientBt.setForeground(new java.awt.Color(153, 204, 255));
-        updatePatientBt.setText("Update Patient Details");
+        updatePatientBt.setText("Update Patient Medical Rec");
+        updatePatientBt.setActionCommand("");
         updatePatientBt.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, new java.awt.Color(204, 204, 204), new java.awt.Color(204, 204, 204)));
         updatePatientBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        updatePatientBt.setFocusable(false);
         updatePatientBt.setName("Update Patient"); // NOI18N
-
-        cancelApptBt.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
-        cancelApptBt.setForeground(new java.awt.Color(153, 204, 255));
-        cancelApptBt.setText("Cancel Appointment");
-        cancelApptBt.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, new java.awt.Color(204, 204, 204), new java.awt.Color(204, 204, 204)));
-        cancelApptBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cancelApptBt.setFocusable(false);
-
-        rescheduleBt.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
-        rescheduleBt.setForeground(new java.awt.Color(153, 204, 255));
-        rescheduleBt.setText("Reschedule Appointment");
-        rescheduleBt.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, new java.awt.Color(204, 204, 204), new java.awt.Color(204, 204, 204)));
-        rescheduleBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        rescheduleBt.setFocusable(false);
-
-        doctorSectionLabel.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
-        doctorSectionLabel.setForeground(new java.awt.Color(255, 255, 255));
-        doctorSectionLabel.setText("Doctor Section");
 
         viewDocScheduleBt.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         viewDocScheduleBt.setForeground(new java.awt.Color(153, 204, 255));
-        viewDocScheduleBt.setText("View Doctor Schedule");
+        viewDocScheduleBt.setText("View My Schedule");
         viewDocScheduleBt.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, new java.awt.Color(204, 204, 204), new java.awt.Color(204, 204, 204)));
         viewDocScheduleBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        viewDocScheduleBt.setFocusable(false);
 
         northDivider.setBackground(new java.awt.Color(255, 255, 255));
         northDivider.setForeground(new java.awt.Color(255, 255, 255));
-
-        southDivider.setBackground(new java.awt.Color(255, 255, 255));
-        southDivider.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout westMenuPanelLayout = new javax.swing.GroupLayout(westMenuPanel);
         westMenuPanel.setLayout(westMenuPanelLayout);
@@ -266,30 +271,21 @@ public class Dashboard extends JFrame {
                                                 .addContainerGap()
                                                 .addGroup(westMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addComponent(updatePatientBt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(regPatientBt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(scheduleApptBt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(cancelApptBt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(rescheduleBt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(viewPatientHstryBt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(viewDocScheduleBt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                         .addGroup(westMenuPanelLayout.createSequentialGroup()
                                                 .addGroup(westMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(westMenuPanelLayout.createSequentialGroup()
-                                                                .addGap(17, 17, 17)
-                                                                .addComponent(appointmentSectionLabel))
-                                                        .addGroup(westMenuPanelLayout.createSequentialGroup()
                                                                 .addGap(43, 43, 43)
                                                                 .addComponent(patientSectionLabel))
                                                         .addGroup(westMenuPanelLayout.createSequentialGroup()
-                                                                .addGap(43, 43, 43)
-                                                                .addComponent(doctorSectionLabel))
-                                                        .addGroup(westMenuPanelLayout.createSequentialGroup()
-                                                                .addGap(76, 76, 76)
+                                                                .addGap(71, 71, 71)
                                                                 .addComponent(northDivider, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                                 .addGap(0, 17, Short.MAX_VALUE)))
                                 .addContainerGap())
                         .addGroup(westMenuPanelLayout.createSequentialGroup()
-                                .addGap(75, 75, 75)
-                                .addComponent(southDivider, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(39, 39, 39)
+                                .addComponent(appointmentSectionLabel)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         westMenuPanelLayout.setVerticalGroup(
@@ -298,25 +294,15 @@ public class Dashboard extends JFrame {
                                 .addContainerGap()
                                 .addComponent(patientSectionLabel)
                                 .addGap(18, 18, 18)
-                                .addComponent(regPatientBt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(viewDocScheduleBt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(updatePatientBt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(23, 23, 23)
                                 .addComponent(northDivider, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(appointmentSectionLabel)
                                 .addGap(18, 18, 18)
-                                .addComponent(scheduleApptBt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(updatePatientBt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(cancelApptBt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(rescheduleBt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(38, 38, 38)
-                                .addComponent(southDivider, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(doctorSectionLabel)
-                                .addGap(18, 18, 18)
-                                .addComponent(viewDocScheduleBt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(viewPatientHstryBt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -355,13 +341,13 @@ public class Dashboard extends JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(footerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
         pack();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
     }
 
     public static void main(String[] args) {
-        System.out.println("Dashboard Class");
-        new Dashboard(new Receptionist("Priscilla", "Annette", "Anderson"));
+        System.out.println("DashboardD Class");
     }
 }

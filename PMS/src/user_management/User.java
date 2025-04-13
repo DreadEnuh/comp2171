@@ -1,7 +1,7 @@
 package user_management;
 
 public abstract class User {
-    private String fName, mName, lName, id;
+    private String fName, mName, lName, id, userName;
 
     public User() {
 
@@ -10,6 +10,7 @@ public abstract class User {
         this.fName = fName;
         this.mName = mName;
         this.lName = lName;
+        this.userName = "";
         this.id = "";
     }
 
@@ -28,4 +29,14 @@ public abstract class User {
     }
 
     public abstract String getID();
+
+    public String getUserName() {
+        return userName;
+    }
+
+    // Setters
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }

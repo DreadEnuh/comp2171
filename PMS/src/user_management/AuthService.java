@@ -23,8 +23,6 @@ public class AuthService {
         } catch (NoSuchAlgorithmException | NoSuchPaddingException nsae) {
             nsae.fillInStackTrace();
         }
-
-
     }
 
     // Getters

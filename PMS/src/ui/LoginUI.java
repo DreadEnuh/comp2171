@@ -1,9 +1,31 @@
 package ui;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Objects;
 
-public class LoginUI extends JFrame {
+public class LoginUI extends JFrame implements ActionListener {
+    private JPanel backgroundPanel;
+    private javax.swing.JSeparator baseSeparator;
+    private javax.swing.JLabel confirmPasswordLb;
+    private javax.swing.JPasswordField confirmPasswordField;
+    private javax.swing.JLabel copyrightLb;
+    private javax.swing.JButton createAccountBt;
+    private javax.swing.JLabel iconLb;
+    private javax.swing.JPasswordField passwordField1;
+    private javax.swing.JButton loginBt;
+    private javax.swing.JLabel loginLb;
+    private javax.swing.JPanel loginPn;
+    private javax.swing.JLabel newAccountLb;
+    private javax.swing.JPasswordField passwordField2;
+    private javax.swing.JLabel passwordLb1;
+    private javax.swing.JLabel passwordLb2;
+    private javax.swing.JSeparator topSeparator;
+    private javax.swing.JLabel usernameLb1;
+    private javax.swing.JLabel usernameLb2;
+    private javax.swing.JTextField usernameTf1;
+    private javax.swing.JTextField usernameTf2;
 
     public LoginUI() {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -13,15 +35,15 @@ public class LoginUI extends JFrame {
         setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         setForeground(new java.awt.Color(255, 255, 255));
 
-        JPanel backgroundPanel = new javax.swing.JPanel();
+        backgroundPanel = new javax.swing.JPanel();
         backgroundPanel.setBackground(new java.awt.Color(164, 194, 244));
         backgroundPanel.setPreferredSize(new java.awt.Dimension(600, 600));
         
-        JPanel loginPn = new javax.swing.JPanel();
+        loginPn = new javax.swing.JPanel();
         loginPn.setBackground(new java.awt.Color(255, 255, 255));
         loginPn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.lightGray, java.awt.Color.lightGray));
 
-        JLabel iconLb = new javax.swing.JLabel();
+        iconLb = new javax.swing.JLabel();
         iconLb.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         iconLb.setForeground(new java.awt.Color(255, 255, 255));
         iconLb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -30,13 +52,13 @@ public class LoginUI extends JFrame {
         iconLb.setFocusable(false);
         iconLb.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        JLabel loginLb = new javax.swing.JLabel();
+        loginLb = new javax.swing.JLabel();
         loginLb.setBackground(new java.awt.Color(0, 0, 0));
         loginLb.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         loginLb.setForeground(new java.awt.Color(164, 194, 244));
         loginLb.setText("Login");
 
-        JLabel newAccountLb = new javax.swing.JLabel();
+        newAccountLb = new javax.swing.JLabel();
         newAccountLb.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         newAccountLb.setForeground(new java.awt.Color(164, 194, 244));
         newAccountLb.setText("New Account");
@@ -44,66 +66,71 @@ public class LoginUI extends JFrame {
         JSeparator topSeparator = new javax.swing.JSeparator();
         topSeparator.setBackground(new java.awt.Color(204, 255, 255));
 
-        JLabel usernameLb1 = new javax.swing.JLabel();
+        usernameLb1 = new javax.swing.JLabel();
         usernameLb1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         usernameLb1.setText("Username:");
 
         JTextField usernameTf1 = new javax.swing.JTextField("Enter username");
         usernameLb1.setLabelFor(usernameTf1);
 
-        JLabel usernameLb2 = new javax.swing.JLabel();
+        usernameLb2 = new javax.swing.JLabel();
         usernameLb2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         usernameLb2.setText("Username:");
 
         JTextField usernameTf2 = new javax.swing.JTextField("Enter username");
         usernameLb2.setLabelFor(usernameTf2);
 
-        JLabel passwordLb1 = new javax.swing.JLabel();
+        passwordLb1 = new javax.swing.JLabel();
         passwordLb1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         passwordLb1.setText("Password:");
 
-        JPasswordField passwordField1 = new javax.swing.JPasswordField();
+        passwordField1 = new javax.swing.JPasswordField();
         passwordField1.setMinimumSize(new java.awt.Dimension(110, 22));
         passwordField1.setPreferredSize(new java.awt.Dimension(110, 22));
         passwordLb1.setLabelFor(passwordField1);
+        passwordField1.addActionListener(this);
 
-        JLabel passwordLb2 = new javax.swing.JLabel();
+        passwordLb2 = new javax.swing.JLabel();
         passwordLb2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         passwordLb2.setText("Password:");
 
-        JPasswordField passwordField2 = new javax.swing.JPasswordField();
+        passwordField2 = new javax.swing.JPasswordField();
         passwordField2.setMinimumSize(new java.awt.Dimension(110, 22));
         passwordField2.setPreferredSize(new java.awt.Dimension(110, 22));
         passwordLb2.setLabelFor(passwordField2);
+        passwordField2.addActionListener(this);
 
-        JLabel confirmPasswordLb = new javax.swing.JLabel();
+        confirmPasswordLb = new javax.swing.JLabel();
         confirmPasswordLb.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         confirmPasswordLb.setText("Confirm Password:");
         confirmPasswordLb.setIconTextGap(0);
 
-        JPasswordField confirmPasswordField = new javax.swing.JPasswordField();
+        confirmPasswordField = new javax.swing.JPasswordField();
         confirmPasswordField.setMinimumSize(new java.awt.Dimension(110, 22));
         confirmPasswordField.setPreferredSize(new java.awt.Dimension(110, 22));
         confirmPasswordLb.setLabelFor(confirmPasswordField);
+        confirmPasswordField.addActionListener(this);
 
-        JSeparator baseSeparator = new javax.swing.JSeparator();
+        baseSeparator = new javax.swing.JSeparator();
         baseSeparator.setBackground(new java.awt.Color(204, 255, 255));
 
-        JButton loginBt = new javax.swing.JButton();
+        loginBt = new javax.swing.JButton();
         loginBt.setBackground(new java.awt.Color(164, 194, 244));
         loginBt.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         loginBt.setForeground(new java.awt.Color(255, 255, 255));
         loginBt.setText("Login");
         loginBt.setFocusable(false);
+        loginBt.addActionListener(this);
 
-        JButton createAccountBt = new javax.swing.JButton();
+        createAccountBt = new javax.swing.JButton();
         createAccountBt.setBackground(new java.awt.Color(164, 194, 244));
         createAccountBt.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         createAccountBt.setForeground(new java.awt.Color(255, 255, 255));
         createAccountBt.setText("Create Account");
         createAccountBt.setFocusable(false);
+        createAccountBt.addActionListener(this);
 
-        JLabel copyrightLb = new javax.swing.JLabel();
+        copyrightLb = new javax.swing.JLabel();
         copyrightLb.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         copyrightLb.setText("Copyright 2025");
 
@@ -242,5 +269,30 @@ public class LoginUI extends JFrame {
     public static void main(String[] args) {
         System.out.println("LoginUI");
         new LoginUI();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource()==usernameTf1) {
+            System.out.println(1);
+        }
+        else if (e.getSource()==usernameTf2) {
+            System.out.println(2);
+        }
+        else if (e.getSource()==passwordField1) {
+            System.out.println("p1");
+        }
+        else if (e.getSource()==passwordField2) {
+            System.out.println("p2");
+        }
+        else if (e.getSource()==confirmPasswordField) {
+            System.out.println("p3");
+        }
+        else if (e.getSource()==loginBt) {
+            System.out.println("Login pressed");
+        }
+        else if (e.getSource()==createAccountBt) {
+            System.out.println("Create account pressed");
+        }
     }
 }
