@@ -132,14 +132,12 @@ public class DBConnection {
         }
 
         String insertSQL = "INSERT INTO PMS.DOCTORS (doctor_id, first_name, middle_initial, last_name, specialization) VALUES (?, ?, ?, ?, ?)";
-
         try (PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
-            stmt.setInt(1, 1);
-            stmt.setString(2, doctor.getID());
-            stmt.setString(3, doctor.getFirstName());
-            stmt.setString(4, doctor.getMiddleInitial());
-            stmt.setString(5, doctor.getLastName());
-            stmt.setString(6, doctor.getSpecialization());
+            stmt.setString(1, doctor.getID());
+            stmt.setString(2, doctor.getFirstName());
+            stmt.setString(3, doctor.getMiddleInitial());
+            stmt.setString(4, doctor.getLastName());
+            stmt.setString(5, doctor.getSpecialization());
 
             stmt.execute();
             stmt.close();
@@ -152,7 +150,6 @@ public class DBConnection {
         }
     }
 
-
     public static boolean saveDoctors(ArrayList<Doctor> doctors) {
         setUrl("pms");
         createConnection();
@@ -160,7 +157,9 @@ public class DBConnection {
 
         try {
             PreparedStatement stmt = conn.prepareStatement(insertSQL);
+
             for (Doctor d : doctors) {
+                System.out.println("Inserting doctor: " + d.getID());
                 stmt.setString(1, d.getID());
                 stmt.setString(2, d.getFirstName());
                 stmt.setString(3, d.getMiddleInitial());
@@ -201,7 +200,7 @@ public class DBConnection {
         doctorList.add(new Doctor("Olivia", "C", "Evans", "Gastroenterology"));
         doctorList.add(new Doctor("Victor", "D", "Young", "Hematology"));
 
-        saveDoctor(new Doctor("Victor", "D", "Young", "Hematology"));
+        saveDoctors(doctorList);
     }
 
 } // End of Class
