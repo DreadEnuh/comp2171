@@ -55,11 +55,11 @@ public class PatientDatabase {
 
     // Predicates
 
-    public boolean patientExistsI(String pid) {
+    public boolean patientIDExists(String pid) {
         return (getPatientByID(pid) != null);
     }
 
-    public Boolean patientExistsN(String name) {
+    public Boolean patientNameExists(String name) {
         return getPatientByName(name) == null;
     }
 

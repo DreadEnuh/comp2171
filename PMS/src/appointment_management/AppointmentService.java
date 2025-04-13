@@ -29,7 +29,12 @@ public class AppointmentService {
 
     // Modifiers
     public boolean addAppointment(Appointment appointment, Doctor doctor) {
-        return doctor.addAppointment(appointment.getDuration(), appointment.getStartTime());
+        return doctor.addAppointment(
+                appointment.getDate(),
+                appointment.getDuration(),
+                appointment.getStartTime(),
+                appointment.getPatientID(),
+                doctor.getDoctorID());
     }
 
     // Data handlers

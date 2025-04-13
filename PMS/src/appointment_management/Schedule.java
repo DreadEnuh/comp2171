@@ -1,11 +1,13 @@
 package appointment_management;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Schedule {
-    private String date;
+    private String doctorID;
+    private LocalDate date;
     private int slotSize;
     private LocalTime startTime;
     private LocalTime endTime;
@@ -14,9 +16,9 @@ public class Schedule {
     private DateTimeFormatter tFormatter;
 
     // Constructors
-    public Schedule() {}
+    public Schedule(String doctorID) {}
 
-    public Schedule(String date, int slotSize, LocalTime startTime, LocalTime endTime) {
+    public Schedule(String doctorID, LocalDate date, int slotSize, LocalTime startTime, LocalTime endTime) {
         this.date = date;
         this.slotSize = slotSize;
         this.startTime = startTime;
@@ -28,7 +30,7 @@ public class Schedule {
     }
 
     // Getters
-    public String getDate() {
+    public LocalDate getDate() {
         return this.date;
     }
 
@@ -60,8 +62,26 @@ public class Schedule {
         return this.appointments.size();
     }
 
+    // Setters
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void setSlotSize(int slotSize) {
+        this.slotSize = slotSize;
+    }
+
     // Modifiers
-    public boolean addAppointment(int duration, LocalTime start) {
+    public boolean addAppointment(LocalDate date, int duration, LocalTime start, String patientID, String doctorID) {
         if (start.isBefore(startTime) || start.plusMinutes(duration).isAfter(endTime)) {
             System.out.println("Invalid appointment time: " + start);
             return false;
@@ -72,7 +92,7 @@ public class Schedule {
             return false;
         }
 
-        appointments.add(new Appointment(duration, start));
+        appointments.add(new Appointment(date, duration, start, patientID, doctorID));
         filledSlots.add(start);
         System.out.println("Appointment scheduled at: " + start);
         return true;

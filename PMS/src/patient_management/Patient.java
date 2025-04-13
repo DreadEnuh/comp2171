@@ -8,7 +8,7 @@ public class Patient implements Comparable<Patient>{
     private String patientID, fName, mName, lName, gender, emailAddress, contactNo, address;
     private int age;
     private MedicalHistory medHistory;
-    private static int patientNumber;
+    private static int numPatients = 1;
     private LocalDate dob;
 
     public Patient(){}
@@ -23,9 +23,9 @@ public class Patient implements Comparable<Patient>{
         this.contactNo = contactNo;
         this.address = address;
         this.medHistory = new MedicalHistory();
-
-        patientID = "" + fName.charAt(0) + mName.charAt(0) + lName.charAt(0) + "000" + patientNumber;
-        patientNumber ++;
+        String format = String.format("%06d", numPatients);
+        patientID = "P-" + fName.charAt(0) + mName.charAt(0) + lName.charAt(0) + String.format(format, numPatients);
+        numPatients++;
     }
 
     public String getPatientID(){
@@ -88,6 +88,12 @@ public class Patient implements Comparable<Patient>{
         return fName + " " + mName + " " + lName;
     }
 
+    public static int getNumPatients() {
+        return numPatients;
+    }
+
+    // Setters
+
     public void addCondition(String condition) {
         this.medHistory.addCondition(condition);
     }
@@ -144,8 +150,8 @@ public class Patient implements Comparable<Patient>{
         this.medHistory = mh;
     }
 
-    public static void setPatientNumber(int pNum) {
-        patientNumber = pNum;
+    public static void setNumPatients(int pNum) {
+        numPatients = pNum;
     }
 
     public String toString() {
@@ -168,6 +174,11 @@ public class Patient implements Comparable<Patient>{
     }
 
     public static void main(String[] args) {
+        LocalDate db = LocalDate.parse("2000-06-12");
+        Patient p1 = new Patient("Samantha", "Shanice", "Thompson", "Female", db, "sthompson77@gmail.com", "876-561-6822", "21 Cherry Street, Kingston 8");
+        System.out.println(p1.getPatientID());
+        Patient p2 = new Patient("Sam", "Marcus", "Cook", "Male", db, "markscook@gmail.com", "876-501-6822", "23 Cherry Street, Kingston 8");
+        System.out.println(p2.getPatientID());
     }
 
 }

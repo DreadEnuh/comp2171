@@ -2,6 +2,7 @@ package user_management;
 
 import appointment_management.Schedule;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Doctor {
@@ -12,24 +13,27 @@ public class Doctor {
     private String fullName;
     private String specialization;
     private Schedule schedule;
+    private static int numDoctors = 1;
 
     // Constructors
     public Doctor() {}
     public Doctor(String firstName, String middleInitial, String lastName, String specialization) {
-        this.id =  firstName.charAt(0) + lastName.charAt(1) - lastName.charAt(lastName.length() - 1) + "0" + firstName.charAt(0) + middleInitial.charAt(0) + lastName.charAt(0);
+        String format = String.format("%03d", numDoctors);
+        this.id =  "D" + specialization.charAt(0) + "-" + firstName.charAt(0) + middleInitial.charAt(0) + lastName.charAt(0) + String.format(format, numDoctors);
         this.firstName = firstName;
         this.middleInitial = middleInitial;
         this.lastName = lastName;
         this.specialization = specialization;
-        this.schedule = new Schedule();
+        this.schedule = new Schedule(this.id);
         this.fullName = firstName + " " + middleInitial + " " + lastName;
+        numDoctors ++;
     }
     public Doctor(String firstName, String lastName, String specialization) {
         this(firstName, "X", lastName, specialization);
     }
 
     // Getters
-    public String getId() {
+    public String getDoctorID() {
         return id;
     }
 
@@ -55,6 +59,10 @@ public class Doctor {
 
     public Schedule getSchedule() {
         return schedule;
+    }
+
+    public static int getNumDoctors() {
+        return numDoctors;
     }
 
     // Setters
@@ -83,12 +91,12 @@ public class Doctor {
         System.out.println(schedule);
     }
 
-    public void setSchedule(String date, int slotSize, LocalTime startTime, LocalTime endTime) {
-        this.schedule = new Schedule(date, slotSize, startTime, endTime);
+    public void setSchedule(String doctorID, LocalDate date, int slotSize, LocalTime startTime, LocalTime endTime) {
+        this.schedule = new Schedule(doctorID, date, slotSize, startTime, endTime);
     }
 
-    public boolean addAppointment(int duration, LocalTime start) {
-        return this.schedule.addAppointment(duration, start);
+    public boolean addAppointment(LocalDate date, int duration, LocalTime start, String patientID, String doctorID) {
+        return this.schedule.addAppointment(date, duration, start, patientID, doctorID);
     }
 
 
