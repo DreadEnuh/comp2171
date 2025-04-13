@@ -18,7 +18,7 @@ public class DoctorDatabase {
     public Doctor getDoctorByID(String pid) {
         Doctor retd = null;
         for (Doctor d:doctors) {
-            if (d.getDoctorID().equals(pid)) {
+            if (d.getID().equals(pid)) {
                 retd = d;
             }
         }
@@ -47,7 +47,7 @@ public class DoctorDatabase {
     }
 
     public boolean updateDoctor(Doctor d) {
-        Doctor od = getDoctorByID(d.getDoctorID());
+        Doctor od = getDoctorByID(d.getID());
         deleteDoctor(od);
         addDoctor(d);
         return true;

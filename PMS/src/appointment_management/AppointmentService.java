@@ -34,7 +34,7 @@ public class AppointmentService {
                 appointment.getDuration(),
                 appointment.getStartTime(),
                 appointment.getPatientID(),
-                doctor.getDoctorID());
+                doctor.getID());
     }
 
     // Data handlers

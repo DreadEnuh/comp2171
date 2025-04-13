@@ -23,7 +23,7 @@ public class DoctorService {
     public Doctor findDoctorByID(String id) {
         Doctor retdoc = null;
         for (Doctor d:doctors) {
-            if (d.getId().equals(id)) {
+            if (d.getID().equals(id)) {
                 retdoc = d;
             }
         }
