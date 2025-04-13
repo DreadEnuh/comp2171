@@ -1,5 +1,6 @@
 package ui;
 
+import user_management.Doctor;
 import user_management.User;
 
 import javax.swing.*;
@@ -349,5 +350,7 @@ public class DashboardD extends JFrame {
 
     public static void main(String[] args) {
         System.out.println("DashboardD Class");
+        Doctor thisDoc = new Doctor("Sydney", "S", "Pollack", "Urology");
+        new DashboardD(thisDoc);
     }
 }

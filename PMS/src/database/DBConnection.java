@@ -1,29 +1,40 @@
 package database;
 
+import patient_management.MedicalHistory;
 import patient_management.Patient;
 import user_management.Doctor;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class DBConnection {
-    private final String url = "jdbc:mysql://127.0.0.1:5150/pms";
-    private final String username = "blairwcee";
-    private final String password = "MakingherSQL@5";
-    private Connection conn;
+    private static Connection conn;
+    private static String url;
+    private static String username = "blairwcee";
+    private static String password = "MakingherSQL@5";
 
     public DBConnection () {
+    }
+
+    public static void setUrl(String schema) {
+        url = "jdbc:mysql://127.0.0.1:5150/" + schema;
+    }
+
+    public static void createConnection() {
         try {
-            this.conn = DriverManager.getConnection(url, username, password);
+            conn = DriverManager.getConnection(url, username, password);
         }
-        catch (SQLException se) {
+        catch(SQLException se) {
             se.fillInStackTrace();
         }
     }
 
-    public boolean savePatients(ArrayList<Patient> patients) {
+    public static boolean savePatients(ArrayList<Patient> patients) {
+        setUrl("pms");
         String insertSQL = "INSERT INTO patients (pid, first_name, middle_name, last_name, gender, dob, email_address, phone_number, address) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        createConnection();
         try {
             PreparedStatement stmt = conn.prepareStatement(insertSQL);
 
@@ -48,8 +59,104 @@ public class DBConnection {
         return false;
     }
 
-    public boolean saveDoctors(ArrayList<Doctor> doctors) {
-        String insertSQL = "INSERT INTO doctors (did, first_name, middle_initial, last_name, specialization) VALUES (?, ?, ?, ?, ?)";
+    // Fix save method to save conditions in a string that can be deconstructed methodically
+    public static ArrayList<Patient> loadPatients() {
+        String url = "jdbc:mysql://127.0.0.1:5150/pms";
+        ArrayList<Patient> patients = new ArrayList<>();
+        try {
+            conn = DriverManager.getConnection(url, username, password);
+            String query = "SELECT * FROM PATIENTS";
+            Statement stmt = conn.createStatement();
+            ResultSet resultSet = stmt.executeQuery(query);
+
+            while (resultSet.next()) {
+                String pid = resultSet.getString("pid");
+                String fName = resultSet.getString("first_name");
+                String mName = resultSet.getString("middle_name");
+                String lName = resultSet.getString("last_name");
+                String gender = resultSet.getString("gender");
+                LocalDate dob = resultSet.getDate("dob").toLocalDate();
+                String emailAddress = resultSet.getString("email_address");
+                String contactNo = resultSet.getString("phone_number");
+                String address = resultSet.getString("address");
+
+                Patient currPatient = new Patient(pid, fName, mName, lName, gender, dob, emailAddress, contactNo, address);
+                patients.add(currPatient);
+            }
+        }
+        catch (SQLException se) {
+            se.fillInStackTrace();
+        }
+        return patients;
+    }
+
+    public static MedicalHistory loadMedicalHistory(String pid) {
+        MedicalHistory retmh = null;
+        setUrl("pms");
+        createConnection();
+
+        try {
+            String queryMR = "SELECT * FROM MEDICAL_RECORDS WHERE patient_id like " + pid;
+            Statement stmtMR = conn.createStatement();
+            ResultSet resultSetMR = stmtMR.executeQuery(queryMR);
+
+            if (resultSetMR.wasNull()) {
+                retmh = new MedicalHistory(pid);
+            }
+            else {
+                MedicalHistory currMedHistory = new MedicalHistory(pid);
+
+                String lastVisitDate = resultSetMR.getString("last_visit_date");
+                int numVisits = resultSetMR.getInt("num_visits");
+                String conditionsTxt = resultSetMR.getString("conditions");
+                String visitsInfoTxt = resultSetMR.getString("visits_info");
+
+                currMedHistory.setLastVisitDate(lastVisitDate);
+                currMedHistory.setNumVisits(numVisits);
+                retmh = currMedHistory;
+            }
+        }
+        catch (SQLException se) {
+            se.fillInStackTrace();
+        }
+        return retmh;
+    }
+
+    public static boolean saveDoctor(Doctor doctor) {
+        setUrl("pms");
+        createConnection();
+
+        if (conn == null) {
+            System.out.println("Failed to connect to database.");
+            return false;
+        }
+
+        String insertSQL = "INSERT INTO PMS.DOCTORS (doctor_id, first_name, middle_initial, last_name, specialization) VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
+            stmt.setInt(1, 1);
+            stmt.setString(2, doctor.getID());
+            stmt.setString(3, doctor.getFirstName());
+            stmt.setString(4, doctor.getMiddleInitial());
+            stmt.setString(5, doctor.getLastName());
+            stmt.setString(6, doctor.getSpecialization());
+
+            stmt.execute();
+            stmt.close();
+            System.out.println("true");
+            return true;
+
+        } catch (SQLException se) {
+            se.fillInStackTrace();
+            return false;
+        }
+    }
+
+
+    public static boolean saveDoctors(ArrayList<Doctor> doctors) {
+        setUrl("pms");
+        createConnection();
+        String insertSQL = "INSERT INTO doctors (doctor_id, first_name, middle_initial, last_name, specialization) VALUES (?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement stmt = conn.prepareStatement(insertSQL);
@@ -62,7 +169,9 @@ public class DBConnection {
                 stmt.addBatch();
             }
 
+            conn.setAutoCommit(false);
             stmt.executeBatch();
+            conn.commit();
             return true;
         }
         catch (SQLException se) {
@@ -72,7 +181,6 @@ public class DBConnection {
     }
 
     public static void main(String[] args) {
-        DBConnection dbc = new DBConnection();
 
         ArrayList<Doctor> doctorList = new ArrayList<>();
 
@@ -93,11 +201,7 @@ public class DBConnection {
         doctorList.add(new Doctor("Olivia", "C", "Evans", "Gastroenterology"));
         doctorList.add(new Doctor("Victor", "D", "Young", "Hematology"));
 
-        if (dbc.saveDoctors(doctorList)) {
-            System.out.println("Saved Successfully");
-        }
-
-        else System.out.println("Fuckery");
+        saveDoctor(new Doctor("Victor", "D", "Young", "Hematology"));
     }
 
-}
+} // End of Class

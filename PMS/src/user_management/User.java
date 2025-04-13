@@ -33,6 +33,10 @@ public abstract class User {
 
     public abstract Role getRole();
 
+    public String getRoleTitle() {
+        return role.getTitle();
+    }
+
     public String getUserName() {
         return userName;
     }

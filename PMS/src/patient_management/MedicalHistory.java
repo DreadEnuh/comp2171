@@ -9,7 +9,8 @@ public class MedicalHistory {
     private String lastVisitDate;
     private int numVisits;
 
-    public MedicalHistory() {
+    public MedicalHistory(String patientID) {
+        this.patientID = patientID;
         this.CONDITIONS = new ArrayList<>();
         this.VISITS_INFO = new ArrayList<>();
         this.numVisits = 0;
@@ -17,6 +18,10 @@ public class MedicalHistory {
     }
 
     // Getters
+
+    public String getPatientID() {
+        return patientID;
+    }
 
     public ArrayList<String> getConditions() {
         return CONDITIONS;
@@ -55,6 +60,10 @@ public class MedicalHistory {
 
     public void setNumVisits(int numVisits) {
         this.numVisits = numVisits;
+    }
+
+    public void setLastVisitDate(String lvd) {
+        this.lastVisitDate = lvd;
     }
 
     public void addCondition(String condition) {

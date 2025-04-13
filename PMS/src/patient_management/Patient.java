@@ -12,6 +12,18 @@ public class Patient implements Comparable<Patient>{
     private LocalDate dob;
 
     public Patient(){}
+    public Patient(String pid, String fName, String mName, String lName, String gender, LocalDate dob, String emailAddress, String contactNo, String address) {
+        this.patientID = pid;
+        this.fName = fName;
+        this.mName = mName;
+        this.lName = lName;
+        this.gender = gender;
+        this.dob = dob;
+        this.emailAddress = emailAddress;
+        this.contactNo = contactNo;
+        this.address = address;
+        numPatients++;
+    }
     public Patient(String fName, String mName, String lName, String gender, LocalDate dob, String emailAddress, String contactNo, String address) {
         this.fName = fName.toUpperCase();
         this.mName = mName.toUpperCase();
@@ -22,7 +34,7 @@ public class Patient implements Comparable<Patient>{
         this.emailAddress = emailAddress;
         this.contactNo = contactNo;
         this.address = address;
-        this.medHistory = new MedicalHistory();
+        this.medHistory = new MedicalHistory(patientID);
         String format = String.format("%06d", numPatients);
         patientID = "P-" + fName.charAt(0) + mName.charAt(0) + lName.charAt(0) + String.format(format, numPatients);
         numPatients++;

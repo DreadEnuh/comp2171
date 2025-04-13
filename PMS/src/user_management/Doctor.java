@@ -20,6 +20,7 @@ public class Doctor extends User {
     public Doctor() {
         super();
     }
+
     public Doctor(String firstName, String middleInitial, String lastName, String specialization) {
         super(firstName, middleInitial, lastName);
         String format = String.format("%03d", numDoctors);
@@ -27,11 +28,13 @@ public class Doctor extends User {
         this.specialization = specialization;
         this.schedule = new Schedule(this.id);
         this.fullName = firstName + " " + middleInitial + " " + lastName;
-        this.role = new Role("Operator");
+        role = new Role("Operator");
         numDoctors ++;
     }
+
     public Doctor(String firstName, String lastName, String specialization) {
-        this(firstName, "X", lastName, specialization);
+        super(firstName, "X", lastName);
+        this.specialization = specialization;
     }
 
     // Getters
