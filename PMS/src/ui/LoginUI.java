@@ -346,20 +346,22 @@ public class LoginUI extends JFrame implements ActionListener {
 
             if (usernameIn.isEmpty()) {
                 usernameTf1.setBorder(BorderFactory.createLineBorder(Color.RED));
-                usernameTf1.setText("Please enter a username!");
+                usernameTf1.setText("Cannot be blank!");
             }
 
             else if (passwordIn.isEmpty()) {
                 passwordField1.setBorder(BorderFactory.createLineBorder(Color.RED));
+                passwordField1.setText("");
             }
 
             else if (!AuthService.validateUsernameFormat(usernameIn)) {
                 usernameTf1.setBorder(BorderFactory.createLineBorder(Color.RED));
-                usernameTf1.setText("Please enter a valid username!");
+                usernameTf1.setText("Invalid username!");
             }
 
             else if (!AuthService.validatePasswordFormat(passwordIn)) {
                 passwordField1.setBorder(BorderFactory.createLineBorder(Color.RED));
+                passwordField1.setText("");
             }
 
             else if ( AuthService.validateUsernameFormat(usernameIn) && AuthService.validatePasswordFormat(passwordIn) && (authService.verifyPassphrase(usernameIn, passwordIn)) ) {
