@@ -264,13 +264,13 @@ public class DBConnection {
         return appointments;
     }
 
-    public static User users(String username) {
+    public static ArrayList<User> loadUsers() {
         setUrl("security");
         createConnection();
-        User retuser = null;
+        ArrayList<User> users = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM users WHERE username like " + username;
+            String query = "SELECT * FROM USERS";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
@@ -282,7 +282,7 @@ public class DBConnection {
                 String userName = rs.getString(5);
                 String password = rs.getString(6);
                 String roleTitle = rs.getString(7);
-                retuser = new User(userID, firstName, middleName, lastName, userName, password, roleTitle);
+                users.add(new User(userID, firstName, middleName, lastName, userName, password, roleTitle));
             }
 
 
@@ -293,11 +293,11 @@ public class DBConnection {
         } catch (SQLException e) {
             e.fillInStackTrace();
         }
-        return retuser;
+        return users;
     }
 
     public static void main(String[] args) {
-        System.out.println(loadAppointments().size());
+        System.out.println(loadUsers().size());
         ArrayList<Doctor> doctorList = new ArrayList<>();
 
         // Sample doctors
