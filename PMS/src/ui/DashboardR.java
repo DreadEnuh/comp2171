@@ -1,7 +1,6 @@
 package ui;
 
 import user_management.Receptionist;
-import user_management.User;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -14,7 +13,7 @@ public class DashboardR extends JFrame implements ActionListener {
         private JButton viewDocScheduleBt;
         private JButton manageAppointmentBt;
 
-        public DashboardR(User user) {
+        public DashboardR(Receptionist r) {
                 JPanel footerPanel = new JPanel();
                 JPanel menuPanel = new JPanel();
                 JLabel idLabel = new JLabel();
@@ -79,7 +78,7 @@ public class DashboardR extends JFrame implements ActionListener {
                 idLabel.setText("User ID:");
 
                 idText.setFont(new java.awt.Font("Century Gothic", 2, 14)); 
-                idText.setText(user.getID());
+                idText.setText(r.getID());
 
                 jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -365,30 +364,31 @@ public class DashboardR extends JFrame implements ActionListener {
         }
 
         @Override
-public void actionPerformed(ActionEvent e) {
-        if (e.getSource() instanceof JMenuItem) {
-                JMenuItem clicked = (JMenuItem) e.getSource();
-                if (clicked.getText().equals("Logout")) {
-                int choice = JOptionPane.showConfirmDialog(
-                        this,
-                        "Are you sure you want to log out?",
-                        "Confirm Logout",
-                        JOptionPane.YES_NO_OPTION
-                );
+        public void actionPerformed(ActionEvent e) {
 
-                if (choice == JOptionPane.YES_OPTION) {
-                        new LoginUI();
-                        dispose(); // close current window
+                if (e.getSource() instanceof JMenuItem) {
+                        JMenuItem clicked = (JMenuItem) e.getSource();
+                        if (clicked.getText().equals("Logout")) {
+                                int choice = JOptionPane.showConfirmDialog(
+                                        this,
+                                        "Are you sure you want to log out?",
+                                        "Confirm Logout",
+                                        JOptionPane.YES_NO_OPTION
+                                );
+
+                                if (choice == JOptionPane.YES_OPTION) {
+                                        new LoginUI();
+                                        dispose(); // close current window
+                                }
+                        }
                 }
+                if(e.getSource() == viewDocScheduleBt) {
+                        new ViewDoctorSchedule();
+                        dispose();
+                }
+                if(e.getSource() == manageAppointmentBt) {
+                        new AppointmentView();
+                        dispose();
                 }
         }
-        if(e.getSource() == viewDocScheduleBt) {
-                new ViewDoctorSchedule();
-                dispose();
-        }
-        if(e.getSource() == manageAppointmentBt) {
-                new AppointmentView();
-                dispose();  
-        }
-}
 }
