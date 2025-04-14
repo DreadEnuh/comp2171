@@ -1,21 +1,22 @@
 package user_management;
 
-public abstract class User {
-    private String fName, mName, lName, userName;
+public class User {
+    private String userID;
+    private String fName, mName, lName, userName, key;
     private Role role;
 
     public User() {
     }
 
-    public User(String fName, String mName, String lName) {
+    public User(String userID, String fName, String mName, String lName, String userName, String key, String roleTitle) {
+        this.userID = userID;
         this.fName = fName;
         this.mName = mName;
         this.lName = lName;
-        this.userName = "";
-        this.role = new Role("");
+        this.userName = userName;
+        this.key = key;
+        this.role = new Role(roleTitle);
     }
-
-
 
     // Getters
 
@@ -31,9 +32,13 @@ public abstract class User {
         return lName;
     }
 
-    public abstract String getID();
+    public String getID() {
+        return userID;
+    }
 
-    public abstract Role getRole();
+    public Role getRole() {
+        return role;
+    }
 
     public String getRoleTitle() {
         return role.getTitle();

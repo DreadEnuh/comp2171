@@ -1,7 +1,6 @@
 package ui;
 
 import user_management.Doctor;
-import user_management.User;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -39,7 +38,7 @@ public class DashboardD extends JFrame {
     private javax.swing.JButton viewPatientHstryBt;
     private javax.swing.JPanel westMenuPanel;
 
-    public DashboardD(User user) {
+    public DashboardD(Doctor d) {
         footerPanel = new javax.swing.JPanel();
         menuPanel = new javax.swing.JPanel();
         idLabel = new javax.swing.JLabel();
@@ -99,7 +98,7 @@ public class DashboardD extends JFrame {
         idLabel.setText("User ID:");
 
         idText.setFont(new java.awt.Font("Century Gothic", 2, 14)); // NOI18N
-        idText.setText(user.getID());
+        idText.setText(d.getID());
 
         jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
 

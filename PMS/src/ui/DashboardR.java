@@ -383,7 +383,7 @@ public class DashboardR extends JFrame implements ActionListener {
                         }
                 }
                 if(e.getSource() == viewDocScheduleBt) {
-                        new ViewDoctorSchedule();
+                        new DoctorSchedule();
                         dispose();
                 }
                 if(e.getSource() == manageAppointmentBt) {

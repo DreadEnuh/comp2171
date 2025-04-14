@@ -1,11 +1,9 @@
 package database;
 
 import appointment_management.Appointment;
-import appointment_management.DoctorService;
 import patient_management.MedicalHistory;
 import patient_management.Patient;
 import user_management.Doctor;
-import user_management.Receptionist;
 import user_management.User;
 
 import java.sql.*;
@@ -266,13 +264,13 @@ public class DBConnection {
         return appointments;
     }
 
-    public static User loadUserPass(String username) {
+    public static User users(String username) {
         setUrl("security");
         createConnection();
         User retuser = null;
 
         try {
-            String query = "SELECT * FROM appointments WHERE username like " + username;
+            String query = "SELECT * FROM users WHERE username like " + username;
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
@@ -284,14 +282,9 @@ public class DBConnection {
                 String userName = rs.getString(5);
                 String password = rs.getString(6);
                 String roleTitle = rs.getString(7);
-
-                if (userID.charAt(0) == 'D') {
-                    retuser = DoctorService.findDoctorByID(loadDoctors(), userID);
-                }
-                else {
-                    retuser = new Receptionist(userID, firstName, middleName, lastName);
-                }
+                retuser = new User(userID, firstName, middleName, lastName, userName, password, roleTitle);
             }
+
 
             rs.close();
             stmt.close();

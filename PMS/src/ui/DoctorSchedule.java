@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ViewDoctorSchedule extends JFrame implements ActionListener {
+public class DoctorSchedule extends JFrame implements ActionListener {
     private JPanel backgroundPanel;
     private JLabel titleLb;
     private JLabel doctorNameLb;
@@ -15,7 +15,7 @@ public class ViewDoctorSchedule extends JFrame implements ActionListener {
     private JTable scheduleTable;
     private JScrollPane tableScrollPane;
 
-    public ViewDoctorSchedule() {
+    public DoctorSchedule() {
         initComponents();
         setVisible(true);
     }
@@ -130,6 +130,6 @@ public class ViewDoctorSchedule extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new ViewDoctorSchedule();
+        new DoctorSchedule();
     }
 }

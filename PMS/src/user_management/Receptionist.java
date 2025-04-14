@@ -1,6 +1,6 @@
 package user_management;
 
-public class Receptionist extends User {
+public class Receptionist {
     private String fName, mName, lName;
     private String rID;
     private Role role;
@@ -9,7 +9,9 @@ public class Receptionist extends User {
     public Receptionist() {
     }
     public Receptionist(String fName, String mName, String lName) {
-        super(fName, mName, lName);
+        this.fName = fName;
+        this.mName = mName;
+        this.lName = lName;
         String format = String.format("%03d", numReceptionists);
         this.rID = "R-" + fName.charAt(0) + mName.charAt(0) + lName.charAt(0) + String.format(format, numReceptionists);
         this.role = new Role("Spectator");

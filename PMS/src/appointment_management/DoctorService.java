@@ -31,17 +31,6 @@ public class DoctorService {
         return retdoc;
     }
 
-    public static Doctor findDoctorByUsername(ArrayList<Doctor> doctors, String username) {
-        Doctor retdoc = null;
-
-        for (Doctor d: doctors) {
-            if (username.equals(d.getUserName())){
-                retdoc = d;
-            }
-        }
-        return retdoc;
-    }
-
     public static void main(String[] args) {
         System.out.println("DoctorService Class");
     }
