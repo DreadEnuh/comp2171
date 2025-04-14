@@ -365,14 +365,17 @@ public class LoginUI extends JFrame implements ActionListener {
             }
 
             else if ( AuthService.validateUsernameFormat(usernameIn) && AuthService.validatePasswordFormat(passwordIn) && (authService.verifyPassphrase(usernameIn, passwordIn)) ) {
+                System.out.println("Yes");
                 User user = DBConnection.loadUser(usernameIn);
                 String sessionID = user.getID();
                 if (sessionID.charAt(0) == 'D') {
                     Doctor d = DoctorService.findDoctorByID(DBConnection.loadDoctors(), sessionID);
                     new DashboardD(d);
+                    dispose();
                 }
                 else if (sessionID.charAt(0) == 'R') {
                     new DashboardR(authService, new Receptionist(user.getFName(), user.getMName(), user.getLName()));
+                    dispose();
                 }
             }
         }
