@@ -109,6 +109,39 @@ public class Schedule {
         return retString.toString();
     }
 
+    public boolean removeAppointment(String appointmentID) {
+        for (int i = 0; i < appointments.size(); i++) {
+            Appointment appt = appointments.get(i);
+            if (appt.getAppointmentID().equals(appointmentID)) {
+                filledSlots.remove(appt.getStartTime());
+                appointments.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean rescheduleAppointment(String appointmentID, LocalDate newDate, LocalTime newStartTime, int newDuration) {
+        for (Appointment appt : appointments) {
+            if (appt.getAppointmentID().equals(appointmentID)) {
+                if (newStartTime.isBefore(startTime) || newStartTime.plusMinutes(newDuration).isAfter(endTime)) {
+                    return false;
+                }
+                if (filledSlots.contains(newStartTime)) {
+                    return false;
+                }
+                // Free the old slot and update the appointment
+                filledSlots.remove(appt.getStartTime());
+                filledSlots.add(newStartTime);
+                appt.setStartTime(newStartTime);
+                appt.setDuration(newDuration);
+                appt.setDate(newDate);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         System.out.println("Schedule class");
     }
