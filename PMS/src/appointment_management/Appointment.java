@@ -23,6 +23,16 @@ public class Appointment {
         numAppointments ++;
     }
 
+    public Appointment(String appointmentId, LocalDate date, int duration, LocalTime startTime, String patientId, String doctorId) {
+        this.appointmentID = appointmentId;
+        this.date = date;
+        this.duration = duration;
+        this.startTime = startTime;
+        this.patientID = patientId;
+        this.doctorID = doctorId;
+        numAppointments ++;
+    }
+
     // Getters
     public LocalDate getAppointmentDate() {
         return date;

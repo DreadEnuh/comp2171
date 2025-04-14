@@ -5,9 +5,11 @@ import user_management.Doctor;
 import java.util.ArrayList;
 
 public class DoctorDatabase {
-    private final ArrayList<Doctor> doctors = new ArrayList<>();
+    private ArrayList<Doctor> doctors = new ArrayList<>();
 
-    public DoctorDatabase () {}
+    public DoctorDatabase () {
+        doctors = DBConnection.loadDoctors();
+    }
 
     // Getters
 

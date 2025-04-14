@@ -16,6 +16,10 @@ public class Receptionist extends User {
         numReceptionists ++;
     }
 
+    public Receptionist(String rid, String fName, String mName, String lName) {
+        this.rID = rid
+    }
+
     public String getFName() {
         return fName;
     }
