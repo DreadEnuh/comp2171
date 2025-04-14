@@ -1,11 +1,9 @@
 package database;
 
 import appointment_management.Appointment;
-import appointment_management.DoctorService;
 import patient_management.MedicalHistory;
 import patient_management.Patient;
 import user_management.Doctor;
-import user_management.Receptionist;
 import user_management.User;
 
 import java.sql.*;
@@ -284,13 +282,6 @@ public class DBConnection {
                 String userName = rs.getString(5);
                 String password = rs.getString(6);
                 String roleTitle = rs.getString(7);
-
-                if (userID.charAt(0) == 'D') {
-                    retuser = DoctorService.findDoctorByID(loadDoctors(), userID);
-                }
-                else {
-                    retuser = new Receptionist(userID, firstName, middleName, lastName);
-                }
             }
 
             rs.close();

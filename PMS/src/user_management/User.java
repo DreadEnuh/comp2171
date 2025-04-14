@@ -23,8 +23,6 @@ public class User {
         }
     }
 
-
-
     // Getters
 
     public String getFName() {

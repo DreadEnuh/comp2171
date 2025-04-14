@@ -1,5 +1,6 @@
 package appointment_management;
 
+import database.DoctorDatabase;
 import user_management.Doctor;
 
 import java.time.LocalDateTime;
@@ -10,10 +11,10 @@ public class AppointmentService {
     private final LocalDateTime systemTime;
 
     // Constructor
-    public AppointmentService(DoctorService ds) {
+    public AppointmentService(DoctorDatabase ddb) {
         systemTime = LocalDateTime.now();
         appointments = new ArrayList<>();
-        for (Doctor d: ds.getDoctors()) {
+        for (Doctor d: ddb.getAllDoctors()) {
             appointments.addAll(d.getSchedule().getAppointments());
         }
     }
