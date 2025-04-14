@@ -44,6 +44,7 @@ public class LoginUI extends JFrame implements ActionListener {
 
     public LoginUI(AuthService authService) {
         initComponents();
+        addListeners();
         setVisible(true);
         this.authService = authService;
     }
