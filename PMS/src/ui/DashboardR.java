@@ -1,5 +1,6 @@
 package ui;
 
+import user_management.AuthService;
 import user_management.Receptionist;
 
 import javax.swing.*;
@@ -12,8 +13,11 @@ import java.time.format.DateTimeFormatter;
 public class DashboardR extends JFrame implements ActionListener {
         private JButton viewDocScheduleBt;
         private JButton manageAppointmentBt;
+        private AuthService authService;
 
-        public DashboardR(Receptionist r) {
+
+        public DashboardR(AuthService authService, Receptionist r) {
+                this.authService = authService;
                 JPanel footerPanel = new JPanel();
                 JPanel menuPanel = new JPanel();
                 JLabel idLabel = new JLabel();
@@ -360,7 +364,7 @@ public class DashboardR extends JFrame implements ActionListener {
 
         public static void main(String[] args) {
                 System.out.println("DashboardR Class");
-                new DashboardR(new Receptionist("Priscilla", "Annette", "Anderson"));
+                new DashboardR(new AuthService(), new Receptionist("Priscilla", "Annette", "Anderson"));
         }
 
         @Override
@@ -377,7 +381,7 @@ public class DashboardR extends JFrame implements ActionListener {
                                 );
 
                                 if (choice == JOptionPane.YES_OPTION) {
-                                        new LoginUI();
+                                        new LoginUI(authService);
                                         dispose(); // close current window
                                 }
                         }

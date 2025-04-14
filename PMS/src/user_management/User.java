@@ -48,6 +48,10 @@ public class User {
         return userName;
     }
 
+    public String getKey() {
+        return key;
+    }
+
     // Setters
 
     public void setUserName(String userName) {
