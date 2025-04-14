@@ -23,7 +23,7 @@ public class DoctorService {
     public Doctor findDoctorByID(String id) {
         Doctor retdoc = null;
         for (Doctor d:doctors) {
-            if (d.getId().equals(id)) {
+            if (d.getID().equals(id)) {
                 retdoc = d;
             }
         }
@@ -35,6 +35,17 @@ public class DoctorService {
 
         for (Doctor d: doctors) {
             if (name.equals(d.getFullName())){
+                retdoc = d;
+            }
+        }
+        return retdoc;
+    }
+
+    public Doctor findDoctorByUsername(String username) {
+        Doctor retdoc = null;
+
+        for (Doctor d: doctors) {
+            if (username.equals(d.getUserName())){
                 retdoc = d;
             }
         }
