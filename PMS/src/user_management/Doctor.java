@@ -5,7 +5,7 @@ import appointment_management.Schedule;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Doctor extends User {
+public class Doctor {
     private String id;
     private String firstName;
     private String middleInitial;
@@ -22,7 +22,9 @@ public class Doctor extends User {
     }
 
     public Doctor(String firstName, String middleInitial, String lastName, String specialization) {
-        super(firstName, middleInitial, lastName);
+        this.firstName = firstName;
+        this.middleInitial = middleInitial;
+        this.lastName = lastName;
         String format = String.format("%03d", numDoctors);
         this.id =  "D" + specialization.charAt(0) + "-" + firstName.charAt(0) + middleInitial.charAt(0) + lastName.charAt(0) + String.format(format, numDoctors);
         this.specialization = specialization;
@@ -33,7 +35,9 @@ public class Doctor extends User {
     }
 
     public Doctor(String firstName, String lastName, String specialization) {
-        super(firstName, "X", lastName);
+        this.firstName = firstName;
+        this.middleInitial = "X";
+        this.lastName = lastName;
         this.specialization = specialization;
     }
 
