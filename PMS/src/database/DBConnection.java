@@ -264,13 +264,13 @@ public class DBConnection {
         return appointments;
     }
 
-    public static User loadUserPass(String username) {
+    public static User users(String username) {
         setUrl("security");
         createConnection();
         User retuser = null;
 
         try {
-            String query = "SELECT * FROM appointments WHERE username like " + username;
+            String query = "SELECT * FROM users WHERE username like " + username;
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
@@ -282,7 +282,9 @@ public class DBConnection {
                 String userName = rs.getString(5);
                 String password = rs.getString(6);
                 String roleTitle = rs.getString(7);
+                retuser = new User(userID, firstName, middleName, lastName, userName, password, roleTitle);
             }
+
 
             rs.close();
             stmt.close();

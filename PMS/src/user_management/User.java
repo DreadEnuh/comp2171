@@ -8,19 +8,14 @@ public class User {
     public User() {
     }
 
-    public User(String userID, String fName, String mName, String lName, String userName, String key) {
+    public User(String userID, String fName, String mName, String lName, String userName, String key, String roleTitle) {
         this.userID = userID;
         this.fName = fName;
         this.mName = mName;
         this.lName = lName;
         this.userName = userName;
         this.key = key;
-        if (userID.charAt(0)=='D') {
-            this.role = new Role("Operator");
-        }
-        else if (userID.charAt(0) == 'R') {
-            this.role = new Role("Spectator");
-        }
+        this.role = new Role(roleTitle);
     }
 
     // Getters
