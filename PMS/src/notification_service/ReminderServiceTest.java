@@ -1,20 +1,23 @@
 package notification_service;
 
-import patient_management.Patient;
 import appointment_management.Appointment;
-import notification_service.*;
-import junit.framework.Assert;
+import patient_management.Patient;
+import user_management.Doctor;
 
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class ReminderServiceTest {
     public void testSendReminder() {
         // Create a patient object
-       Patient patient = new Patient("John", "MiddleName", "Doe", "Male", LocalDate.of(1990, 1, 1), "johndoe@example.com", "123-456-7890", "123 Main St");
+       Patient patient = new Patient("John", "MiddleName", "Doe", "Male", LocalDate.of(1990, 1, 1), "willandoblair07@gmail.com", "8765677430", "123 Main St");
        String patientSummary = patient.getPatientSummary();
 
+       // Create a doctor object
+        Doctor doctor = new Doctor("Janet", "C", "Chang", "Urology");
+
         // Create an appointment object
-        Appointment appointment = new Appointment(30, LocalTime.parse("10:00"));
+        Appointment appointment = new Appointment(LocalDate.parse("2025-04-16"), 60, LocalTime.parse("09:30:00"), patient.getPatientID(), doctor.getID());
         String appointmentSummary = appointment.getAppointmentSummary();
 
         // Create a notification object
@@ -26,12 +29,6 @@ public class ReminderServiceTest {
         // Call the sendReminder() method
         reminderService.sendReminder(appointment, patient);
 
-        // Verify that the reminder message was generated correctly
-        // String expectedReminderMessage = "Reminder: Your appointment is scheduled for 2024-04-13 at 10:00 for 30 minutes. Patient: John Doe (johndoe@example.com, 123-456-7890)";
-        // Assert.assertEquals(expectedReminderMessage, reminderService.getReminderMessage(appointment));
-
-        // Verify that the notification was sent
-        // assertTrue(notification.wasNotificationSent());
     }
 
     public static void main(String[] args) {
