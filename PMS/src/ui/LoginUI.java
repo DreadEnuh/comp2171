@@ -1,5 +1,7 @@
 package ui;
 
+import user_management.AuthService;
+
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
@@ -7,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class LoginUI extends JFrame implements ActionListener {
@@ -33,7 +36,7 @@ public class LoginUI extends JFrame implements ActionListener {
     private javax.swing.Box.Filler verticalDiv;
 
 
-    public LoginUI() {
+    public LoginUI(AuthService authService) {
         initComponents();
         setVisible(true);
     }
@@ -329,10 +332,30 @@ public class LoginUI extends JFrame implements ActionListener {
         }
         else if (e.getSource()==loginBt) {
             System.out.println("Login pressed");
+
             String usernameIn = usernameTf1.getText();
+            String passwordIn = Arrays.toString(passwordField1.getPassword());
+
             if (usernameIn.isEmpty()) {
                 usernameTf1.setBorder(BorderFactory.createLineBorder(Color.RED));
-                usernameTf1.setText("Please enter username!");
+                usernameTf1.setText("Please enter a username!");
+            }
+
+            else if (passwordIn.isEmpty()) {
+                passwordField1.setBorder(BorderFactory.createLineBorder(Color.RED));
+            }
+
+            else if (!AuthService.validateUsernameFormat(usernameIn)) {
+                usernameTf1.setBorder(BorderFactory.createLineBorder(Color.RED));
+                usernameTf1.setText("Please enter a valid username!");
+            }
+
+            else if (!AuthService.validatePasswordFormat(passwordIn)) {
+                passwordField1.setBorder(BorderFactory.createLineBorder(Color.RED));
+            }
+
+            else if ( AuthService.validateUsernameFormat(usernameIn) && AuthService.validatePasswordFormat(passwordIn) ) {
+
             }
         }
         else if (e.getSource()==createAccountBt) {
@@ -342,6 +365,6 @@ public class LoginUI extends JFrame implements ActionListener {
 
     public static void main(String[] args) {
         System.out.println("LoginUI");
-        new LoginUI();
+        new LoginUI(new AuthService());
     }
 }

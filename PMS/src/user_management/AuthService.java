@@ -15,8 +15,8 @@ public class AuthService {
     private final DoctorService ds = new DoctorService();
     private ArrayList<User> users = new ArrayList<>();
     private final Dictionary<String, String> usersDict;
-    private SecretKey authKey;
-    private Cipher desCipher;
+    private static SecretKey authKey;
+    private static Cipher desCipher;
 
 
     // Constructor
@@ -69,7 +69,7 @@ public class AuthService {
         return encryptString(passphrase).equals(usersDict.get(username));
     }
 
-    public boolean validateUsernameFormat(String username) {
+    public static boolean validateUsernameFormat(String username) {
         Pattern letter = Pattern.compile("[a-zA-z]");
         Pattern digit = Pattern.compile("[0-9]");
         Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
@@ -81,7 +81,7 @@ public class AuthService {
         return (username.length() > 5) && (Character.isAlphabetic(username.charAt(0))) && hasLetter.find() && hasDigit.find() && !hasSpecial.find();
     }
 
-    public boolean validatePasswordFormat(String password) {
+    public static boolean validatePasswordFormat(String password) {
         Pattern letter = Pattern.compile("[a-zA-z]");
         Pattern digit = Pattern.compile("[0-9]");
         Pattern special = Pattern.compile ("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
@@ -94,7 +94,7 @@ public class AuthService {
     }
 
     // Other
-    public String encryptString(String plaintext) {
+    public static String encryptString(String plaintext) {
         String retVal = " ";
 
         try {
