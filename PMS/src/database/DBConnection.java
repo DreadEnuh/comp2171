@@ -296,6 +296,37 @@ public class DBConnection {
         return users;
     }
 
+    public static User loadUser(String username) {
+        setUrl("security");
+        createConnection();
+        User user = null;
+
+        try {
+            String query = "SELECT * FROM USERS where username like " + username;
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                String userID = rs.getString(1);
+                String firstName = rs.getString(2);
+                String middleName = rs.getString(3);
+                String lastName = rs.getString(4);
+                String userName = rs.getString(5);
+                String password = rs.getString(6);
+                String roleTitle = rs.getString(7);
+                user = new User(userID, firstName, middleName, lastName, userName, password, roleTitle);
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        }
+        return user;
+    }
+
     public static void main(String[] args) {
         System.out.println(loadUsers().size());
         ArrayList<Doctor> doctorList = new ArrayList<>();

@@ -1,6 +1,11 @@
 package ui;
 
+import appointment_management.DoctorService;
+import database.DBConnection;
 import user_management.AuthService;
+import user_management.Doctor;
+import user_management.Receptionist;
+import user_management.User;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
@@ -34,11 +39,14 @@ public class LoginUI extends JFrame implements ActionListener {
     private javax.swing.JTextField usernameTf1;
     private javax.swing.JTextField usernameTf2;
     private javax.swing.Box.Filler verticalDiv;
+    private AuthService authService;
 
 
     public LoginUI(AuthService authService) {
         initComponents();
+        addListeners();
         setVisible(true);
+        this.authService = authService;
     }
 
     public void initComponents() {
@@ -354,8 +362,16 @@ public class LoginUI extends JFrame implements ActionListener {
                 passwordField1.setBorder(BorderFactory.createLineBorder(Color.RED));
             }
 
-            else if ( AuthService.validateUsernameFormat(usernameIn) && AuthService.validatePasswordFormat(passwordIn) ) {
-
+            else if ( AuthService.validateUsernameFormat(usernameIn) && AuthService.validatePasswordFormat(passwordIn) && (authService.verifyPassphrase(usernameIn, passwordIn)) ) {
+                User user = DBConnection.loadUser(usernameIn);
+                String sessionID = user.getID();
+                if (sessionID.charAt(0) == 'D') {
+                    Doctor d = DoctorService.findDoctorByID(DBConnection.loadDoctors(), sessionID);
+                    new DashboardD(d);
+                }
+                else if (sessionID.charAt(0) == 'R') {
+                    new DashboardR(authService, new Receptionist(user.getFName(), user.getMName(), user.getLName()));
+                }
             }
         }
         else if (e.getSource()==createAccountBt) {
