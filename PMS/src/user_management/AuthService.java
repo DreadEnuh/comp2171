@@ -1,6 +1,7 @@
 package user_management;
 
 import appointment_management.DoctorService;
+import database.DBConnection;
 
 import javax.crypto.*;
 import java.nio.charset.StandardCharsets;
@@ -12,7 +13,7 @@ import java.util.regex.Pattern;
 
 public class AuthService {
     private final DoctorService ds = new DoctorService();
-    private final ArrayList<User> users = new ArrayList<>();
+    private ArrayList<User> users = new ArrayList<>();
     private final Dictionary<String, String> usersDict;
     private SecretKey authKey;
     private Cipher desCipher;
@@ -30,6 +31,10 @@ public class AuthService {
             nsae.fillInStackTrace();
         }
 
+        users = DBConnection.loadUsers();
+        for (User u: users) {
+            usersDict.put(u.getUserName(), u.getKey());
+        }
     }
 
     // Getters
