@@ -74,7 +74,7 @@ public class LoginUI extends JFrame implements ActionListener {
         loginPn.setBackground(new java.awt.Color(255, 255, 255));
         loginPn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
 
-        usernameTf2.setText("Enter username");
+        usernameTf2.setText("");
 
         passwordField2.setMinimumSize(new java.awt.Dimension(110, 22));
         passwordField2.setPreferredSize(new java.awt.Dimension(110, 22));
@@ -82,19 +82,24 @@ public class LoginUI extends JFrame implements ActionListener {
         confirmPasswordField.setMinimumSize(new java.awt.Dimension(110, 22));
         confirmPasswordField.setPreferredSize(new java.awt.Dimension(110, 22));
 
-        usernameTf1.setText("Enter username");
+        usernameTf1.setText("");
 
         passwordField1.setMinimumSize(new java.awt.Dimension(110, 22));
         passwordField1.setPreferredSize(new java.awt.Dimension(110, 22));
 
+
         loginLb.setBackground(new java.awt.Color(0, 0, 0));
-        loginLb.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        loginLb.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 15)); // NOI18N
         loginLb.setForeground(new java.awt.Color(164, 194, 244));
         loginLb.setLabelFor(usernameTf1);
+        loginLb.setHorizontalAlignment(SwingConstants.CENTER);
+        loginLb.setBounds(100, 10, 200, 30);
         loginLb.setText("Login");
 
-        newAccountLb.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        newAccountLb.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 15)); // NOI18N
         newAccountLb.setForeground(new java.awt.Color(164, 194, 244));
+        newAccountLb.setHorizontalAlignment(SwingConstants.CENTER);
+        newAccountLb.setBounds(100, 250, 200, 30);
         newAccountLb.setText("New Account");
 
         usernameLb1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
@@ -119,14 +124,15 @@ public class LoginUI extends JFrame implements ActionListener {
 
         loginBt.setBackground(new java.awt.Color(164, 194, 244));
         loginBt.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-        loginBt.setForeground(new java.awt.Color(255, 255, 255));
+        loginBt.setForeground(new Color(33, 33, 33));
         loginBt.setText("Login");
         loginBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         loginBt.setFocusable(false);
-
+       
+            
         createAccountBt.setBackground(new java.awt.Color(164, 194, 244));
         createAccountBt.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-        createAccountBt.setForeground(new java.awt.Color(255, 255, 255));
+        createAccountBt.setForeground(new Color(33, 33, 33));
         createAccountBt.setText("Create Account");
         createAccountBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         createAccountBt.setFocusable(false);

@@ -3,24 +3,14 @@ package appointment_management;
 import user_management.Doctor;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DoctorService {
-    private final ArrayList<Doctor> doctors = new ArrayList<>();
 
     // Constructor
     public DoctorService() {}
 
-    // Getters
-    public List<Doctor> getDoctors() {
-        return (ArrayList<Doctor>) doctors;
-    }
-
-    // Modifiers
-
-
     // Other Methods
-    public Doctor findDoctorByID(String id) {
+    public static Doctor findDoctorByID(ArrayList<Doctor> doctors, String id) {
         Doctor retdoc = null;
         for (Doctor d:doctors) {
             if (d.getID().equals(id)) {
@@ -30,7 +20,7 @@ public class DoctorService {
         return retdoc;
     }
 
-    public Doctor findDoctorByName(String name) {
+    public static Doctor findDoctorByName(ArrayList<Doctor> doctors, String name) {
         Doctor retdoc = null;
 
         for (Doctor d: doctors) {
@@ -41,7 +31,7 @@ public class DoctorService {
         return retdoc;
     }
 
-    public Doctor findDoctorByUsername(String username) {
+    public static Doctor findDoctorByUsername(ArrayList<Doctor> doctors, String username) {
         Doctor retdoc = null;
 
         for (Doctor d: doctors) {

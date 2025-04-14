@@ -5,8 +5,8 @@ public abstract class User {
     private Role role;
 
     public User() {
-
     }
+
     public User(String fName, String mName, String lName) {
         this.fName = fName;
         this.mName = mName;
@@ -14,6 +14,8 @@ public abstract class User {
         this.userName = "";
         this.role = new Role("");
     }
+
+
 
     // Getters
 

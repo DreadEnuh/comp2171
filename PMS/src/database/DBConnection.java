@@ -1,11 +1,16 @@
 package database;
 
+import appointment_management.Appointment;
+import appointment_management.DoctorService;
 import patient_management.MedicalHistory;
 import patient_management.Patient;
 import user_management.Doctor;
+import user_management.Receptionist;
+import user_management.User;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class DBConnection {
@@ -14,7 +19,23 @@ public class DBConnection {
     private static String username = "blairwcee";
     private static String password = "MakingherSQL@5";
 
+    private static DoctorDatabase ddb;
+    private static PatientDatabase pdb;
+    private static AppointmentDatabase adb;
+
     public DBConnection () {
+    }
+
+    public static DoctorDatabase getDdb(){
+        return ddb;
+    }
+
+    public static PatientDatabase getPdb() {
+        return pdb;
+    }
+
+    public static AppointmentDatabase getAdb() {
+        return adb;
     }
 
     public static void setUrl(String schema) {
@@ -159,7 +180,6 @@ public class DBConnection {
             PreparedStatement stmt = conn.prepareStatement(insertSQL);
 
             for (Doctor d : doctors) {
-                System.out.println("Inserting doctor: " + d.getID());
                 stmt.setString(1, d.getID());
                 stmt.setString(2, d.getFirstName());
                 stmt.setString(3, d.getMiddleInitial());
@@ -212,10 +232,79 @@ public class DBConnection {
         return doctors;
     }
 
+
+    public static ArrayList<Appointment> loadAppointments() {
+        setUrl("pms");
+        createConnection();
+        ArrayList<Appointment> appointments = new ArrayList<>();
+
+        try {
+            String query = "SELECT * FROM appointments";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                String appointmentId = rs.getString("appointment_id");
+                LocalDate date = rs.getDate("date").toLocalDate();
+                int duration = rs.getInt("duration");
+                LocalTime startTime = rs.getTime("start_time").toLocalTime();
+                String patientId = rs.getString("patient_id");
+                String doctorId = rs.getString("doctor_id");
+
+                Appointment appt = new Appointment(appointmentId, date, duration, startTime, patientId, doctorId);
+                appointments.add(appt);
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        }
+
+        return appointments;
+    }
+
+    public static User loadUserPass(String username) {
+        setUrl("security");
+        createConnection();
+        User retuser = null;
+
+        try {
+            String query = "SELECT * FROM appointments WHERE username like " + username;
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                String userID = rs.getString(1);
+                String firstName = rs.getString(2);
+                String middleName = rs.getString(3);
+                String lastName = rs.getString(4);
+                String userName = rs.getString(5);
+                String password = rs.getString(6);
+                String roleTitle = rs.getString(7);
+
+                if (userID.charAt(0) == 'D') {
+                    retuser = DoctorService.findDoctorByID(loadDoctors(), userID);
+                }
+                else {
+                    retuser = new Receptionist(userID, firstName, middleName, lastName);
+                }
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        }
+        return retuser;
+    }
+
     public static void main(String[] args) {
-
-        System.out.println(loadDoctors().size());
-
+        System.out.println(loadAppointments().size());
         ArrayList<Doctor> doctorList = new ArrayList<>();
 
         // Sample doctors
