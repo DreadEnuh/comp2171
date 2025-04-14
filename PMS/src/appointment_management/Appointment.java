@@ -2,7 +2,6 @@ package appointment_management;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.LocalDate;
 
 public class Appointment {
     private String appointmentID, patientID, doctorID;
@@ -25,7 +24,7 @@ public class Appointment {
     }
 
     // Getters
-    public LocalDate getDate() {
+    public LocalDate getAppointmentDate() {
         return date;
     }
 

@@ -1,5 +1,5 @@
 package ui;
 
-public interface PatientProfile {
+public class PatientProfile {
 
 }

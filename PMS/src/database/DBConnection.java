@@ -61,10 +61,10 @@ public class DBConnection {
 
     // Fix save method to save conditions in a string that can be deconstructed methodically
     public static ArrayList<Patient> loadPatients() {
-        String url = "jdbc:mysql://127.0.0.1:5150/pms";
+        setUrl("pms");
+        createConnection();
         ArrayList<Patient> patients = new ArrayList<>();
         try {
-            conn = DriverManager.getConnection(url, username, password);
             String query = "SELECT * FROM PATIENTS";
             Statement stmt = conn.createStatement();
             ResultSet resultSet = stmt.executeQuery(query);
@@ -179,7 +179,42 @@ public class DBConnection {
         }
     }
 
+    public static ArrayList<Doctor> loadDoctors() {
+        setUrl("pms");
+        createConnection();
+        ArrayList<Doctor> doctors = new ArrayList<>();
+
+        try {
+            String query = "SELECT * FROM doctors";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                String id = rs.getString("doctor_id");
+                String fName = rs.getString("first_name");
+                String mInit = rs.getString("middle_initial");
+                String lName = rs.getString("last_name");
+                String specialization = rs.getString("specialization");
+
+                Doctor doc = new Doctor(fName, mInit, lName, specialization);
+                doc.setId(id);
+                doctors.add(doc);
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        }
+
+        return doctors;
+    }
+
     public static void main(String[] args) {
+
+        System.out.println(loadDoctors().size());
 
         ArrayList<Doctor> doctorList = new ArrayList<>();
 

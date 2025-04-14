@@ -52,15 +52,6 @@ public class DoctorService {
         return retdoc;
     }
 
-    // Data handlers
-    public static void loadDoctors() {
-
-    }
-
-    public static void saveDoctors() {
-
-    }
-
     public static void main(String[] args) {
         System.out.println("DoctorService Class");
     }

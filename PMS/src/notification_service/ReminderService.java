@@ -1,17 +1,23 @@
 package notification_service;
 
 import appointment_management.Appointment;
+import com.sun.net.httpserver.HttpExchange;
 import patient_management.Patient;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.xml.transform.Result;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Properties;
 
 public class ReminderService {
-    private Notification notification;
+    private final Notification notification;
 
+    public ReminderService() {
+        this.notification = new Notification();
+    }
     public ReminderService(Notification notification) {
         this.notification = notification;
     }
@@ -33,10 +39,10 @@ public class ReminderService {
         LocalDate appointmentDate = appointment.getDate();
         long daysUntilAppointment = ChronoUnit.DAYS.between(LocalDate.now(), appointmentDate);
 
-        if (daysUntilAppointment == 10) {
-            return "Reminder: Your appointment is scheduled for " + appointmentDate + ". Please confirm your attendance.";
+        if (daysUntilAppointment <= 10) {
+            return "Reminder: Your appointment is scheduled for " + appointmentDate + ". Please confirm your attendance.\n";
         } else {
-            return "Reminder: Your appointment is scheduled for " + appointmentDate + ". You have " + daysUntilAppointment + " days left.";
+            return "Reminder: Your appointment is scheduled for " + appointmentDate + ". You have " + daysUntilAppointment + " days left.\n";
         }
     }
 
@@ -54,8 +60,11 @@ public class ReminderService {
 
         // Set up email authentication
         Session session = Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
+            public Result authenticate(HttpExchange exch) {
+                return null;
+            }
+
+            public PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication("semai7119@gmail.com", "Itsabadhabit");
             }
         });
