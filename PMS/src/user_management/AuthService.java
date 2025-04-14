@@ -90,7 +90,7 @@ public class AuthService {
         Matcher hasDigit = digit.matcher(password);
         Matcher hasSpecial = special.matcher(password);
 
-        return (password.length() >= 8) && hasLetter.find() && hasDigit.find() && hasSpecial.find();
+        return (password.length() >= 8) && hasLetter.find();
     }
 
     // Other
@@ -109,6 +109,7 @@ public class AuthService {
 
         return retVal;
     }
+
 
     public static void main(String[] args) {
         System.out.println("AuthService Class");
