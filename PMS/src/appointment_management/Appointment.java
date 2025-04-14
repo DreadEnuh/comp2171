@@ -1,6 +1,7 @@
 package appointment_management;
 
 import java.time.LocalTime;
+import java.time.LocalDate;
 
 public class Appointment {
     private LocalTime startTime;
@@ -29,5 +30,13 @@ public class Appointment {
 
     public void setDuration(int newDuration) {
         this.duration = newDuration;
+    }
+
+    public LocalDate getDate() {
+        return this.startTime.atDate(LocalDate.now()).toLocalDate();
+    }
+
+    public String getAppointmentSummary() {
+        return "Appointment on " + getDate().toString() + " at " + getStartTime().toString() + " for " + getDuration() + " minutes";
     }
 }

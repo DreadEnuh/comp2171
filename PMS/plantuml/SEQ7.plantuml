@@ -1,0 +1,58 @@
+@startuml RescheduleAppointmentSequence
+
+actor Receptionist
+participant "PMS" as System
+participant "AppointmentService"
+participant "Schedule"
+participant "Doctor"
+participant "NotificationService"
+actor Patient as "Patient (Secondary)"
+
+autonumber
+
+Receptionist -> System: Request to reschedule appointment
+activate System
+
+System -> AppointmentService: getAppointment(apptID)
+activate AppointmentService
+
+AppointmentService --> System: Appointment details
+deactivate AppointmentService
+
+System --> Receptionist: Display current appointment\n(date/time/doctor)
+
+Receptionist -> System: Enter new date/time
+activate System
+
+System -> Schedule: checkAvailability(doctor, newDateTime)
+activate Schedule
+
+Schedule --> System: Availability status
+deactivate Schedule
+
+alt Time slot available
+    System -> AppointmentService: updateAppointment(apptID, newDateTime)
+    activate AppointmentService
+    
+    AppointmentService -> Doctor: updateSchedule()
+    activate Doctor
+    Doctor --> AppointmentService: Schedule updated
+    deactivate Doctor
+    
+    AppointmentService --> System: Confirmation
+    deactivate AppointmentService
+    
+    System -> NotificationService: sendRescheduleNotification(patient, newDateTime)
+    activate NotificationService
+    NotificationService -> Patient: SMS/Email notification
+    Patient --> NotificationService: Ack
+    deactivate NotificationService
+    
+    System --> Receptionist: "Appointment rescheduled"
+else Time slot unavailable
+    System --> Receptionist: "Slot unavailable"
+end
+
+deactivate System
+
+@enduml

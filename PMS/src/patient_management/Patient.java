@@ -167,7 +167,12 @@ public class Patient implements Comparable<Patient>{
         return this.getLName().compareTo(o.getLName());
     }
 
+    public String getPatientSummary() {
+        return fName + " " + lName + " (" + emailAddress + ", " + contactNo + ")";
+    }
+
     public static void main(String[] args) {
     }
+
 
 }
