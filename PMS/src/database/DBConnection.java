@@ -5,6 +5,7 @@ import appointment_management.DoctorService;
 import patient_management.MedicalHistory;
 import patient_management.Patient;
 import user_management.Doctor;
+import user_management.Receptionist;
 import user_management.User;
 
 import java.sql.*;
@@ -288,7 +289,7 @@ public class DBConnection {
                     retuser = DoctorService.findDoctorByID(loadDoctors(), userID);
                 }
                 else {
-                    String q2 = "SELECT * FROM pms.appointments WHERE username like " + username;
+                    retuser = new Receptionist(userID, firstName, middleName, lastName);
                 }
             }
 
@@ -299,7 +300,7 @@ public class DBConnection {
         } catch (SQLException e) {
             e.fillInStackTrace();
         }
-
+        return retuser;
     }
 
     public static void main(String[] args) {
