@@ -1,5 +1,6 @@
 package ui;
 
+import user_management.AuthService;
 import user_management.Doctor;
 
 import javax.swing.*;
@@ -9,7 +10,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class DashboardD extends JFrame {
+public class DashboardD extends JFrame implements ActionListener {
+    private AuthService authService;
+
     private javax.swing.JLabel appointmentSectionLabel;
     private javax.swing.JLabel aptLb;
     private javax.swing.JLabel dateLabel;
@@ -38,7 +41,8 @@ public class DashboardD extends JFrame {
     private javax.swing.JButton viewPatientHstryBt;
     private javax.swing.JPanel westMenuPanel;
 
-    public DashboardD(Doctor d) {
+    public DashboardD(AuthService authService, Doctor d) {
+        this.authService = new AuthService();
         footerPanel = new javax.swing.JPanel();
         menuPanel = new javax.swing.JPanel();
         idLabel = new javax.swing.JLabel();
@@ -347,9 +351,15 @@ public class DashboardD extends JFrame {
         setVisible(true);
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == logoutMenuBt) {
+            new LoginUI(authService);
+            dispose();
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println("DashboardD Class");
-        Doctor thisDoc = new Doctor("Sydney", "S", "Pollack", "Urology");
-        new DashboardD(thisDoc);
     }
 }

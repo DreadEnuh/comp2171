@@ -18,12 +18,13 @@ public class Receptionist {
         numReceptionists ++;
     }
 
-    public Receptionist(String rid, String fName, String mName, String lName) {
+    public Receptionist(String rid, String fName, String mName, String lName, String roleTitle) {
         this.rID = rid;
         this.fName = fName;
         this.mName = mName;
         this.lName = lName;
         numReceptionists++;
+        this.role = new Role(roleTitle);
     }
 
     public String getFName() {

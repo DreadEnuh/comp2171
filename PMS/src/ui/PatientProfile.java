@@ -1,8 +1,14 @@
 package ui;
 
+import database.DBConnection;
+import patient_management.Patient;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,10 +18,12 @@ public class PatientProfile extends JFrame implements ActionListener {
     private JButton searchButton, homeButton;
     private JPanel infoPanel;
     private JLabel statusLabel;
+    private ArrayList<patient_management.Patient> patientsList = new ArrayList<>();
 
     private Map<String, Patient> patientDatabase;//Yes
 
     public PatientProfile() {
+        patientsList = DBConnection.loadPatients();
         setTitle("Patient Information Lookup");
         setSize(500, 470);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,9 +86,19 @@ public class PatientProfile extends JFrame implements ActionListener {
 
     private void populateMockDatabase() {
         patientDatabase = new HashMap<>();
-        patientDatabase.put("john doe", new Patient("John Doe", "1990-01-15", "Male", 5, "2025-03-30"));
-        patientDatabase.put("jane smith", new Patient("Jane Smith", "1985-09-23", "Female", 8, "2025-01-12"));
-        patientDatabase.put("adam west", new Patient("Adam West", "1972-04-05", "Male", 2, "2024-11-22"));
+        for (Patient p:patientsList) {
+            String pid = p.getPatientID();
+            String fN = p.getFName();
+            String mN = p.getMName();
+            String lN = p.getLName();
+            String gender = p.getGender();
+            LocalDate dob = p.getDob();
+            String email = p.getEmailAddress();
+            String contact = p.getContactNo();
+            String addy = p.getAddress();
+
+            patientDatabase.put(fN, new Patient(pid, fN, mN, lN, gender, dob, email, contact, addy));
+        }
     }
 
     @Override
@@ -94,11 +112,17 @@ public class PatientProfile extends JFrame implements ActionListener {
 
         if (patientDatabase.containsKey(name)) {
             Patient p = patientDatabase.get(name);
-            infoPanel.add(createInfoLabel("Name: " + p.name));
-            infoPanel.add(createInfoLabel("Date of Birth: " + p.dob));
-            infoPanel.add(createInfoLabel("Gender: " + p.gender));
-            infoPanel.add(createInfoLabel("Number of Visits: " + p.numberOfVisits));
-            infoPanel.add(createInfoLabel("Previous Visit: " + p.lastVisitDate));
+            infoPanel.add(createInfoLabel("First Name: " + p.getFName()));
+            infoPanel.add(createInfoLabel("Middle Name: " + p.getMName()));
+            infoPanel.add(createInfoLabel("Last Name: " + p.getLName()));
+            infoPanel.add(createInfoLabel("Date of Birth: " + p.getDob()));
+            infoPanel.add(createInfoLabel("Gender: " + p.getGender()));
+            infoPanel.add(createInfoLabel("Email Address: " + p.getEmailAddress()));
+            infoPanel.add(createInfoLabel("Contact Number: " + p.getContactNo()));
+            infoPanel.add(createInfoLabel("Address: " + p.getAddress()));
+            infoPanel.add(createInfoLabel("Number of Visits: " + p.getNumVisits()));
+
+            infoPanel.add(createInfoLabel("Previous Visit: " + p.getMedicalHistory().getLastVisitDate()));
 
             statusLabel.setText("Patient information loaded successfully.");
         } else {
@@ -114,19 +138,6 @@ public class PatientProfile extends JFrame implements ActionListener {
         label.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         label.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         return label;
-    }
-
-    static class Patient {
-        String name, dob, gender, lastVisitDate;
-        int numberOfVisits;
-
-        public Patient(String name, String dob, String gender, int numberOfVisits, String lastVisitDate) {
-            this.name = name;
-            this.dob = dob;
-            this.gender = gender;
-            this.numberOfVisits = numberOfVisits;
-            this.lastVisitDate = lastVisitDate;
-        }
     }
 
     public static void main(String[] args) {

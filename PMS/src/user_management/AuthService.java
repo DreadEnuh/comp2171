@@ -1,7 +1,8 @@
 package user_management;
 
-import appointment_management.DoctorService;
 import database.DBConnection;
+import database.DoctorDatabase;
+import database.ReceptionistDatabase;
 
 import javax.crypto.*;
 import java.nio.charset.StandardCharsets;
@@ -12,7 +13,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AuthService {
-    private final DoctorService ds = new DoctorService();
+    private final DoctorDatabase ddb;
+    private final ReceptionistDatabase rdb;
+
     private ArrayList<User> users = new ArrayList<>();
     private final Dictionary<String, String> usersDict;
     private static SecretKey authKey;
@@ -21,6 +24,9 @@ public class AuthService {
 
     // Constructor
     public AuthService() {
+        this.ddb = new DoctorDatabase();
+        this.rdb = new ReceptionistDatabase();
+
         usersDict = new Hashtable<>();
         try {
             KeyGenerator keyGen = KeyGenerator.getInstance("DES");
@@ -48,6 +54,14 @@ public class AuthService {
 
     public ArrayList<User> getUsers() {
         return users;
+    }
+
+    public DoctorDatabase getDdb() {
+        return ddb;
+    }
+
+    public ReceptionistDatabase getRdb() {
+        return rdb;
     }
 
     // Modifiers
@@ -78,7 +92,7 @@ public class AuthService {
         Matcher hasDigit = digit.matcher(username);
         Matcher hasSpecial = special.matcher(username);
 
-        return (username.length() > 5) && (Character.isAlphabetic(username.charAt(0))) && hasLetter.find() && hasDigit.find() && !hasSpecial.find();
+        return (username.length() >= 6) && (Character.isAlphabetic(username.charAt(0))) && hasLetter.find() || hasDigit.find() || !hasSpecial.find();
     }
 
     public static boolean validatePasswordFormat(String password) {
@@ -93,11 +107,14 @@ public class AuthService {
         return (password.length() >= 8) && hasLetter.find();
     }
 
-    // Other
+    // Functionality
     public static String encryptString(String plaintext) {
         String retVal = " ";
 
         try {
+            KeyGenerator keyGen = KeyGenerator.getInstance("DES");
+            authKey = keyGen.generateKey();
+            desCipher = Cipher.getInstance("DES");
             byte[] plainBytes = plaintext.getBytes(StandardCharsets.UTF_8);
             desCipher.init(Cipher.ENCRYPT_MODE, authKey);
             byte[] cryptText = desCipher.doFinal(plainBytes);
@@ -105,6 +122,8 @@ public class AuthService {
 
         } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
             e.fillInStackTrace();
+        } catch (NoSuchPaddingException | NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
 
         return retVal;
@@ -113,9 +132,6 @@ public class AuthService {
 
     public static void main(String[] args) {
         System.out.println("AuthService Class");
-        AuthService pmsAuth = new AuthService();
-        pmsAuth.addUser("lindsaya101", "Ilovebluecheese!");
-        System.out.println(pmsAuth.getUsersDict());
     }
 
 }

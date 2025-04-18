@@ -4,6 +4,7 @@ import appointment_management.Appointment;
 import patient_management.MedicalHistory;
 import patient_management.Patient;
 import user_management.Doctor;
+import user_management.Receptionist;
 import user_management.User;
 
 import java.sql.*;
@@ -12,49 +13,24 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class DBConnection {
-    private static Connection conn;
-    private static String url;
-    private static String username = "blairwcee";
-    private static String password = "MakingherSQL@5";
-
-    private static DoctorDatabase ddb;
-    private static PatientDatabase pdb;
-    private static AppointmentDatabase adb;
+    private static String url = "jdbc:mysql://127.0.0.1:5150/pms";
+    private static final String username = "blairwcee";
+    private static final String password = "MakingherSQL@5";
 
     public DBConnection () {
     }
 
-    public static DoctorDatabase getDdb(){
-        return ddb;
-    }
-
-    public static PatientDatabase getPdb() {
-        return pdb;
-    }
-
-    public static AppointmentDatabase getAdb() {
-        return adb;
-    }
-
-    public static void setUrl(String schema) {
-        url = "jdbc:mysql://127.0.0.1:5150/" + schema;
-    }
-
-    public static void createConnection() {
-        try {
-            conn = DriverManager.getConnection(url, username, password);
-        }
-        catch(SQLException se) {
-            se.fillInStackTrace();
-        }
+    public static void setSchema(String schema) {
+        url = url.substring(0, url.lastIndexOf("/") + 1);
+        url = url + schema;
     }
 
     public static boolean savePatients(ArrayList<Patient> patients) {
-        setUrl("pms");
+        setSchema("pms");
         String insertSQL = "INSERT INTO patients (pid, first_name, middle_name, last_name, gender, dob, email_address, phone_number, address) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        createConnection();
         try {
+            Connection conn = DriverManager.getConnection(url, username, password);
             PreparedStatement stmt = conn.prepareStatement(insertSQL);
 
             for (Patient p : patients) {
@@ -80,10 +56,10 @@ public class DBConnection {
 
     // Fix save method to save conditions in a string that can be deconstructed methodically
     public static ArrayList<Patient> loadPatients() {
-        setUrl("pms");
-        createConnection();
+        setSchema("pms");
         ArrayList<Patient> patients = new ArrayList<>();
         try {
+            Connection conn = DriverManager.getConnection(url, username, password);
             String query = "SELECT * FROM PATIENTS";
             Statement stmt = conn.createStatement();
             ResultSet resultSet = stmt.executeQuery(query);
@@ -109,12 +85,13 @@ public class DBConnection {
         return patients;
     }
 
+
     public static MedicalHistory loadMedicalHistory(String pid) {
         MedicalHistory retmh = null;
-        setUrl("pms");
-        createConnection();
+        setSchema("pms");
 
         try {
+            Connection conn = DriverManager.getConnection(url, username, password);
             String queryMR = "SELECT * FROM MEDICAL_RECORDS WHERE patient_id like " + pid;
             Statement stmtMR = conn.createStatement();
             ResultSet resultSetMR = stmtMR.executeQuery(queryMR);
@@ -141,41 +118,13 @@ public class DBConnection {
         return retmh;
     }
 
-    public static boolean saveDoctor(Doctor doctor) {
-        setUrl("pms");
-        createConnection();
-
-        if (conn == null) {
-            System.out.println("Failed to connect to database.");
-            return false;
-        }
-
-        String insertSQL = "INSERT INTO PMS.DOCTORS (doctor_id, first_name, middle_initial, last_name, specialization) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
-            stmt.setString(1, doctor.getID());
-            stmt.setString(2, doctor.getFirstName());
-            stmt.setString(3, doctor.getMiddleInitial());
-            stmt.setString(4, doctor.getLastName());
-            stmt.setString(5, doctor.getSpecialization());
-
-            stmt.execute();
-            stmt.close();
-            System.out.println("true");
-            return true;
-
-        } catch (SQLException se) {
-            se.fillInStackTrace();
-            return false;
-        }
-    }
 
     public static boolean saveDoctors(ArrayList<Doctor> doctors) {
-        setUrl("pms");
-        createConnection();
-        String insertSQL = "INSERT INTO doctors (doctor_id, first_name, middle_initial, last_name, specialization) VALUES (?, ?, ?, ?, ?)";
-
+        setSchema("pms");
         try {
-            PreparedStatement stmt = conn.prepareStatement(insertSQL);
+            Connection conn = DriverManager.getConnection(url, username, password);
+            String query = "INSERT INTO doctors (doctor_id, first_name, middle_initial, last_name, specialization) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(query);
 
             for (Doctor d : doctors) {
                 stmt.setString(1, d.getID());
@@ -186,23 +135,21 @@ public class DBConnection {
                 stmt.addBatch();
             }
 
-            conn.setAutoCommit(false);
             stmt.executeBatch();
-            conn.commit();
             return true;
         }
         catch (SQLException se) {
-            se.fillInStackTrace();
+            se.printStackTrace();
             return false;
         }
     }
 
     public static ArrayList<Doctor> loadDoctors() {
-        setUrl("pms");
-        createConnection();
+        setSchema("pms");
         ArrayList<Doctor> doctors = new ArrayList<>();
 
         try {
+            Connection conn = DriverManager.getConnection(url, username, password);
             String query = "SELECT * FROM doctors";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -231,12 +178,37 @@ public class DBConnection {
     }
 
 
+    public static boolean saveAppointments(ArrayList<Appointment> appointments) {
+        setSchema("pms");
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            String query = "INSERT INTO APPOINTMENTS (appointment_id, date, duration, start_time, patient_id, doctor_id) VALUES (?,?,?,?,?,?)";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            for (Appointment a:appointments) {
+                stmt.setString(1, a.getAppointmentID());
+                stmt.setDate(2, Date.valueOf(a.getDate()));
+                stmt.setInt(3, a.getDuration());
+                stmt.setTime(4, Time.valueOf(a.getStartTime()));
+                stmt.setString(5, a.getPatientID());
+                stmt.setString(6, a.getDoctorID());
+                stmt.addBatch();
+            }
+            stmt.executeBatch();
+            return true;
+
+        }
+        catch (SQLException se) {
+            se.printStackTrace();
+        }
+        return false;
+    }
+
     public static ArrayList<Appointment> loadAppointments() {
-        setUrl("pms");
-        createConnection();
+        setSchema("pms");
         ArrayList<Appointment> appointments = new ArrayList<>();
 
         try {
+            Connection conn = DriverManager.getConnection(url, username, password);
             String query = "SELECT * FROM appointments";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -264,27 +236,97 @@ public class DBConnection {
         return appointments;
     }
 
+
+    public static boolean saveReceptionists(ArrayList<Receptionist> receptionists) {
+        setSchema("security");
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            String cmd = "INSERT INTO RECEPTIONISTS (receptionist_id, first_name, middle_name, last_name, role_title) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(cmd);
+            for (Receptionist r:receptionists) {
+                stmt.setString(1, r.getID());
+                stmt.setString(2, r.getFName());
+                stmt.setString(3, r.getMName());
+                stmt.setString(4, r.getLName());
+                stmt.setString(5, r.getRole().getTitle());
+                stmt.addBatch();
+            }
+            stmt.executeBatch();
+            return true;
+        }
+        catch (SQLException se) {
+            se.printStackTrace();
+        }
+        return false;
+    }
+
+    public static ArrayList<Receptionist> loadReceptionists() {
+        ArrayList<Receptionist> receptionists = new ArrayList<>();
+        setSchema("security");
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            String query = "SELECT * FROM RECEPTIONISTS";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String rid = rs.getString(1);
+                String fName = rs.getString(2);
+                String mName = rs.getString(3);
+                String lName = rs.getString(4);
+                String roleTitle = rs.getString(5);
+                receptionists.add(new Receptionist(rid, fName, mName, lName, roleTitle));
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        }
+        catch (SQLException se) {
+            se.printStackTrace();
+        }
+        return receptionists;
+    }
+
+
+    public static boolean saveUsers(ArrayList<User> users) {
+        setSchema("security");
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            String cmd = "INSERT INTO USERS (user_id, username, password) VALUES (?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(cmd);
+
+            for (User u:users) {
+                stmt.setString(1, u.getID());
+                stmt.setString(2, u.getUserName());
+                stmt.setString(3, u.getKey());
+                stmt.addBatch();
+            }
+            stmt.executeBatch();
+            conn.close();
+            System.out.println("Saved Successfully");
+            return true;
+        }
+        catch (SQLException se) {
+            se.printStackTrace();
+        }
+        return false;
+    }
+
     public static ArrayList<User> loadUsers() {
-        setUrl("security");
-        createConnection();
+        setSchema("security");
         ArrayList<User> users = new ArrayList<>();
 
         try {
+            Connection conn = DriverManager.getConnection(url, username, password);
             String query = "SELECT * FROM USERS";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
                 String userID = rs.getString(1);
-                String firstName = rs.getString(2);
-                String middleName = rs.getString(3);
-                String lastName = rs.getString(4);
-                String userName = rs.getString(5);
-                String password = rs.getString(6);
-                String roleTitle = rs.getString(7);
-                users.add(new User(userID, firstName, middleName, lastName, userName, password, roleTitle));
+                String userName = rs.getString(2);
+                String password = rs.getString(3);
+                users.add(new User(userID, userName, password));
             }
-
 
             rs.close();
             stmt.close();
@@ -296,59 +338,50 @@ public class DBConnection {
         return users;
     }
 
-    public static User loadUser(String username) {
-        setUrl("security");
-        createConnection();
-        User user = null;
 
+    public static User loadUser(String userName) {
+        User thisUser = null;
+        setSchema("security");
         try {
-            String query = "SELECT * FROM USERS where username like " + username;
+            Connection conn = DriverManager.getConnection(url, username, password);
+            String query = "SELECT * FROM USERS WHERE USERNAME LIKE " + userName;
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-
             while (rs.next()) {
                 String userID = rs.getString(1);
-                String firstName = rs.getString(2);
-                String middleName = rs.getString(3);
-                String lastName = rs.getString(4);
-                String userName = rs.getString(5);
-                String password = rs.getString(6);
-                String roleTitle = rs.getString(7);
-                user = new User(userID, firstName, middleName, lastName, userName, password, roleTitle);
+                String password = rs.getString(3);
+                thisUser = new User(userID, userName, password);
             }
-
             rs.close();
             stmt.close();
-            conn.close();
-
-        } catch (SQLException e) {
-            e.fillInStackTrace();
+            stmt.close();
         }
-        return user;
+        catch (SQLException se) {
+            se.printStackTrace();
+        }
+        return thisUser;
     }
 
     public static void main(String[] args) {
-        System.out.println(loadUsers().size());
-        ArrayList<Doctor> doctorList = new ArrayList<>();
+        ArrayList<User> users = new ArrayList<>();
 
-        // Sample doctors
-        doctorList.add(new Doctor("Calvin", "R", "Klein", "Ophthalmology"));
-        doctorList.add(new Doctor("Alice", "M", "Lee", "Pediatrics"));
-        doctorList.add(new Doctor("John", "S", "Doe", "Cardiology"));
-        doctorList.add(new Doctor("Emily", "T", "Clark", "Neurology"));
-        doctorList.add(new Doctor("Samuel", "L", "King", "Orthopedics"));
-        doctorList.add(new Doctor("Grace", "N", "Adams", "Dermatology"));
-        doctorList.add(new Doctor("Brian", "P", "Stone", "ENT"));
-        doctorList.add(new Doctor("Rachel", "B", "Green", "Gynaecology"));
-        doctorList.add(new Doctor("Tom", "W", "Hardy", "Psychiatry"));
-        doctorList.add(new Doctor("Julia", "Q", "Roberts", "Pulmonology"));
-        doctorList.add(new Doctor("Nathan", "J", "Scott", "Oncology"));
-        doctorList.add(new Doctor("Sophia", "L", "White", "Nephrology"));
-        doctorList.add(new Doctor("Ethan", "A", "Hunt", "Urology"));
-        doctorList.add(new Doctor("Olivia", "C", "Evans", "Gastroenterology"));
-        doctorList.add(new Doctor("Victor", "D", "Young", "Hematology"));
+        // Reuse IDs from previously generated receptionists
+        String[] receptionistIDs = {"R-LAW001", "R-GPB002", "R-SMD003", "R-TRH004"};
 
-        saveDoctors(doctorList);
+        // Reuse doctor IDs from previous example
+        String[] doctorIDs = {"DO-CRK001", "DP-JMP002"};
+
+        // Add users based on receptionists
+        users.add(new User(receptionistIDs[0], "lwhite", "pass123"));
+        users.add(new User(receptionistIDs[1], "gbrown", "secure456"));
+        users.add(new User(receptionistIDs[2], "sdavis", "hello789"));
+        users.add(new User(receptionistIDs[3], "tharris", "admin321"));
+
+        // Add users based on doctors
+        users.add(new User(doctorIDs[0], "cklein", "ophtha999"));
+        users.add(new User(doctorIDs[1], "jpeters", "paeds111"));
+
+        DBConnection.saveUsers(users);
     }
 
 } // End of Class

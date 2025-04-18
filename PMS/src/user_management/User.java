@@ -2,46 +2,21 @@ package user_management;
 
 public class User {
     private String userID;
-    private String fName, mName, lName, userName, key;
-    private Role role;
+    private String userName, key;
 
     public User() {
     }
 
-    public User(String userID, String fName, String mName, String lName, String userName, String key, String roleTitle) {
+    public User(String userID, String userName, String key) {
         this.userID = userID;
-        this.fName = fName;
-        this.mName = mName;
-        this.lName = lName;
         this.userName = userName;
-        this.key = key;
-        this.role = new Role(roleTitle);
+        this.key = AuthService.encryptString(key);
     }
 
     // Getters
 
-    public String getFName() {
-        return fName;
-    }
-
-    public String getMName() {
-        return mName;
-    }
-
-    public String getLName() {
-        return lName;
-    }
-
     public String getID() {
         return userID;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public String getRoleTitle() {
-        return role.getTitle();
     }
 
     public String getUserName() {

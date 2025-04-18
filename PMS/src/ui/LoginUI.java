@@ -1,6 +1,5 @@
 package ui;
 
-import appointment_management.DoctorService;
 import database.DBConnection;
 import user_management.AuthService;
 import user_management.Doctor;
@@ -18,28 +17,28 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class LoginUI extends JFrame implements ActionListener {
+    private final AuthService authService;
     private JPanel backgroundPanel;
-    private javax.swing.JSeparator baseSeparator;
-    private javax.swing.JLabel confirmPasswordLb;
-    private javax.swing.JPasswordField confirmPasswordField;
-    private javax.swing.JLabel copyrightLb;
-    private javax.swing.JButton createAccountBt;
-    private javax.swing.JLabel iconLb;
-    private javax.swing.JPasswordField passwordField1;
-    private javax.swing.JButton loginBt;
-    private javax.swing.JLabel loginLb;
-    private javax.swing.JPanel loginPn;
-    private javax.swing.JLabel newAccountLb;
-    private javax.swing.JPasswordField passwordField2;
-    private javax.swing.JLabel passwordLb1;
-    private javax.swing.JLabel passwordLb2;
-    private javax.swing.JSeparator topSeparator;
-    private javax.swing.JLabel usernameLb1;
-    private javax.swing.JLabel usernameLb2;
-    private javax.swing.JTextField usernameTf1;
-    private javax.swing.JTextField usernameTf2;
-    private javax.swing.Box.Filler verticalDiv;
-    private AuthService authService;
+    private  JSeparator baseSeparator;
+    private  JLabel confirmPasswordLb;
+    private  JPasswordField confirmPasswordField;
+    private  JLabel copyrightLb;
+    private  JButton createAccountBt;
+    private  JLabel iconLb;
+    private  JPasswordField passwordField1;
+    private  JButton loginBt;
+    private  JLabel loginLb;
+    private  JPanel loginPn;
+    private  JLabel newAccountLb;
+    private  JPasswordField passwordField2;
+    private  JLabel passwordLb1;
+    private  JLabel passwordLb2;
+    private  JSeparator topSeparator;
+    private  JLabel usernameLb1;
+    private  JLabel usernameLb2;
+    private  JTextField usernameTf1;
+    private  JTextField usernameTf2;
+    private  Box.Filler verticalDiv;
 
 
     public LoginUI(AuthService authService) {
@@ -50,29 +49,29 @@ public class LoginUI extends JFrame implements ActionListener {
     }
 
     public void initComponents() {
-        backgroundPanel = new javax.swing.JPanel();
-        loginPn = new javax.swing.JPanel();
-        usernameTf2 = new javax.swing.JTextField();
-        passwordField2 = new javax.swing.JPasswordField();
-        confirmPasswordField = new javax.swing.JPasswordField();
-        usernameTf1 = new javax.swing.JTextField();
-        passwordField1 = new javax.swing.JPasswordField();
-        loginLb = new javax.swing.JLabel();
-        newAccountLb = new javax.swing.JLabel();
-        usernameLb1 = new javax.swing.JLabel();
-        passwordLb1 = new javax.swing.JLabel();
-        topSeparator = new javax.swing.JSeparator();
-        usernameLb2 = new javax.swing.JLabel();
-        passwordLb2 = new javax.swing.JLabel();
-        confirmPasswordLb = new javax.swing.JLabel();
-        baseSeparator = new javax.swing.JSeparator();
-        loginBt = new javax.swing.JButton();
-        createAccountBt = new javax.swing.JButton();
-        verticalDiv = new javax.swing.Box.Filler(new java.awt.Dimension(0, 50), new java.awt.Dimension(0, 50), new java.awt.Dimension(32767, 50));
-        iconLb = new javax.swing.JLabel();
-        copyrightLb = new javax.swing.JLabel();
+        backgroundPanel = new  JPanel();
+        loginPn = new  JPanel();
+        usernameTf2 = new  JTextField();
+        passwordField2 = new  JPasswordField();
+        confirmPasswordField = new  JPasswordField();
+        usernameTf1 = new  JTextField();
+        passwordField1 = new  JPasswordField();
+        loginLb = new  JLabel();
+        newAccountLb = new  JLabel();
+        usernameLb1 = new  JLabel();
+        passwordLb1 = new  JLabel();
+        topSeparator = new  JSeparator();
+        usernameLb2 = new  JLabel();
+        passwordLb2 = new  JLabel();
+        confirmPasswordLb = new  JLabel();
+        baseSeparator = new  JSeparator();
+        loginBt = new  JButton();
+        createAccountBt = new  JButton();
+        verticalDiv = new  Box.Filler(new java.awt.Dimension(0, 50), new java.awt.Dimension(0, 50), new java.awt.Dimension(32767, 50));
+        iconLb = new  JLabel();
+        copyrightLb = new  JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE);
         setTitle("Patient Management System (PAMS) - Login");
         setAlwaysOnTop(true);
         setBackground(new java.awt.Color(51, 51, 51));
@@ -139,8 +138,8 @@ public class LoginUI extends JFrame implements ActionListener {
         loginBt.setText("Login");
         loginBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         loginBt.setFocusable(false);
-       
-            
+
+
         createAccountBt.setBackground(new java.awt.Color(164, 194, 244));
         createAccountBt.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         createAccountBt.setForeground(new Color(33, 33, 33));
@@ -340,52 +339,65 @@ public class LoginUI extends JFrame implements ActionListener {
         }
         else if (e.getSource()==loginBt) {
             System.out.println("Login pressed");
+            loginBtAction();
 
-            String usernameIn = usernameTf1.getText();
-            String passwordIn = Arrays.toString(passwordField1.getPassword());
-
-            if (usernameIn.isEmpty()) {
-                usernameTf1.setBorder(BorderFactory.createLineBorder(Color.RED));
-                usernameTf1.setText("Cannot be blank!");
-            }
-
-            else if (passwordIn.isEmpty()) {
-                passwordField1.setBorder(BorderFactory.createLineBorder(Color.RED));
-                passwordField1.setText("");
-            }
-
-            else if (!AuthService.validateUsernameFormat(usernameIn)) {
-                usernameTf1.setBorder(BorderFactory.createLineBorder(Color.RED));
-                usernameTf1.setText("Invalid username!");
-            }
-
-            else if (!AuthService.validatePasswordFormat(passwordIn)) {
-                passwordField1.setBorder(BorderFactory.createLineBorder(Color.RED));
-                passwordField1.setText("");
-            }
-
-            else if ( AuthService.validateUsernameFormat(usernameIn) && AuthService.validatePasswordFormat(passwordIn) && (authService.verifyPassphrase(usernameIn, passwordIn)) ) {
-                System.out.println("Yes");
-                User user = DBConnection.loadUser(usernameIn);
-                String sessionID = user.getID();
-                if (sessionID.charAt(0) == 'D') {
-                    Doctor d = DoctorService.findDoctorByID(DBConnection.loadDoctors(), sessionID);
-                    new DashboardD(d);
-                    dispose();
-                }
-                else if (sessionID.charAt(0) == 'R') {
-                    new DashboardR(authService, new Receptionist(user.getFName(), user.getMName(), user.getLName()));
-                    dispose();
-                }
-            }
         }
         else if (e.getSource()==createAccountBt) {
             System.out.println("Create account pressed");
         }
     }
 
+    public void loginBtAction() {
+        String usernameIn = usernameTf1.getText();
+        String passwordIn = Arrays.toString(passwordField1.getPassword());
+
+        if (usernameIn.isEmpty()) {
+            usernameTf1.setBorder(BorderFactory.createLineBorder(Color.RED));
+            String msg = "Please enter a username!";
+            String error = "No username provided";
+            JOptionPane.showMessageDialog(this, msg, error, JOptionPane.ERROR_MESSAGE);
+        } else if (!AuthService.validateUsernameFormat(usernameIn)) {
+            usernameTf1.setBorder(BorderFactory.createLineBorder(Color.RED));
+            String msg = "Username has invalid format!";
+            String error = "Invalid format";
+            JOptionPane.showMessageDialog(this, msg, error, JOptionPane.ERROR_MESSAGE);
+        } else if (passwordIn.isEmpty()) {
+            passwordField1.setBorder(BorderFactory.createLineBorder(Color.RED));
+            String msg = "Please enter a password!";
+            String error = "No password provided";
+            JOptionPane.showMessageDialog(this, msg, error, JOptionPane.ERROR_MESSAGE);
+        } else if (!AuthService.validatePasswordFormat(passwordIn)) {
+            passwordField1.setBorder(BorderFactory.createLineBorder(Color.RED));
+            String msg = "Password has invalid format!";
+            String error = "Invalid format";
+            JOptionPane.showMessageDialog(this, msg, error, JOptionPane.ERROR_MESSAGE);
+            passwordField1.setText("");
+        } else if ( (!authService.verifyUsername(usernameIn)) || (!authService.verifyPassphrase(usernameIn, passwordIn)) ) {
+            String msg = "One or both of the provided credentials is incorrect!";
+            String error = "Incorrect credential(s)";
+            JOptionPane.showMessageDialog(this, msg, error, JOptionPane.ERROR_MESSAGE);
+            usernameTf1.setText("");
+            passwordField1.setText("");
+        } else if ( (authService.verifyUsername(usernameIn)) || (authService.verifyPassphrase(usernameIn, passwordIn)) ) {
+            System.out.println("Verification Success"); // Debug
+            User user = DBConnection.loadUser(usernameIn);
+            String sessionID = user.getID();
+            if (sessionID.charAt(0) == 'D') {
+                Doctor d = authService.getDdb().getDoctorByID(sessionID);
+                new DashboardD(authService, d);
+                dispose();
+            } else if (sessionID.charAt(0) == 'R') {
+                Receptionist r = authService.getRdb().getReceptionistByID(sessionID);
+                new DashboardR(authService, r);
+                dispose();
+            }
+        }
+
+    }
+
     public static void main(String[] args) {
         System.out.println("LoginUI");
-        new LoginUI(new AuthService());
+        AuthService authService = new AuthService();
+        new LoginUI(authService);
     }
 }

@@ -5,7 +5,7 @@ import user_management.Doctor;
 import java.util.ArrayList;
 
 public class DoctorDatabase {
-    private ArrayList<Doctor> doctors = new ArrayList<>();
+    private final ArrayList<Doctor> doctors;
 
     public DoctorDatabase () {
         doctors = DBConnection.loadDoctors();
@@ -39,9 +39,8 @@ public class DoctorDatabase {
 
     // Modifiers
 
-    public boolean addDoctor(Doctor d) {
+    public void addDoctor(Doctor d) {
         this.doctors.add(d);
-        return true;
     }
 
     public void deleteDoctor(Doctor d) {
