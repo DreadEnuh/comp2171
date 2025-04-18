@@ -84,11 +84,11 @@ public class Appointment {
         this.doctorID = doctorID;
     }
 
-    public LocalDate getDate() {
-        return this.startTime.atDate(LocalDate.now()).toLocalDate();
-    }
+    //public LocalDate getDate() {
+    //     return this.startTime.atDate(LocalDate.now()).toLocalDate();
+    //}
 
     public String getAppointmentSummary() {
-        return "Appointment on " + getDate().toString() + " at " + getStartTime().toString() + " for " + getDuration() + " minutes";
+        return "Appointment on " + getAppointmentDate().toString() + " at " + getStartTime().toString() + " for " + getDuration() + " minutes";
     }
 }
