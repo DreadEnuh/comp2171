@@ -1,8 +1,0 @@
-patient_management.Patient ID: HAD0000
-Name: HENRY AUSTIN DAVIS
-Date of Birth: 2000-02-02
-Medical Conditions:
-- Diabetes
-Visit History:
-Total Visits: 0
-======================================================================

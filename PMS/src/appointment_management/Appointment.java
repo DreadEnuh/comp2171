@@ -34,7 +34,7 @@ public class Appointment {
     }
 
     // Getters
-    public LocalDate getAppointmentDate() {
+    public LocalDate getDate() {
         return date;
     }
 
@@ -89,6 +89,6 @@ public class Appointment {
     //}
 
     public String getAppointmentSummary() {
-        return "Appointment on " + getAppointmentDate().toString() + " at " + getStartTime().toString() + " for " + getDuration() + " minutes";
+        return "Appointment on " + getDate().toString() + " at " + getStartTime().toString() + " for " + getDuration() + " minutes";
     }
 }

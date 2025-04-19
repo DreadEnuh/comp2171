@@ -30,12 +30,16 @@ public class AppointmentService {
 
     // Modifiers
     public boolean addAppointment(Appointment appointment, Doctor doctor) {
-        return doctor.addAppointment(
-                appointment.getDate(),
+        Schedule thisSchedule = doctor.getSchedule();
+        if (thisSchedule.addAppointment(appointment.getDate(),
                 appointment.getDuration(),
                 appointment.getStartTime(),
                 appointment.getPatientID(),
-                doctor.getID());
+                doctor.getID())) {
+            doctor.setSchedule(thisSchedule);
+            return true;
+        }
+        return false;
     }
 
     public Appointment getAppointmentByPid(String pid) {

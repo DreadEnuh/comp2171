@@ -1,6 +1,5 @@
 package ui;
 
-import user_management.AuthService;
 import user_management.Receptionist;
 
 import javax.swing.*;
@@ -13,11 +12,15 @@ import java.time.format.DateTimeFormatter;
 public class DashboardR extends JFrame implements ActionListener {
         private JButton viewDocScheduleBt;
         private JButton manageAppointmentBt;
-        private AuthService authService;
 
 
-        public DashboardR(AuthService authService, Receptionist r) {
-                this.authService = authService;
+        public DashboardR(Receptionist r) {
+                initComponents(r);
+                setExtendedState(JFrame.MAXIMIZED_BOTH);
+                setVisible(true);
+        }
+
+        public void initComponents(Receptionist r) {
                 JPanel footerPanel = new JPanel();
                 JPanel menuPanel = new JPanel();
                 JLabel idLabel = new JLabel();
@@ -36,7 +39,7 @@ public class DashboardR extends JFrame implements ActionListener {
                 JPanel westMenuPanel = new JPanel();
                 JLabel patientSectionLabel = new JLabel();
                 JButton regPatientBt = new JButton();
-                
+
                 JLabel appointmentSectionLabel = new JLabel();
                 JButton updatePatientBt = new JButton();
                 manageAppointmentBt = new JButton();
@@ -54,9 +57,9 @@ public class DashboardR extends JFrame implements ActionListener {
                 setTitle("PAMS - Dashboard");
                 setBackground(new java.awt.Color(0, 118, 140));
                 setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-                setFont(new java.awt.Font("Century Gothic", 0, 14)); 
+                setFont(new java.awt.Font("Century Gothic", 0, 14));
                 setForeground(new java.awt.Color(0, 0, 0));
-                setName("dashboardFrame"); 
+                setName("dashboardFrame");
                 setPreferredSize(new java.awt.Dimension(800, 793));
 
                 footerPanel.setBackground(new java.awt.Color(164, 194, 244));
@@ -75,39 +78,39 @@ public class DashboardR extends JFrame implements ActionListener {
                 menuPanel.setBackground(new java.awt.Color(153, 204, 255));
                 menuPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 3, true));
                 menuPanel.setForeground(new java.awt.Color(255, 255, 255));
-                menuPanel.setFont(new java.awt.Font("Century Gothic", 0, 14)); 
+                menuPanel.setFont(new java.awt.Font("Century Gothic", 0, 14));
 
-                idLabel.setFont(new java.awt.Font("Century Gothic", 1, 14)); 
+                idLabel.setFont(new java.awt.Font("Century Gothic", 1, 14));
                 idLabel.setForeground(new java.awt.Color(255, 255, 255));
                 idLabel.setText("User ID:");
 
-                idText.setFont(new java.awt.Font("Century Gothic", 2, 14)); 
+                idText.setFont(new java.awt.Font("Century Gothic", 2, 14));
                 idText.setText(r.getID());
 
                 jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
 
-                sessionLabel.setFont(new java.awt.Font("Century Gothic", 1, 16)); 
+                sessionLabel.setFont(new java.awt.Font("Century Gothic", 1, 16));
                 sessionLabel.setForeground(new java.awt.Color(255, 255, 255));
                 sessionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                 sessionLabel.setText("Session Details");
 
-                dateLabel.setFont(new java.awt.Font("Century Gothic", 1, 14)); 
+                dateLabel.setFont(new java.awt.Font("Century Gothic", 1, 14));
                 dateLabel.setForeground(new java.awt.Color(255, 255, 255));
                 dateLabel.setText("Date:");
 
-                timeLabel.setFont(new java.awt.Font("Century Gothic", 1, 14)); 
+                timeLabel.setFont(new java.awt.Font("Century Gothic", 1, 14));
                 timeLabel.setForeground(new java.awt.Color(255, 255, 255));
                 timeLabel.setText("Time:");
 
-                dateLb.setFont(new java.awt.Font("Century Gothic", 2, 14)); 
+                dateLb.setFont(new java.awt.Font("Century Gothic", 2, 14));
                 dateLb.setText(LocalDate.now().toString());
 
-                timeLb.setFont(new java.awt.Font("Century Gothic", 2, 14)); 
+                timeLb.setFont(new java.awt.Font("Century Gothic", 2, 14));
                 timeLb.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
                 ActionListener updateClockAction = new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                        timeLb.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-                }
+                        public void actionPerformed(ActionEvent e) {
+                                timeLb.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+                        }
                 };
                 Timer t = new Timer(1000, updateClockAction);
                 t.start();
@@ -200,26 +203,26 @@ public class DashboardR extends JFrame implements ActionListener {
                 westMenuPanel.setBackground(new java.awt.Color(153, 204, 255));
                 westMenuPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 3));
 
-                patientSectionLabel.setFont(new java.awt.Font("Century Gothic", 1, 16)); 
+                patientSectionLabel.setFont(new java.awt.Font("Century Gothic", 1, 16));
                 patientSectionLabel.setForeground(new java.awt.Color(255, 255, 255));
                 patientSectionLabel.setText("Patient Section");
 
-                regPatientBt.setFont(new java.awt.Font("sansserif", 1, 12)); 
+                regPatientBt.setFont(new java.awt.Font("sansserif", 1, 12));
                 regPatientBt.setForeground(new java.awt.Color(153, 204, 255));
                 regPatientBt.setText("Register Patient");
                 regPatientBt.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, new java.awt.Color(204, 204, 204), new java.awt.Color(204, 204, 204)));
                 regPatientBt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
                 regPatientBt.setFocusable(false);
-                regPatientBt.setName("Register Patient"); 
+                regPatientBt.setName("Register Patient");
                 regPatientBt.addActionListener(this);
 
-                
 
-                appointmentSectionLabel.setFont(new java.awt.Font("Century Gothic", 1, 16)); 
+
+                appointmentSectionLabel.setFont(new java.awt.Font("Century Gothic", 1, 16));
                 appointmentSectionLabel.setForeground(new java.awt.Color(255, 255, 255));
                 appointmentSectionLabel.setText("Appointment Section");
 
-                updatePatientBt.setFont(new java.awt.Font("sansserif", 1, 12)); 
+                updatePatientBt.setFont(new java.awt.Font("sansserif", 1, 12));
                 updatePatientBt.setForeground(new java.awt.Color(153, 204, 255));
                 updatePatientBt.setText("Update Patient Details");
                 updatePatientBt.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, new java.awt.Color(204, 204, 204), new java.awt.Color(204, 204, 204)));
@@ -229,7 +232,7 @@ public class DashboardR extends JFrame implements ActionListener {
                 updatePatientBt.addActionListener(this);
 
 
-                manageAppointmentBt.setFont(new java.awt.Font("sansserif", 1, 12)); 
+                manageAppointmentBt.setFont(new java.awt.Font("sansserif", 1, 12));
                 manageAppointmentBt.setForeground(new java.awt.Color(153, 204, 255));
                 manageAppointmentBt.setText("Manage Appointment");
                 manageAppointmentBt.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, new java.awt.Color(204, 204, 204), new java.awt.Color(204, 204, 204)));
@@ -237,11 +240,11 @@ public class DashboardR extends JFrame implements ActionListener {
                 manageAppointmentBt.setFocusable(false);
                 manageAppointmentBt.addActionListener(this);
 
-                doctorSectionLabel.setFont(new java.awt.Font("Century Gothic", 1, 16)); 
+                doctorSectionLabel.setFont(new java.awt.Font("Century Gothic", 1, 16));
                 doctorSectionLabel.setForeground(new java.awt.Color(255, 255, 255));
                 doctorSectionLabel.setText("Doctor Section");
 
-                viewDocScheduleBt.setFont(new java.awt.Font("sansserif", 1, 12)); 
+                viewDocScheduleBt.setFont(new java.awt.Font("sansserif", 1, 12));
                 viewDocScheduleBt.setForeground(new java.awt.Color(153, 204, 255));
                 viewDocScheduleBt.setText("View Doctor Schedule");
                 viewDocScheduleBt.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, new java.awt.Color(204, 204, 204), new java.awt.Color(204, 204, 204)));
@@ -266,8 +269,8 @@ public class DashboardR extends JFrame implements ActionListener {
                                                         .addGroup(westMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                 .addComponent(updatePatientBt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                                 .addComponent(regPatientBt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                
-                                                                
+
+
                                                                 .addComponent(manageAppointmentBt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                                 .addComponent(viewDocScheduleBt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                                 .addGroup(westMenuPanelLayout.createSequentialGroup()
@@ -304,7 +307,7 @@ public class DashboardR extends JFrame implements ActionListener {
                                         .addComponent(northDivider, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(appointmentSectionLabel)
-                                        
+
 
                                         .addGap(18, 18, 18)
                                         .addComponent(manageAppointmentBt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -317,7 +320,7 @@ public class DashboardR extends JFrame implements ActionListener {
                                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 );
 
-                mainMenuBar.setFont(new java.awt.Font("Century Gothic", 0, 12)); 
+                mainMenuBar.setFont(new java.awt.Font("Century Gothic", 0, 12));
 
                 logoutMenuItem.setText("Logout");
                 logoutMenuItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -358,13 +361,6 @@ public class DashboardR extends JFrame implements ActionListener {
                                         .addComponent(footerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 );
                 pack();
-                setExtendedState(JFrame.MAXIMIZED_BOTH);
-                setVisible(true);
-        }
-
-        public static void main(String[] args) {
-                System.out.println("DashboardR Class");
-                new DashboardR(new AuthService(), new Receptionist("Priscilla", "Annette", "Anderson"));
         }
 
         @Override
@@ -381,7 +377,7 @@ public class DashboardR extends JFrame implements ActionListener {
                                 );
 
                                 if (choice == JOptionPane.YES_OPTION) {
-                                        new LoginUI(authService);
+                                        new LoginUI();
                                         dispose(); // close current window
                                 }
                         }
@@ -394,5 +390,10 @@ public class DashboardR extends JFrame implements ActionListener {
                         new AppointmentView();
                         dispose();
                 }
+        }
+
+        public static void main(String[] args) {
+                System.out.println("DashboardR Class");
+                new DashboardR(new Receptionist("Priscilla", "Annette", "Anderson"));
         }
 }

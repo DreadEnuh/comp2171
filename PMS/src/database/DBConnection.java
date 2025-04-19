@@ -7,10 +7,13 @@ import user_management.Doctor;
 import user_management.Receptionist;
 import user_management.User;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class DBConnection {
     private static String url = "jdbc:mysql://127.0.0.1:5150/pms";
@@ -20,14 +23,27 @@ public class DBConnection {
     public DBConnection () {
     }
 
+    public static String getUrl() {
+        return url;
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static String getPassword() {
+        return password;
+    }
+
     public static void setSchema(String schema) {
         url = url.substring(0, url.lastIndexOf("/") + 1);
         url = url + schema;
     }
 
+    // Fix save method to save conditions in a string that can be deconstructed methodically
     public static boolean savePatients(ArrayList<Patient> patients) {
         setSchema("pms");
-        String insertSQL = "INSERT INTO patients (pid, first_name, middle_name, last_name, gender, dob, email_address, phone_number, address) " +
+        String insertSQL = "REPLACE INTO patients (pid, first_name, middle_name, last_name, gender, dob, email_address, phone_number, address) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
@@ -54,7 +70,6 @@ public class DBConnection {
         return false;
     }
 
-    // Fix save method to save conditions in a string that can be deconstructed methodically
     public static ArrayList<Patient> loadPatients() {
         setSchema("pms");
         ArrayList<Patient> patients = new ArrayList<>();
@@ -123,7 +138,7 @@ public class DBConnection {
         setSchema("pms");
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
-            String query = "INSERT INTO doctors (doctor_id, first_name, middle_initial, last_name, specialization) VALUES (?, ?, ?, ?, ?)";
+            String query = "REPLACE INTO doctors (doctor_id, first_name, middle_initial, last_name, specialization) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(query);
 
             for (Doctor d : doctors) {
@@ -161,8 +176,11 @@ public class DBConnection {
                 String lName = rs.getString("last_name");
                 String specialization = rs.getString("specialization");
 
-                Doctor doc = new Doctor(fName, mInit, lName, specialization);
-                doc.setId(id);
+                Doctor doc = new Doctor(id);
+                doc.setFirstName(fName);
+                doc.setMiddleInitial(mInit);
+                doc.setLastName(lName);
+                doc.setSpecialization(specialization);
                 doctors.add(doc);
             }
 
@@ -182,7 +200,7 @@ public class DBConnection {
         setSchema("pms");
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
-            String query = "INSERT INTO APPOINTMENTS (appointment_id, date, duration, start_time, patient_id, doctor_id) VALUES (?,?,?,?,?,?)";
+            String query = "REPLACE INTO APPOINTMENTS (appointment_id, date, duration, start_time, patient_id, doctor_id) VALUES (?,?,?,?,?,?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             for (Appointment a:appointments) {
                 stmt.setString(1, a.getAppointmentID());
@@ -241,7 +259,7 @@ public class DBConnection {
         setSchema("security");
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
-            String cmd = "INSERT INTO RECEPTIONISTS (receptionist_id, first_name, middle_name, last_name, role_title) VALUES (?, ?, ?, ?, ?)";
+            String cmd = "REPLACE INTO RECEPTIONISTS (receptionist_id, first_name, middle_name, last_name, role_title) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(cmd);
             for (Receptionist r:receptionists) {
                 stmt.setString(1, r.getID());
@@ -291,13 +309,12 @@ public class DBConnection {
         setSchema("security");
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
-            String cmd = "INSERT INTO USERS (user_id, username, password) VALUES (?, ?, ?)";
+            String cmd = "REPLACE INTO USERS (user_id, password) VALUES (?, ?)";
             PreparedStatement stmt = conn.prepareStatement(cmd);
 
             for (User u:users) {
                 stmt.setString(1, u.getID());
-                stmt.setString(2, u.getUserName());
-                stmt.setString(3, u.getKey());
+                stmt.setString(2, u.getPassword());
                 stmt.addBatch();
             }
             stmt.executeBatch();
@@ -323,9 +340,10 @@ public class DBConnection {
 
             while (rs.next()) {
                 String userID = rs.getString(1);
-                String userName = rs.getString(2);
-                String password = rs.getString(3);
-                users.add(new User(userID, userName, password));
+                String password = rs.getString(2);
+                User thisUser = new User(userID);
+                thisUser.setPassword(password);
+                users.add(thisUser);
             }
 
             rs.close();
@@ -338,50 +356,77 @@ public class DBConnection {
         return users;
     }
 
-
-    public static User loadUser(String userName) {
+    public static User loadUser(String userID) {
         User thisUser = null;
         setSchema("security");
-        try {
-            Connection conn = DriverManager.getConnection(url, username, password);
-            String query = "SELECT * FROM USERS WHERE USERNAME LIKE " + userName;
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                String userID = rs.getString(1);
-                String password = rs.getString(3);
-                thisUser = new User(userID, userName, password);
+        String query = "SELECT * FROM USERS WHERE USER_ID = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, userID);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    String password = rs.getString("password");
+                    thisUser = new User(userID);
+                    thisUser.setPassword(password);
+                }
             }
-            rs.close();
-            stmt.close();
-            stmt.close();
-        }
-        catch (SQLException se) {
+        } catch (SQLException se) {
             se.printStackTrace();
         }
+
         return thisUser;
     }
 
+
+    public static void saveKey(SecretKey key, String keyName) {
+        String encodedKey = Base64.getEncoder().encodeToString(key.getEncoded());
+        String cmd = "INSERT INTO `security`.`keys` (`key_signature`, `key_data`) VALUES (?, ?) " +
+                "ON DUPLICATE KEY UPDATE `key_data` = VALUES(`key_data`)";
+
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            PreparedStatement stmt = conn.prepareStatement(cmd);
+            stmt.setString(1, keyName);
+            stmt.setString(2, encodedKey);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static SecretKey loadKey(String keyName) {
+        String query = "SELECT `key_data` FROM `security`.`keys` WHERE `key_signature` = ?";
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, keyName);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                String encodedKey = rs.getString("key_data");
+                byte[] decodedKey = Base64.getDecoder().decode(encodedKey);
+                return new SecretKeySpec(decodedKey, 0, decodedKey.length, "DES");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public static void saveAll(){
+//        savePatients();
+//        saveDoctors();
+//        saveReceptionists();
+//        saveUsers(AuthService.getUsers());
+//        saveAppointments();
+    }
+
     public static void main(String[] args) {
-        ArrayList<User> users = new ArrayList<>();
 
-        // Reuse IDs from previously generated receptionists
-        String[] receptionistIDs = {"R-LAW001", "R-GPB002", "R-SMD003", "R-TRH004"};
-
-        // Reuse doctor IDs from previous example
-        String[] doctorIDs = {"DO-CRK001", "DP-JMP002"};
-
-        // Add users based on receptionists
-        users.add(new User(receptionistIDs[0], "lwhite", "pass123"));
-        users.add(new User(receptionistIDs[1], "gbrown", "secure456"));
-        users.add(new User(receptionistIDs[2], "sdavis", "hello789"));
-        users.add(new User(receptionistIDs[3], "tharris", "admin321"));
-
-        // Add users based on doctors
-        users.add(new User(doctorIDs[0], "cklein", "ophtha999"));
-        users.add(new User(doctorIDs[1], "jpeters", "paeds111"));
-
-        DBConnection.saveUsers(users);
     }
 
 } // End of Class

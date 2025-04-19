@@ -1,6 +1,5 @@
 package ui;
 
-import user_management.AuthService;
 import user_management.Doctor;
 
 import javax.swing.*;
@@ -11,8 +10,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class DashboardD extends JFrame implements ActionListener {
-    private AuthService authService;
-
     private javax.swing.JLabel appointmentSectionLabel;
     private javax.swing.JLabel aptLb;
     private javax.swing.JLabel dateLabel;
@@ -41,8 +38,13 @@ public class DashboardD extends JFrame implements ActionListener {
     private javax.swing.JButton viewPatientHstryBt;
     private javax.swing.JPanel westMenuPanel;
 
-    public DashboardD(AuthService authService, Doctor d) {
-        this.authService = new AuthService();
+    public DashboardD(Doctor d) {
+        initComponents(d);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setVisible(true);
+    }
+
+    private void initComponents(Doctor d) {
         footerPanel = new javax.swing.JPanel();
         menuPanel = new javax.swing.JPanel();
         idLabel = new javax.swing.JLabel();
@@ -345,16 +347,13 @@ public class DashboardD extends JFrame implements ActionListener {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(footerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-
         pack();
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == logoutMenuBt) {
-            new LoginUI(authService);
+            new LoginUI();
             dispose();
         }
     }

@@ -2,19 +2,11 @@ package notification_service;
 
 import appointment_management.Appointment;
 import database.DBConnection;
-
-import java.net.Authenticator;
-import java.net.PasswordAuthentication;
-import java.sql.*;
-import com.sun.net.httpserver.HttpExchange;
 import patient_management.Patient;
 
-import javax.xml.transform.Result;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 public class ReminderService {
     private final Notification notification;
@@ -96,7 +88,7 @@ public class ReminderService {
     }
 
     private Connection getConnection() throws SQLException {
-        DBConnection.setUrl("pms");
+        DBConnection.setSchema("pms");
         return DriverManager.getConnection(
             DBConnection.getUrl(),
             DBConnection.getUsername(),
@@ -114,7 +106,7 @@ public class ReminderService {
             "Please arrive 15 minutes early.",
             patient.getFName(),
             patient.getLName(),
-            appointment.getAppointmentDate(),
+            appointment.getDate(),
             appointment.getStartTime(),
             appointment.getDuration()
         );

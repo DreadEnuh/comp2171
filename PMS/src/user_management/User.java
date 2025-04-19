@@ -1,16 +1,19 @@
 package user_management;
 
 public class User {
-    private String userID;
-    private String userName, key;
+    private String userID, password;
 
     public User() {
     }
 
-    public User(String userID, String userName, String key) {
+    public User(String userID, String password) {
         this.userID = userID;
-        this.userName = userName;
-        this.key = AuthService.encryptString(key);
+        this.password = AuthService.encryptString(password);
+    }
+
+    // Load Constructor (prevents rehashing of already hashed password)
+    public User(String userID) {
+        this.userID = userID;
     }
 
     // Getters
@@ -19,17 +22,18 @@ public class User {
         return userID;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getKey() {
-        return key;
+    public String getPassword() {
+        return password;
     }
 
     // Setters
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserID(String newID) {
+        this.userID = newID;
     }
+
+    public void setPassword(String encPassword) {
+        this.password = encPassword;
+    }
+
 }

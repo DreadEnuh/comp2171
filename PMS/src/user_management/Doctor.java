@@ -18,7 +18,6 @@ public class Doctor {
 
     // Constructors
     public Doctor() {
-        super();
     }
 
     public Doctor(String firstName, String middleInitial, String lastName, String specialization) {
@@ -31,6 +30,7 @@ public class Doctor {
         this.schedule = new Schedule(this.id);
         this.fullName = firstName + " " + middleInitial + " " + lastName;
         role = new Role("Operator");
+        AuthService.addUser(new User(id, AuthService.generatePassword()));
         numDoctors ++;
     }
 
@@ -39,6 +39,18 @@ public class Doctor {
         this.middleInitial = "X";
         this.lastName = lastName;
         this.specialization = specialization;
+        role = new Role("Operator");
+        String format = String.format("%03d", numDoctors);
+        this.id =  "D" + specialization.charAt(0) + "-" + firstName.charAt(0) + middleInitial.charAt(0) + lastName.charAt(0) + String.format(format, numDoctors);
+        AuthService.addUser(new User(id, AuthService.generatePassword()));
+        numDoctors ++;
+    }
+
+    // Load Constructor
+    public Doctor(String id) {
+        this.id = id;
+        role = new Role("Operator");
+        numDoctors ++;
     }
 
     // Getters
@@ -99,19 +111,19 @@ public class Doctor {
         this.specialization = specialization;
     }
 
-    public void viewSchedule() {
-        System.out.println("user_management.Doctor: " + firstName + " " + lastName);
-        System.out.println(schedule);
-    }
-
     public void setSchedule(String doctorID, LocalDate date, int slotSize, LocalTime startTime, LocalTime endTime) {
         this.schedule = new Schedule(doctorID, date, slotSize, startTime, endTime);
     }
 
-    public boolean addAppointment(LocalDate date, int duration, LocalTime start, String patientID, String doctorID) {
-        return this.schedule.addAppointment(date, duration, start, patientID, doctorID);
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
     }
 
+    // Other
+    public void generateNewID() {
+        String format = String.format("%03d", numDoctors);
+        this.id =  "D" + specialization.charAt(0) + "-" + firstName.charAt(0) + middleInitial.charAt(0) + lastName.charAt(0) + String.format(format, numDoctors);
+    }
 
     public String toString() {
         return "user_management.Doctor ID: " + id +
